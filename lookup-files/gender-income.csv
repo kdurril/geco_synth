@@ -1,0 +1,6 @@
+# Look-up file for generating a compound attribute: gender / income. For details
+# see module generator.py, class GenerateCateContCompoundAttribute
+#
+m,30,uniform,20000,100000  
+f,40,normal,35000,100000,10000,None
+na,30,normal,55000,45000,0,150000

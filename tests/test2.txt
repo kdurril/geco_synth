@@ -1,0 +1,17 @@
+attr1,attr2,attr3,attr 4
+# header line mustbe the first line in file
+# test2.txt - small test file usedby basefunctionsTest.py
+#
+
+#
+
+#
+
+1,todo,3,four
+two,None,3,4
+test,test,test,test
+long string1 long string1 long string1 long string1 long string1,short string,nop,99
+
+#
+# end of test file
+

@@ -1,0 +1,13 @@
+# Look-up file for generating a compound attribute: gender / city / income. For details
+# see module generator.py, class GenerateCateCateContCompoundAttribute
+#
+male,60
+canberra,20,uniform,50000,90000
+sydney,30,normal,75000,50000,20000,None
+melbourne,30,uniform,35000,200000
+perth,20,normal,55000,250000,15000,None
+female,40
+canberra,10,normal,45000,10000,None,150000
+sydney,40,uniform,60000,200000
+melbourne,20,uniform,50000,1750000
+brisbane,30,normal,55000,20000,20000,100000

@@ -1,0 +1,13 @@
+#
+canberra,10
+m,50,normal,120,12,None,None
+f,50,normal,110,23,None,None
+sydney,45
+m,45,normal,130,24,None,None
+f,55,normal,105,40,None,None
+melbourne,35
+f,45,normal,105,16,None,None
+m,55,normal,117,19,None,None
+hobart,10
+f,55,normal,100,10,None,None
+m,48,normal,105,24,None,None
