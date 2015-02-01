@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 #build for python 2.7
 
-#How to add an attribute to GECO
+#How to add attributes to GECO
+
 
 #git pull to update your local files
 #test changes locally before pushing to git
@@ -15,13 +16,16 @@
 #add a "modify" comment such as "modify with look-up or full list"
 #if the function will need additional revision 
 
-#on generate_english.py
+#on generate_data_english.py
 #add an attribute variable to 
 #add attribute_name to list attr_name_list
 #add variable to attr_data_list
 #check to see if you have updated variable names if copying
 #if corrupting: add attribute_name to attr_mod_prob_dictionary
 #if corrupting: add attribute_name to attr_mod_data_dictionary
+
+#test from command line  with import generate_data_english
+#I use iPython or iPython notebook for quick review 
 
 #Simple attribute
 
@@ -73,7 +77,7 @@ def generate_phone_number_american():
 
   return us_phone_str
 
-#The following is from generate_english.py
+#The following is from generate_data_english.py
 #Cell
 phone_num_cell_attr = \
     generator.GenerateFuncAttribute(attribute_name = 'cell-number',

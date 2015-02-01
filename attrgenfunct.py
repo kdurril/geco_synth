@@ -57,6 +57,26 @@ def generate_phone_number_australia():
 
 # -----------------------------------------------------------------------------
 #
+def generate_phone_number_american():
+  """Randomly generate an American telephone number made of a three-digit area
+     code and an seven-digit number made of two blocks, 3 and 4 digits (with a
+     space between). For example: `202 234 5678'
+  """
+  #modify with look-up or full list
+  area_code = random.choice(['202', '212', '215', '412', '812'])
+  number1 = random.randint(1,999)
+  number2 = random.randint(1,9999)
+  
+  #.zfill will pad zeros to the left of digits, 1 become 001 w/ zfill(3)
+  us_phone_str = str(area_code)+' '+str(number1).zfill(3)+' '+ \
+                 str(number2).zfill(4)
+  assert len(us_phone_str) == 12
+  
+
+  return us_phone_str
+
+# -----------------------------------------------------------------------------
+#
 def generate_credit_card_number():
   """Randomly generate a credit card made of four four-digit numbers (with a
      space between each number group). For example: '1234 5678 9012 3456'

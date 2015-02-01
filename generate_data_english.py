@@ -42,8 +42,8 @@ out_file_name = 'example-data-english.csv'
 
 # Set how many original and how many duplicate records are to be generated.
 #
-num_org_rec = 10000
-num_dup_rec = 10000
+num_org_rec = 20
+num_dup_rec = 5
 
 # Set the maximum number of duplicate records can be generated per original
 # record.
@@ -93,6 +93,11 @@ postcode_attr = \
 phone_num_attr = \
     generator.GenerateFuncAttribute(attribute_name = 'telephone-number',
                        function = attrgenfunct.generate_phone_number_australia)
+
+#Cell
+phone_num_cell_attr = \
+    generator.GenerateFuncAttribute(attribute_name = 'cell-number',
+                       function = attrgenfunct.generate_phone_number_american)
 
 credit_card_attr =  \
     generator.GenerateFuncAttribute(attribute_name = 'credit-card-number',
@@ -220,14 +225,14 @@ given_name_missing_val_corruptor = corruptor.CorruptMissingValue(\
 # itself.
 #
 attr_name_list = ['gender', 'given-name', 'surname', 'postcode', 'city',
-                  'telephone-number', 'credit-card-number', 'income-normal',
+                  'cell-number', 'credit-card-number', 'income-normal',
                   'age-uniform', 'income', 'age', 'sex', 'blood-pressure']
 
 attr_data_list = [gname_attr, sname_attr, postcode_attr, phone_num_attr,
-                  credit_card_attr, age_uniform_attr, income_normal_attr,
-                  gender_city_comp_attr, sex_income_comp_attr,
-                  gender_town_salary_comp_attr, age_blood_pressure_comp_attr,
-                  age_salary_comp_attr]
+                  phone_num_cell_attr, credit_card_attr, age_uniform_attr, 
+                  income_normal_attr, gender_city_comp_attr, 
+                  sex_income_comp_attr, gender_town_salary_comp_attr, 
+                  age_blood_pressure_comp_attr, age_salary_comp_attr]
 
 # Nothing to change here - set-up the data set generation object.
 #
@@ -249,7 +254,7 @@ test_data_generator = generator.GenerateDataSet(output_file_name = \
 # will be applied on this attribute.
 #
 attr_mod_prob_dictionary = {'gender':0.1, 'given-name':0.2,'surname':0.2,
-                            'postcode':0.1,'city':0.1, 'telephone-number':0.15,
+                            'postcode':0.1,'city':0.1, 'cell-number':0.15,
                             'credit-card-number':0.1,'age':0.05}
 
 # Define the actual corruption (modification) methods that will be applied on
@@ -272,7 +277,7 @@ attr_mod_data_dictionary = {'gender':[(1.0, missing_val_corruptor)],
                                     (0.4, keyboard_corruptor),
                                     (0.4, phonetic_corruptor)],
                             'age':[(1.0, edit_corruptor2)],
-                            'telephone-number':[(1.0, missing_val_corruptor)],
+                            'cell-number':[(1.0, missing_val_corruptor)],
                             'credit-card-number':[(1.0, edit_corruptor)]}
 
 # Nothing to change here - set-up the data set corruption object
