@@ -105,6 +105,32 @@ def generate_credit_card_number():
 
 # -----------------------------------------------------------------------------
 #
+def generate_social_security_number():
+  """Randomly generate a social security number. 
+     For example: '234 78 9012'
+     
+     Update to reflect state, date of birth info
+     consider: http://www.pnas.org/content/106/27/10975.full.pdf
+  """
+
+  number1 = random.randint(1,999)
+  assert number1 > 0
+
+  number2 = random.randint(1,99)
+  assert number2 > 0
+
+  number3 = random.randint(1,9999)
+  assert number3 > 0
+
+  ss_str = str(number1).zfill(3)+' '+str(number2).zfill(2)+' '+ \
+           str(number3).zfill(4)
+
+  assert len(ss_str) == 11
+
+  return ss_str
+
+# -----------------------------------------------------------------------------
+#
 def generate_uniform_value(min_val, max_val, val_type):
   """Randomly generate a numerical value according to a uniform distribution
      between the minimum and maximum values given.

@@ -98,10 +98,22 @@ phone_num_attr = \
 phone_num_cell_attr = \
     generator.GenerateFuncAttribute(attribute_name = 'cell-number',
                        function = attrgenfunct.generate_phone_number_american)
+#Work
+phone_num_work_attr = \
+    generator.GenerateFuncAttribute(attribute_name = 'work-number',
+                       function = attrgenfunct.generate_phone_number_american)
+#Home
+phone_num_home_attr = \
+    generator.GenerateFuncAttribute(attribute_name = 'home-number',
+                       function = attrgenfunct.generate_phone_number_american)
 
 credit_card_attr =  \
     generator.GenerateFuncAttribute(attribute_name = 'credit-card-number',
                        function = attrgenfunct.generate_credit_card_number)
+
+social_security_attr = \
+    generator.GenerateFuncAttribute(attribute_name = 'social-security-number',
+                      function = attrgenfunct.generate_social_security_number)
 
 age_uniform_attr = \
     generator.GenerateFuncAttribute(attribute_name = 'age-uniform',
@@ -225,11 +237,15 @@ given_name_missing_val_corruptor = corruptor.CorruptMissingValue(\
 # itself.
 #
 attr_name_list = ['gender', 'given-name', 'surname', 'postcode', 'city',
-                  'cell-number', 'credit-card-number', 'income-normal',
-                  'age-uniform', 'income', 'age', 'sex', 'blood-pressure']
+                  'cell-number', 'work-number', 'home-number',  
+                  'social-security-number', 'credit-card-number', 
+                  'income-normal', 'age-uniform', 'income', 
+                  'age', 'sex', 'blood-pressure']
 
 attr_data_list = [gname_attr, sname_attr, postcode_attr, phone_num_attr,
-                  phone_num_cell_attr, credit_card_attr, age_uniform_attr, 
+                  phone_num_cell_attr, phone_num_work_attr, 
+                  phone_num_home_attr, social_security_attr, 
+                  credit_card_attr, age_uniform_attr, 
                   income_normal_attr, gender_city_comp_attr, 
                   sex_income_comp_attr, gender_town_salary_comp_attr, 
                   age_blood_pressure_comp_attr, age_salary_comp_attr]
