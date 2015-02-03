@@ -224,6 +224,156 @@ class GenerateFreqAttribute(GenerateAttribute):
 
 # =============================================================================
 
+class GenerateFreqAlt(GenerateAttribute):
+  """This is a revision to the GenerateFreqAttribute class.
+  The original class had some basic issues.
+  this will use the cumulative distribution to resolve some issues.
+
+  Generate an attribute where values are retrieved from a lookup table that
+     contains categorical attribute values and their frequencies.
+
+     The additional argument (besides the base class argument 'attribute_name')
+     that has to be set when this attribute type is initialised are:
+
+     freq_file_name    The name of the file which contains the attribute values
+                       and their frequencies.
+
+                       This file must be in comma separated values (CSV) format
+                       with the first column being the attribute values and the
+                       second column their counts (positive integer numbers).
+
+                       Each attribute value must only occur once in the
+                       frequency file.
+
+     has_header_line   A flag, set to True or False, that has to be set
+                       according to if the frequency file starts with a header
+                       line or not.
+
+     unicode_encoding  The Unicode encoding (a string name) of the file.
+  """
+
+  # ---------------------------------------------------------------------------
+
+  def __init__(self, **kwargs):
+    """Constructor. Process the derived keywords first, then call the base
+       class constructor.
+    """
+
+    self.attribute_type =   'Frequency'
+    self.freq_file_name =   None
+    self.has_header_line =  None
+    self.unicode_encoding = None
+    self.attr_value_list =  []  # The list of attribute values to be loaded
+
+    # Process all keyword arguments
+    #
+    base_kwargs = {}  # Dictionary, will contain unprocessed arguments
+
+    for (keyword, value) in kwargs.items():
+
+      if (keyword.startswith('freq')):
+        basefunctions.check_is_non_empty_string('freq_file_name', value)
+        self.freq_file_name = value
+
+      elif (keyword.startswith('has')):
+        basefunctions.check_is_flag('has_header_line', value)
+        self.has_header_line = value
+
+      elif (keyword.startswith('unicode')):
+        basefunctions.check_is_non_empty_string('unicode_encoding', value)
+        self.unicode_encoding = value
+
+      else:
+        base_kwargs[keyword] = value
+
+    GenerateAttribute.__init__(self, base_kwargs)  # Process base arguments
+
+    # Check if the necessary variables have been set
+    #
+    basefunctions.check_is_non_empty_string('freq_file_name',
+                                            self.freq_file_name)
+    basefunctions.check_is_flag('has_header_line', self.has_header_line)
+    basefunctions.check_is_non_empty_string('unicode_encoding',
+                                            self.unicode_encoding)
+
+    # Load the frequency file - - - - - - - - - - - - - - - - - - - - - - - -
+    #
+    header_list, freq_file_data = \
+                     basefunctions.read_csv_file(self.freq_file_name,
+                                                 self.unicode_encoding,
+                                                 self.has_header_line)
+
+    val_dict = {}   # The attribute values to be loaded from file and their
+                    # counts or frequencies
+
+    # Process values from file and their frequencies
+    #
+    for rec_list in freq_file_data:
+      if (len(rec_list) != 2):
+        raise Exception, 'Illegal format in frequency file %s: %s' % \
+                         (self.freq_file_name, line)
+      line_val =  rec_list[0].strip()
+      try:
+        line_count = int(rec_list[1])
+      except:
+        raise Exception, 'Value count given is not an integer number: %s' % \
+                         (rec_list[1])
+
+      if (line_val == ''):
+        raise Exception, 'Empty attribute value in frequency file %s' % \
+                         (self.freq_file_name)
+      basefunctions.check_is_positive('line_count', line_count)
+
+      if (line_val in val_dict):
+        raise Exception, 'Attribute values "%s" occurs twice in ' % \
+                         (line_val) + 'frequency file %s' % \
+                         (self.freq_file_name)
+
+      val_dict[line_val] = line_count
+
+    val_list = []  # The list of attribute values, with values repeated
+                   # according to their frequencies
+
+    # Generate a list of values according to their counts
+    #
+    for (attr_val, val_count) in val_dict.iteritems():
+
+      # Append value as many times as given in their counts
+      #
+      new_list = [attr_val]* val_count
+      val_list += new_list
+
+    random.shuffle(val_list)  # Randomly shuffle the list of values
+
+    self.attr_value_list = val_list
+
+  # ---------------------------------------------------------------------------
+
+  def create_attribute_value(self):
+    """Method which creates and returns one attribute value randomly selected
+       from the attribute value lookup table.
+    """
+
+    assert self.attr_value_list != []
+
+    return random.choice(self.attr_value_list)
+
+
+  def random_pick(some_list, probabilities):
+    '''Python Cookbook, 4.21. Randomly Picking Items with Given Probabilities
+    
+    '''
+      x = random.uniform(0, 1)
+      cumulative_probability = 0.0
+      for item, item_probability in zip(some_list, probabilities):
+          cumulative_probability += item_probability
+          if x < cumulative_probability: break
+      return item
+
+
+
+# =============================================================================
+
 class GenerateFuncAttribute(GenerateAttribute):
   """Generate an attribute where values are retrieved from a function that
      creates values according to some specification.
