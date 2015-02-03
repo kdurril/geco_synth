@@ -363,12 +363,12 @@ class GenerateFreqAlt(GenerateAttribute):
     '''Python Cookbook, 4.21. Randomly Picking Items with Given Probabilities
     
     '''
-      x = random.uniform(0, 1)
-      cumulative_probability = 0.0
-      for item, item_probability in zip(some_list, probabilities):
-          cumulative_probability += item_probability
-          if x < cumulative_probability: break
-      return item
+    x = random.uniform(0, 1)
+    cumulative_probability = 0.0
+    for item, item_probability in zip(some_list, probabilities):
+      cumulative_probability += item_probability
+      if x < cumulative_probability: break
+    return item
 
 
 

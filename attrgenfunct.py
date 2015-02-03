@@ -61,6 +61,7 @@ def generate_phone_number_american():
   """Randomly generate an American telephone number made of a three-digit area
      code and an seven-digit number made of two blocks, 3 and 4 digits (with a
      space between). For example: `202 234 5678'
+     http://en.wikipedia.org/wiki/List_of_North_American_Numbering_Plan_area_codes
   """
   #modify with look-up or full list
   area_code = random.choice(['202', '212', '215', '412', '812'])
