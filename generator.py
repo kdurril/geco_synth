@@ -359,7 +359,7 @@ class GenerateFreqAlt(GenerateAttribute):
     return random.choice(self.attr_value_list)
 
 
-  def random_pick(some_list, probabilities):
+  def random_pick(self, some_list, probabilities):
     '''Python Cookbook, 4.21. Randomly Picking Items with Given Probabilities
     
     '''
