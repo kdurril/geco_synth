@@ -226,8 +226,8 @@ class GenerateFreqAttribute(GenerateAttribute):
 
 class GenerateFreqAlt(GenerateAttribute):
   """This is a revision to the GenerateFreqAttribute class.
-  The original class had some basic issues.
-  this will use the cumulative distribution to resolve some issues.
+  The original class implementation has uncessary steps.
+  This will use the cumulative distribution to resolve some issues.
 
   Generate an attribute where values are retrieved from a lookup table that
      contains categorical attribute values and their frequencies.
@@ -264,6 +264,8 @@ class GenerateFreqAlt(GenerateAttribute):
     self.has_header_line =  None
     self.unicode_encoding = None
     self.attr_value_list =  []  # The list of attribute values to be loaded
+    self.attr_probability_list = []
+    self.total_items = 0
 
     # Process all keyword arguments
     #
@@ -308,6 +310,7 @@ class GenerateFreqAlt(GenerateAttribute):
 
     # Process values from file and their frequencies
     #
+    
     for rec_list in freq_file_data:
       if (len(rec_list) != 2):
         raise Exception, 'Illegal format in frequency file %s: %s' % \
@@ -330,7 +333,18 @@ class GenerateFreqAlt(GenerateAttribute):
                          (self.freq_file_name)
 
       val_dict[line_val] = line_count
+      self.total_items += line_count
 
+    #Generate list of probabilities from file
+    freq_list = []
+    for (attr_val, val_count) in val_dict.iteritems():
+      if val_count >= 1:
+
+          freq_list.append((attr_val,val_count/self.total_items))
+    freq_list.sort(key=lambda x: x[1])
+    self.attr_probability_list = freq_list
+
+    
     val_list = []  # The list of attribute values, with values repeated
                    # according to their frequencies
 
@@ -359,13 +373,13 @@ class GenerateFreqAlt(GenerateAttribute):
     return random.choice(self.attr_value_list)
 
 
-  def random_pick(self, some_list, probabilities):
+  def random_pick(self):
     '''Python Cookbook, 4.21. Randomly Picking Items with Given Probabilities
     
     '''
     x = random.uniform(0, 1)
     cumulative_probability = 0.0
-    for item, item_probability in zip(some_list, probabilities):
+    for item, item_probability in self.attr_probability_list:
       cumulative_probability += item_probability
       if x < cumulative_probability: break
     return item
