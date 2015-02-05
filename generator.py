@@ -340,7 +340,7 @@ class GenerateFreqAlt(GenerateAttribute):
     for (attr_val, val_count) in val_dict.iteritems():
       if val_count >= 1:
 
-          freq_list.append((attr_val,val_count/self.total_items))
+          freq_list.append((attr_val,float(val_count)/float(self.total_items)))
     freq_list.sort(key=lambda x: x[1])
     self.attr_probability_list = freq_list
 
