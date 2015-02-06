@@ -177,6 +177,14 @@ age_salary_comp_attr = \
           continuous1_value_type = 'int',
           continuous2_value_type = 'float1')
 
+drivers_license_num_attr = \
+    generator.GenerateFuncAttribute(attribute_name = 'drives-license-number',
+                       function = attrgenfunct.generate_drivers_license_num)
+
+passport_num_attr = \
+    generator.GenerateFuncAttribute(attribute_name = 'passport-number',
+                       function = attrgenfunct.generate_passport_num)
+    
 # -----------------------------------------------------------------------------
 # Define how the generated records are to be corrupted (using methods from
 # the corruptor.py module).
