@@ -132,6 +132,76 @@ def generate_social_security_number():
 
 # -----------------------------------------------------------------------------
 #
+def generate_drivers_license_num():
+  # need revision
+  # Based on dc format only
+
+  """Randomly generate a drivers license number. 7-digit or 9-digit
+     For example: '2512235' or '682019423'
+     
+     Update to reflect state infor
+     consider: http://http://adr-inc.com/PDFs/State_DLFormats.pdf
+
+     According to this paper, DOB info is encoded in drivers license
+     We should take this into consideration for further update
+     "http://www.highprogrammer.com/alan/numbers/index.html"
+
+  """
+
+  number1 = random.randint(1,9999999)
+  assert number1 > 0
+
+  number2 = random.randint(1,999999999)
+  assert number2 > 0
+
+  ss_str1 = str(number1).zfill(7)
+  assert len(ss_str1) == 7
+  
+  ss_str2 = str(number2).zfill(9)
+  assert len(ss_str1) == 9
+
+  return random.choice([ss_str1, ss_str2])
+
+# -----------------------------------------------------------------------------
+#
+def generate_passport_num():
+  """Randomly generate a us passport number(9-digit number). 
+     For example: '203941429'
+  """
+
+  number1 = random.randint(1,999999999)
+  assert number1 > 0
+
+  ss_str = str(number1).zfill(9)
+
+  assert len(ss_str) == 9
+
+  return ss_str
+
+# -----------------------------------------------------------------------------
+#
+def generate_email_address(fname, lname):
+  """Randomly generate a email address
+     Update middle name and nickname
+     Update frequency table: http://www.ryansolutions.com/blog/2013/email-domains/
+  """
+  basefunctions.check_is_string('fname', fname)
+  basefunctions.check_is_string('lname', lname)  
+
+  domain_name = random.choice(["@gmail.com","@hotmail.com","@yahoo.com","@aol.com",
+                               "@live.com","@msn.com", "@comcast.com"])
+  
+  add1 = fname[0] + "." + lname + domain_name
+  add2 = fname + "." + lname + domain_name
+  add3 = fname[0] + lname + domain_name
+  add4 = fname + lname[0] + domain_name
+  add5 = fname + domain_name
+  
+  add = random.choice([add1, add2, add3, add4, add5])
+
+  return add
+# -----------------------------------------------------------------------------
+#
 def generate_uniform_value(min_val, max_val, val_type):
   """Randomly generate a numerical value according to a uniform distribution
      between the minimum and maximum values given.
