@@ -177,6 +177,12 @@ age_salary_comp_attr = \
           continuous1_value_type = 'int',
           continuous2_value_type = 'float1')
 
+#race_hispanic = \
+#    generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
+#                    freq_file_name = 'lookup-files/race_w_hispanic_ascii.csv',
+#                    has_header_line = False,
+#                    unicode_encoding = unicode_encoding_used)
+
 # -----------------------------------------------------------------------------
 # Define how the generated records are to be corrupted (using methods from
 # the corruptor.py module).

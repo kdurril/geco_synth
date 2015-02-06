@@ -348,8 +348,8 @@ class GenerateFreqAlt(GenerateAttribute):
     val_list = []  # The list of attribute values, with values repeated
                    # according to their frequencies
 
-    # Generate a list of values according to their counts
-    #
+    #Generate a list of values according to their counts
+    
     for (attr_val, val_count) in val_dict.iteritems():
 
       # Append value as many times as given in their counts
@@ -357,7 +357,7 @@ class GenerateFreqAlt(GenerateAttribute):
       new_list = [attr_val]* val_count
       val_list += new_list
 
-    random.shuffle(val_list)  # Randomly shuffle the list of values
+    #random.shuffle(val_list)  # Randomly shuffle the list of values
 
     self.attr_value_list = val_list
 
