@@ -235,21 +235,26 @@ def generate_name_prefix_f():
 
   	return prefix
 
-# -----------------------------------------------------------------------------
-#
-def generate_gender():
-	"""Randomly generate a gender.  
-  """
-  	gender = random.choice(['Male', 'Female'])
-
-  	return gender
 
 # -----------------------------------------------------------------------------
 #
+def generate_prefix_from_gender(gender):
+	"""Generate prefix using gender
+	Jamie's Test code but not currently used in generate_data_english
+	as of 2_8"""
+	if gender == "Male":
+		prefix = random.choice(['Mr', ""])
+	if gender == "Female":
+		prefix = random.choice(['Miss', 'Mrs', 'Ms', ""])
+	return prefix
+#
+#-------------------------------------------------------------------------------
+  
 def generate_nickname():
 
   """Randomly generate a nickname.  Assumes that 5% has a nickname'
   """
+  import random
   
   #modify with look-up or full list
   rand = random.randint(1,100)

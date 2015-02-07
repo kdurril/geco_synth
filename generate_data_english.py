@@ -72,17 +72,43 @@ basefunctions.check_unicode_encoding_exists(unicode_encoding_used)
 # Define the attributes to be generated (using methods from the generator.py
 # module).
 #
+
+
+name_prefix_attr = \
+		generator.GenerateFuncAttribute(attribute_name = 'name-prefix',
+                       function = attrgenfunct.generate_name_prefix_f)
+
 gname_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'given-name',
                           freq_file_name = 'lookup-files/givenname_f_freq.csv',
                           has_header_line = False,
                           unicode_encoding = unicode_encoding_used)
+                          
+mname_attr = \
+    generator.GenerateFreqAttribute(attribute_name = 'middle-name',
+                          freq_file_name = 'lookup-files/givenname_f_freq.csv',
+                          has_header_line = False,
+                          unicode_encoding = unicode_encoding_used)
+name_suffix_attr = \
+	generator.GenerateFuncAttribute(attribute_name = 'name-suffix',
+                       function = attrgenfunct.generate_name_suffix)
 
 sname_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'surname',
                           freq_file_name = 'lookup-files/surname-freq.csv',
                           has_header_line = False,
                           unicode_encoding = unicode_encoding_used)
+                          
+sname_prev_attr = \
+    generator.GenerateFreqAttribute(attribute_name = 'previous-surname',
+                          freq_file_name = 'lookup-files/surname-freq.csv',
+                          has_header_line = False,
+                          unicode_encoding = unicode_encoding_used)
+
+nickname_attr = \
+		generator.GenerateFuncAttribute(attribute_name = 'nickname',
+                       function = attrgenfunct.generate_nickname)
+
 
 postcode_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'postcode',
@@ -252,14 +278,15 @@ given_name_missing_val_corruptor = corruptor.CorruptMissingValue(\
 # Define the attributes to be generated for this data set, and the data set
 # itself.
 #
-attr_name_list = ['gender', 'given-name', 'surname', 'postcode', 'city',
-                  'cell-number', 'work-number', 'home-number',  
+attr_name_list = ['gender', 'name-prefix', 'given-name', 'middle-name', 'surname', 'name-suffix', 'postcode', 'city',
+                  'previous-surname', 'nickname', 'cell-number', 'work-number', 'home-number',  
                   'social-security-number', 'credit-card-number', 
                   'income-normal', 'age-uniform', 'income', 
                   'age', 'sex', 'blood-pressure', 'passport-number',
                   'email', 'race-hispanic']
 
-attr_data_list = [gname_attr, sname_attr, postcode_attr, phone_num_attr,
+attr_data_list = [gname_attr, name_prefix_attr, mname_attr, sname_attr, name_suffix_attr,
+				  sname_prev_attr, nickname_attr, postcode_attr, phone_num_attr,
                   phone_num_cell_attr, phone_num_work_attr, 
                   phone_num_home_attr, social_security_attr, 
                   credit_card_attr, age_uniform_attr, 
