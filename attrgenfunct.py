@@ -200,6 +200,66 @@ def generate_email_address(fname="Bohan", lname="Zhang"):
   add = random.choice([add1, add2, add3, add4, add5])
   
   return add
+
+# -----------------------------------------------------------------------------
+#
+def generate_name_suffix():
+
+  """Randomly generate a name suffix.  Assumes that 10% has a suffix'
+  """
+
+  #modify with look-up or full list
+  rand = random.randint(1,100)
+  if rand <= 10:
+  	suffix = random.choice(['Jr.', 'Snr.', 'I', 'II', 'III'])
+  else:
+  	suffix = "" 
+
+  return suffix
+
+# -----------------------------------------------------------------------------
+#
+def generate_name_prefix_m():
+	"""Randomly generate a name prefix.  
+  """
+  	prefix = random.choice(['Mr', ""])
+
+  	return prefix
+
+# -----------------------------------------------------------------------------
+#
+def generate_name_prefix_f():
+	"""Randomly generate a name prefix.  
+  """
+  	prefix = random.choice(['Miss', 'Mrs', 'Ms', ""])
+
+  	return prefix
+
+# -----------------------------------------------------------------------------
+#
+def generate_gender():
+	"""Randomly generate a gender.  
+  """
+  	gender = random.choice(['Male', 'Female'])
+
+  	return gender
+
+# -----------------------------------------------------------------------------
+#
+def generate_nickname():
+
+  """Randomly generate a nickname.  Assumes that 5% has a nickname'
+  """
+  
+  #modify with look-up or full list
+  rand = random.randint(1,100)
+  if rand <= 5:
+  	nickname = random.choice(['A', 'B', 'C'])
+  else:
+  	nickname = "" 
+
+  return nickname
+  	
 # -----------------------------------------------------------------------------
 #
 def generate_uniform_value(min_val, max_val, val_type):
