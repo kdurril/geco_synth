@@ -256,7 +256,8 @@ attr_name_list = ['gender', 'given-name', 'surname', 'postcode', 'city',
                   'cell-number', 'work-number', 'home-number',  
                   'social-security-number', 'credit-card-number', 
                   'income-normal', 'age-uniform', 'income', 
-                  'age', 'sex', 'blood-pressure', 'passport-number']
+                  'age', 'sex', 'blood-pressure', 'passport-number',
+                  'email']
 
 attr_data_list = [gname_attr, sname_attr, postcode_attr, phone_num_attr,
                   phone_num_cell_attr, phone_num_work_attr, 
@@ -265,7 +266,7 @@ attr_data_list = [gname_attr, sname_attr, postcode_attr, phone_num_attr,
                   income_normal_attr, gender_city_comp_attr, 
                   sex_income_comp_attr, gender_town_salary_comp_attr, 
                   age_blood_pressure_comp_attr, age_salary_comp_attr,
-                  passport_attr]
+                  passport_attr, email_attr]
 
 # Nothing to change here - set-up the data set generation object.
 #
