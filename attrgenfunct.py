@@ -180,7 +180,7 @@ def generate_passport_num():
 
 # -----------------------------------------------------------------------------
 #
-def generate_email_address(fname, lname):
+def generate_email_address(fname="Bohan", lname="Zhang"):
   """Randomly generate a email address
      Update middle name and nickname
      Update frequency table: http://www.ryansolutions.com/blog/2013/email-domains/
@@ -198,7 +198,7 @@ def generate_email_address(fname, lname):
   add5 = fname + domain_name
   
   add = random.choice([add1, add2, add3, add4, add5])
-
+  
   return add
 # -----------------------------------------------------------------------------
 #
