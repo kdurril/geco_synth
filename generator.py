@@ -354,7 +354,7 @@ class GenerateFreqAlt(GenerateAttribute):
 
       # Append value as many times as given in their counts
       #
-      new_list = [attr_val]* val_count
+      new_list = [attr_val]* 1
       val_list += new_list
 
     #random.shuffle(val_list)  # Randomly shuffle the list of values

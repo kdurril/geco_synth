@@ -187,11 +187,11 @@ email_attr = \
     generator.GenerateFuncAttribute(attribute_name = 'email',
           function = attrgenfunct.generate_email_address)
 
-#race_hispanic = \
-#    generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
-#                    freq_file_name = 'lookup-files/race_w_hispanic_ascii.csv',
-#                    has_header_line = False,
-#                    unicode_encoding = unicode_encoding_used)
+race_hispanic = \
+    generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
+                    freq_file_name = 'lookup-files/race_w_hispanic_ascii.csv',
+                    has_header_line = False,
+                    unicode_encoding = unicode_encoding_used)
 
 # -----------------------------------------------------------------------------
 # Define how the generated records are to be corrupted (using methods from
@@ -257,7 +257,7 @@ attr_name_list = ['gender', 'given-name', 'surname', 'postcode', 'city',
                   'social-security-number', 'credit-card-number', 
                   'income-normal', 'age-uniform', 'income', 
                   'age', 'sex', 'blood-pressure', 'passport-number',
-                  'email']
+                  'email', 'race-hispanic']
 
 attr_data_list = [gname_attr, sname_attr, postcode_attr, phone_num_attr,
                   phone_num_cell_attr, phone_num_work_attr, 
@@ -266,7 +266,7 @@ attr_data_list = [gname_attr, sname_attr, postcode_attr, phone_num_attr,
                   income_normal_attr, gender_city_comp_attr, 
                   sex_income_comp_attr, gender_town_salary_comp_attr, 
                   age_blood_pressure_comp_attr, age_salary_comp_attr,
-                  passport_attr, email_attr]
+                  passport_attr, email_attr, race_hispanic]
 
 # Nothing to change here - set-up the data set generation object.
 #
