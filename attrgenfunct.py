@@ -257,8 +257,8 @@ def generate_nickname():
   import random
   
   #modify with look-up or full list
-  rand = random.randint(1,100)
-  if rand <= 5:
+  rand = random.random()
+  if rand <= .05:
   	nickname = random.choice(['A', 'B', 'C'])
   else:
   	nickname = "" 
