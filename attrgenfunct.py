@@ -172,11 +172,11 @@ def generate_passport_num():
   number1 = random.randint(1,999999999)
   assert number1 > 0
 
-  ss_str = str(number1).zfill(9)
+  passport_str = str(number1).zfill(9)
 
-  assert len(ss_str) == 9
+  assert len(passport_str) == 9
 
-  return ss_str
+  return passport_str
 
 # -----------------------------------------------------------------------------
 #
@@ -209,8 +209,8 @@ def generate_name_suffix():
   """
 
   #modify with look-up or full list
-  rand = random.randint(1,100)
-  if rand <= 10:
+  rand = random.random()
+  if rand <= 0.10:
   	suffix = random.choice(['Jr.', 'Snr.', 'I', 'II', 'III'])
   else:
   	suffix = "" 
