@@ -219,6 +219,19 @@ race_hispanic = \
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
 
+# Calculating age off of frequency distribution of age.  Currently referencing female file
+# Male csv file also exists once we can get the age generated based on gender
+new_age_attr = \
+	generator.GenerateFreqAlt(attribute_name = 'age-new',
+                    freq_file_name = 'lookup-files/age_gender_ratio_female.csv',
+                    has_header_line = False,
+                    unicode_encoding = unicode_encoding_used) 
+
+# Calculating the DOB.  Requires the age to be passed
+DOB_attr = \
+		generator.GenerateFuncAttribute(attribute_name = 'DOB',
+                       function = attrgenfunct.generate_DOB)
+
 # -----------------------------------------------------------------------------
 # Define how the generated records are to be corrupted (using methods from
 # the corruptor.py module).
@@ -283,7 +296,7 @@ attr_name_list = ['gender', 'name-prefix', 'given-name', 'middle-name', 'surname
                   'social-security-number', 'credit-card-number', 
                   'income-normal', 'age-uniform', 'income', 
                   'age', 'sex', 'blood-pressure', 'passport-number',
-                  'email', 'race-hispanic']
+                  'email', 'race-hispanic', 'age-new', 'DOB']
 
 attr_data_list = [gname_attr, name_prefix_attr, mname_attr, sname_attr, name_suffix_attr,
 				  sname_prev_attr, nickname_attr, postcode_attr, phone_num_attr,
@@ -293,7 +306,7 @@ attr_data_list = [gname_attr, name_prefix_attr, mname_attr, sname_attr, name_suf
                   income_normal_attr, gender_city_comp_attr, 
                   sex_income_comp_attr, gender_town_salary_comp_attr, 
                   age_blood_pressure_comp_attr, age_salary_comp_attr,
-                  passport_attr, email_attr, race_hispanic]
+                  passport_attr, email_attr, race_hispanic, new_age_attr, DOB_attr]
 
 # Nothing to change here - set-up the data set generation object.
 #

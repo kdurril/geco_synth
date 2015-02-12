@@ -265,8 +265,41 @@ def generate_nickname():
 
   return nickname
   	
+#-------------------------------------------------------------------------------
+""" Generate Fake DOB - Need to pass age which isn't working.  See comments below.
+For now I'm passing in a dummy age""" 
+
+def generate_DOB(age=65):
+
+  """Randomly generate a month & date for DOB """
+  
+  import random
+  birth_month = random.randint(1,12)
+  if birth_month == "1" or "3" or "5" or "7" or "8" or "10" or "12":
+  	birth_day = random.randint(1,31)
+  if birth_month == "2":
+  	birth_day = random.randint(1,28)
+  else:
+  	birth_day = random.randint(1,30)
+  
+  """Can not use the age generator function here for some reason but this code
+  worked on generate_data_english.py.  For now, passing dummy age into the function
+  to make it work for the time being.  I did input reference to import generator in
+  the beginning of the program but got stuck on 'unicode_encoding' 
+  
+  age = generator.GenerateFreqAlt(attribute_name = 'agejy',
+                    freq_file_name = 'lookup-files/age_gender_ratio_female.csv',
+                    has_header_line = False,
+                    unicode_encoding = unicode_encoding_used) """
+
+  from time import gmtime, strftime
+  year_system = strftime ("%Y", gmtime())
+  year_from_age = int(year_system) - age
+  DOB = str(birth_month) +'/' + str(birth_day) + '/' + str(year_from_age)
+  return DOB
+  	
 # -----------------------------------------------------------------------------
-#
+
 def generate_uniform_value(min_val, max_val, val_type):
   """Randomly generate a numerical value according to a uniform distribution
      between the minimum and maximum values given.
