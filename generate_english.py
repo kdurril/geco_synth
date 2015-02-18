@@ -43,12 +43,12 @@ out_file_name = 'example-data-english.csv'
 # Set how many original and how many duplicate records are to be generated.
 #
 num_org_rec = 20
-num_dup_rec = 5
+num_dup_rec = 20
 
 # Set the maximum number of duplicate records can be generated per original
 # record.
 #
-max_duplicate_per_record = 3
+max_duplicate_per_record = 2
 
 # Set the probability distribution used to create the duplicate records for one
 # original record (possible values are: 'uniform', 'poisson', 'zipf').
@@ -72,43 +72,17 @@ basefunctions.check_unicode_encoding_exists(unicode_encoding_used)
 # Define the attributes to be generated (using methods from the generator.py
 # module).
 #
-
-
-name_prefix_attr = \
-    generator.GenerateFuncAttribute(attribute_name = 'name-prefix',
-                       function = attrgenfunct.generate_name_prefix_f)
-
 gname_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'given-name',
                           freq_file_name = 'lookup-files/givenname_f_freq.csv',
                           has_header_line = False,
                           unicode_encoding = unicode_encoding_used)
-                          
-mname_attr = \
-    generator.GenerateFreqAttribute(attribute_name = 'middle-name',
-                          freq_file_name = 'lookup-files/givenname_f_freq.csv',
-                          has_header_line = False,
-                          unicode_encoding = unicode_encoding_used)
-name_suffix_attr = \
-  generator.GenerateFuncAttribute(attribute_name = 'name-suffix',
-                       function = attrgenfunct.generate_name_suffix)
 
 sname_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'surname',
                           freq_file_name = 'lookup-files/surname-freq.csv',
                           has_header_line = False,
                           unicode_encoding = unicode_encoding_used)
-                          
-sname_prev_attr = \
-    generator.GenerateFreqAttribute(attribute_name = 'previous-surname',
-                          freq_file_name = 'lookup-files/surname-freq.csv',
-                          has_header_line = False,
-                          unicode_encoding = unicode_encoding_used)
-
-nickname_attr = \
-    generator.GenerateFuncAttribute(attribute_name = 'nickname',
-                       function = attrgenfunct.generate_nickname)
-
 
 postcode_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'postcode',
@@ -116,18 +90,15 @@ postcode_attr = \
                           has_header_line = False,
                           unicode_encoding = unicode_encoding_used)
 
-phone_num_attr = \
-    generator.GenerateFuncAttribute(attribute_name = 'telephone-number',
-                       function = attrgenfunct.generate_phone_number_australia)
-
 #Cell
 phone_num_cell_attr = \
     generator.GenerateFuncAttribute(attribute_name = 'cell-number',
                        function = attrgenfunct.generate_phone_number_american)
+
 #Work
 phone_num_work_attr = \
     generator.GenerateFuncAttribute(attribute_name = 'work-number',
-                       function = attrgenfunct.generate_phone_number_american)
+                       function = attrgenfunct.generate_phone_number_australia)
 #Home
 phone_num_home_attr = \
     generator.GenerateFuncAttribute(attribute_name = 'home-number',
@@ -138,8 +109,9 @@ credit_card_attr =  \
                        function = attrgenfunct.generate_credit_card_number)
 
 social_security_attr = \
-    generator.GenerateFuncAttribute(attribute_name = 'social-security-number',
-                      function = attrgenfunct.generate_social_security_number)
+    generator.GenerateFuncAttribute(
+      attribute_name = 'social-security',
+      function = attrgenfunct.generate_social_security_number)
 
 age_uniform_attr = \
     generator.GenerateFuncAttribute(attribute_name = 'age-uniform',
@@ -203,36 +175,28 @@ age_salary_comp_attr = \
           continuous1_value_type = 'int',
           continuous2_value_type = 'float1')
 
-#passport
-passport_attr = \
-    generator.GenerateFuncAttribute(attribute_name = 'passport-number',
-    function = attrgenfunct.generate_passport_num)
 
-#email
-test_args = [str(gname_attr.create_attribute_value()), str(sname_attr.create_attribute_value())]
-email_attr = \
-    generator.GenerateFuncAttribute(attribute_name = 'email',
-          function = attrgenfunct.generate_email_address,
-          parameters = test_args)
+#name_middle
+#name_prefix
+#name_suffix
+#name_previous_last
+#nickname
+#birthplace
+#passport_num
+#email_attr = \
+#multiple_birth
+#maritial_status
+#ethnicity
+#local_patient_num
+#driverslicense_num
+#facility_mrn
+#race
+#language
 
-race_hispanic = \
-    generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
-                    freq_file_name = 'lookup-files/race_w_hispanic_ascii.csv',
-                    has_header_line = False,
-                    unicode_encoding = unicode_encoding_used)
+#biometric
+#fingerprint
+#retina_scan
 
-# Calculating age off of frequency distribution of age.  Currently referencing female file
-# Male csv file also exists once we can get the age generated based on gender
-new_age_attr = \
-  generator.GenerateFreqAlt(attribute_name = 'age-new',
-                    freq_file_name = 'lookup-files/age_gender_ratio_female.csv',
-                    has_header_line = False,
-                    unicode_encoding = unicode_encoding_used) 
-
-# Calculating the DOB.  Requires the age to be passed
-DOB_attr = \
-    generator.GenerateFuncAttribute(attribute_name = 'DOB',
-                       function = attrgenfunct.generate_DOB)
 
 # -----------------------------------------------------------------------------
 # Define how the generated records are to be corrupted (using methods from
@@ -293,23 +257,19 @@ given_name_missing_val_corruptor = corruptor.CorruptMissingValue(\
 # Define the attributes to be generated for this data set, and the data set
 # itself.
 #
-attr_name_list = ['gender', 'name-prefix', 'given-name', 'middle-name', 'surname', 'name-suffix', 'postcode', 'city',
-                  'previous-surname', 'nickname', 'cell-number', 'work-number', 'home-number',  
-                  'social-security-number', 'credit-card-number', 
-                  'income-normal', 'age-uniform', 'income', 
-                  'age', 'sex', 'blood-pressure', 'passport-number',
-                  'email', 'race-hispanic', 'age-new', 'DOB']
+attr_name_list = ['gender', 'given-name', 'surname', 'postcode', 'city',
+                  'cell-number', 'work-number', 'home-number', 
+                  'social-security', 'credit-card-number', 
+                  'income-normal', 'age-uniform', 
+                  'income', 'age', 'sex']
 
-attr_data_list = [gname_attr, name_prefix_attr, mname_attr, sname_attr, name_suffix_attr,
-          sname_prev_attr, nickname_attr, postcode_attr, phone_num_attr,
-                  phone_num_cell_attr, phone_num_work_attr, 
-                  phone_num_home_attr, social_security_attr, 
-                  credit_card_attr, age_uniform_attr, 
-                  income_normal_attr, gender_city_comp_attr, 
-                  sex_income_comp_attr, gender_town_salary_comp_attr, 
-                  age_blood_pressure_comp_attr, age_salary_comp_attr,
-                  passport_attr, email_attr, race_hispanic, new_age_attr, DOB_attr]
-
+attr_data_list = [gname_attr, sname_attr, postcode_attr, 
+                  phone_num_cell_attr, phone_num_work_attr,
+                  phone_num_home_attr, social_security_attr,
+                  credit_card_attr, age_uniform_attr, income_normal_attr,
+                  gender_city_comp_attr, sex_income_comp_attr,
+                  gender_town_salary_comp_attr, 
+                  age_salary_comp_attr, age_blood_pressure_comp_attr]
 
 # Nothing to change here - set-up the data set generation object.
 #

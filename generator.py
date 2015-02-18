@@ -204,10 +204,10 @@ class GenerateFreqAttribute(GenerateAttribute):
 
       # Append value as many times as given in their counts
       #
-      new_list = [attr_val]* val_count
+      new_list = [attr_val]*val_count
       val_list += new_list
 
-    random.shuffle(val_list)  # Randomly shuffle the list of values
+    #random.shuffle(val_list)  # Randomly shuffle the list of values
 
     self.attr_value_list = val_list
 
@@ -336,26 +336,27 @@ class GenerateFreqAlt(GenerateAttribute):
       self.total_items += line_count
 
     #Generate list of probabilities from file
-    freq_list = []
+    freq_list = list()
     for (attr_val, val_count) in val_dict.iteritems():
       if val_count >= 1:
-
           freq_list.append((attr_val,float(val_count)/float(self.total_items)))
-    freq_list.sort(key=lambda x: x[1])
+    #freq_list.sort(key=lambda x: x[1])
     self.attr_probability_list = freq_list
 
     
-    val_list = []  # The list of attribute values, with values repeated
+    val_list = [attr_val for (attr_val, val_count) in val_dict.iteritems()]  # The list of attribute values, with values repeated
                    # according to their frequencies
 
     #Generate a list of values according to their counts
     
-    for (attr_val, val_count) in val_dict.iteritems():
+    #for (attr_val, val_count) in val_dict.iteritems():
+    #  if val_count > 10000:
 
-      # Append value as many times as given in their counts
-      #
-      new_list = [attr_val]* 1
-      val_list += new_list
+        # Append value as many times as given in their counts
+        #
+        #new_list = [attr_val]*int((val_count/10000))
+
+    #    val_list.append((attr_val, val_count))
 
     #random.shuffle(val_list)  # Randomly shuffle the list of values
 
@@ -377,7 +378,7 @@ class GenerateFreqAlt(GenerateAttribute):
     '''Python Cookbook, 4.21. Randomly Picking Items with Given Probabilities
     
     '''
-    x = random.uniform(0, 1)
+    x = random.random()
     cumulative_probability = 0.0
     for item, item_probability in self.attr_probability_list:
       cumulative_probability += item_probability

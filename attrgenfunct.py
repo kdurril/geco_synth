@@ -30,7 +30,7 @@
 
 import random
 
-import basefunctions
+import basefunctions, generator
 
 # -----------------------------------------------------------------------------
 #
@@ -185,6 +185,8 @@ def generate_email_address(fname="Bohan", lname="Zhang"):
      Update middle name and nickname
      Update frequency table: http://www.ryansolutions.com/blog/2013/email-domains/
   """
+  unicode_encoding_used = 'ascii'
+  
   basefunctions.check_is_string('fname', fname)
   basefunctions.check_is_string('lname', lname)  
 
@@ -200,6 +202,7 @@ def generate_email_address(fname="Bohan", lname="Zhang"):
   add = random.choice([add1, add2, add3, add4, add5])
   
   return add
+
 
 # -----------------------------------------------------------------------------
 #
@@ -264,10 +267,19 @@ def generate_nickname():
   	nickname = "" 
 
   return nickname
+
+def race(r):
+  'race'
+  return r
+
+def hispanic(h):
+  'hispanic'
+  return h
+
   	
 #-------------------------------------------------------------------------------
-""" Generate Fake DOB - Need to pass age which isn't working.  See comments below.
-For now I'm passing in a dummy age""" 
+#""" Generate Fake DOB - Need to pass age which isn't working.  See comments below.
+#For now I'm passing in a dummy age""" 
 
 def generate_DOB(age=65):
 
@@ -297,7 +309,8 @@ def generate_DOB(age=65):
   year_from_age = int(year_system) - age
   DOB = str(birth_month) +'/' + str(birth_day) + '/' + str(year_from_age)
   return DOB
-  	
+  
+
 # -----------------------------------------------------------------------------
 
 def generate_uniform_value(min_val, max_val, val_type):

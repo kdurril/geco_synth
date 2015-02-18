@@ -1,14 +1,5 @@
 
 
-
-
-
-
-
-
-
-
-
 # Import the necessary other modules of the data generator
 #
 import basefunctions  # Helper functions
@@ -22,297 +13,384 @@ import random
 random.seed(42)  # Set seed for random generator, so data generation can be
                  # repeated
 
+# Set the Unicode encoding for this data generation project. This needs to be
+# changed to another encoding for different Unicode character sets.
+# Valid encoding strings are listed here:
+# http://docs.python.org/library/codecs.html#standard-encodings
+#
+unicode_encoding_used = 'ascii'
+
+# The name of the record identifier attribute (unique value for each record).
+# This name cannot be given as name to any other attribute that is generated.
+#
+rec_id_attr_name = 'rec-id'
+
+# Set the file name of the data set to be generated (this will be a comma
+# separated values, CSV, file).
+#
+out_file_name = 'example-data-english.csv'
+
+# Set how many original and how many duplicate records are to be generated.
+#
+num_org_rec = 20
+num_dup_rec = 5
+
+# Set the maximum number of duplicate records can be generated per original
+# record.
+#
+max_duplicate_per_record = 3
+
+# Set the probability distribution used to create the duplicate records for one
+# original record (possible values are: 'uniform', 'poisson', 'zipf').
+#
+num_duplicates_distribution = 'zipf'
+
+# Set the maximum number of modification that can be applied to a single
+# attribute (field).
+#
+max_modification_per_attr = 1
+
+# Set the number of modification that are to be applied to a record.
+#
+num_modification_per_record = 5
+
+# Check if the given the unicode encoding selected is valid.
+#
+basefunctions.check_unicode_encoding_exists(unicode_encoding_used)
+
 
 # -----------------------------------------------------------------------------
-class DependentFunc(object):
+class AttrSet(object):
+    def __init__(self):
+        self.gname_attr = \
+    generator.GenerateFuncAttribute(attribute_name = 'name-prefix',
+                       function = attrgenfunct.generate_name_prefix_f)
+        self.name_prefix_attr = \
+    generator.GenerateFreqAttribute(attribute_name = 'given-name',
+                    freq_file_name = 'lookup-files/givenname_f_freq.csv',
+                    has_header_line = False,
+                    unicode_encoding = unicode_encoding_used)
+        self.mname_attr = \
+    generator.GenerateFreqAttribute(attribute_name = 'middle-name',
+                    freq_file_name = 'lookup-files/givenname_f_freq.csv',
+                    has_header_line = False,
+                    unicode_encoding = unicode_encoding_used)
+        self.sname_attr = \
+    generator.GenerateFreqAttribute(attribute_name = 'surname',
+                    freq_file_name = 'lookup-files/surname-freq.csv',
+                    has_header_line = False,
+                    unicode_encoding = unicode_encoding_used)
+        self.name_suffix_attr = \
+    generator.GenerateFuncAttribute(attribute_name = 'name-suffix',
+                   function = attrgenfunct.generate_name_suffix)
+        
+        self.race_hispanic = \
+    generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
+                    freq_file_name = 'lookup-files/race_w_hispanic_ascii.csv',
+                    has_header_line = False,
+                    unicode_encoding = unicode_encoding_used)
 
-  __init__(self, **kwargs):
-    self.gname = None
-    self.sname = None
-    self.dob = None
-    self.nickname = None
-    self.gender = None
-    self.postcode = None
-    self.city = None
+        self.sname_prev_attr = \
+    generator.GenerateFreqAttribute(attribute_name = 'previous-surname',
+                    freq_file_name = 'lookup-files/surname-freq.csv',
+                    has_header_line = False,
+                    unicode_encoding = unicode_encoding_used)
 
-    self.email = None
-    
-    self.prefix = None
-    self.suffix = None
-    self.drivers = None
-    self.passport = None
-    self.phone_home = None
-    self.phone_cell = None
-    self.phone_work = None
-    self.ss = None
-    self.credit_card = None
+        self.nickname_attr = \
+            generator.GenerateFuncAttribute(attribute_name = 'nickname',
+                    function = attrgenfunct.generate_nickname)
 
-    self.race = None
-    self.hispanic = None
-    
 
-  attr_name_list = ['gender', 'name-prefix', 'given-name', 'middle-name', 'surname', 'name-suffix', 'postcode', 'city',
+        self.postcode_attr = \
+            generator.GenerateFreqAttribute(attribute_name = 'postcode',
+                      freq_file_name = 'lookup-files/postcode_act_freq.csv',
+                      has_header_line = False,
+                      unicode_encoding = unicode_encoding_used)
+
+        self.phone_num_attr = \
+            generator.GenerateFuncAttribute(attribute_name = 'telephone-number',
+                       function = attrgenfunct.generate_phone_number_australia)
+
+        #Cell
+        self.phone_num_cell_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'cell-number',
+                           function = attrgenfunct.generate_phone_number_american)
+        #Work
+        self.phone_num_work_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'work-number',
+                           function = attrgenfunct.generate_phone_number_american)
+        #Home
+        self.phone_num_home_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'home-number',
+                           function = attrgenfunct.generate_phone_number_american)
+
+        self.credit_card_attr =  \
+                generator.GenerateFuncAttribute(attribute_name = 'credit-card-number',
+                           function = attrgenfunct.generate_credit_card_number)
+
+        self.social_security_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'social-security-number',
+                          function = attrgenfunct.generate_social_security_number)
+
+        self.age_uniform_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'age-uniform',
+                           function = attrgenfunct.generate_uniform_age,
+                           parameters = [0,120])
+
+        self.income_normal_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'income-normal',
+                           function = attrgenfunct.generate_normal_value,
+                           parameters = [50000,20000, 0, 1000000, 'float2'])
+
+        self.rating_normal_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'rating-normal',
+                           function = attrgenfunct.generate_normal_value,
+                           parameters = [0.0,1.0, None, None, 'float9'])
+
+        #passport
+        self.passport_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'passport-number',
+                function = attrgenfunct.generate_passport_num)
+
+            
+        self.race_hispanic = \
+                generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
+                                freq_file_name = 'lookup-files/race_w_hispanic_ascii.csv',
+                                has_header_line = False,
+                                unicode_encoding = unicode_encoding_used)
+
+        # Calculating age off of frequency distribution of age.  Currently referencing female file
+        # Male csv file also exists once we can get the age generated based on gender
+        self.new_age_attr = \
+              generator.GenerateFreqAlt(attribute_name = 'age-new',
+                                freq_file_name = 'lookup-files/age_gender_ratio_female.csv',
+                                has_header_line = False,
+                                unicode_encoding = unicode_encoding_used) 
+
+        # Calculating the DOB.  Requires the age to be passed
+        self.DOB_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'DOB',
+                                   function = attrgenfunct.generate_DOB)
+        
+        self.labels = ['given-name', 'middle-name', 'surname', 'name-suffix',
+                       'race_hispanic', 'email'] 
+        self.labels2 = ['postcode', 'city', 'previous-surname', 'nickname', 
+                        'cell-number', 'work-number', 'home-number',  
+                      'social-security-number', 'credit-card-number', 
+                      'income-normal', 'age-uniform', 'income', 
+                      'age', 'sex', 'blood-pressure', 'passport-number',
+                      'email', 'race-hispanic', 'age-new', 'DOB']
+
+
+    def output(self):
+        'create synthetic output'
+        #removed all compound attribute
+        #single attr need create_attribute_values(), singular
+        #compound attr need create_attribute_values(), plural!
+        #must update compound context to USA
+        primary = [self.gname_attr, self.mname_attr, 
+                   self.sname_attr, self.name_suffix_attr]
+        
+        add_out = [self.name_prefix_attr, self.nickname_attr, self.postcode_attr, 
+          self.phone_num_attr,
+          self.phone_num_cell_attr, self.phone_num_work_attr, 
+          self.phone_num_home_attr, self.social_security_attr, 
+          self.credit_card_attr, self.age_uniform_attr, 
+          self.income_normal_attr, self.passport_attr, 
+          self.new_age_attr, self.DOB_attr]
+
+        #primary.extend(add_out)
+        
+        out = [attr.create_attribute_value() for attr in primary]
+        
+        labels = [attr.attribute_name for attr in primary]
+
+        self.race_hispanic = self.race_hispanic.random_pick().split('..')
+
+        self.race_attr = generator.GenerateFuncAttribute(attribute_name='race',
+          function = attrgenfunct.race,
+          parameters = [str(self.race_hispanic[0])])
+
+        out.append(self.race_attr.create_attribute_value())
+        
+        self.hispanic_attr = generator.GenerateFuncAttribute(attribute_name='hispanic',
+          function = attrgenfunct.hispanic,
+          parameters=[str(self.race_hispanic[1])])
+        
+        out.append(self.hispanic_attr.create_attribute_value())
+
+        self.email_attr = generator.GenerateFuncAttribute(attribute_name = 'email',
+          function = attrgenfunct.generate_email_address,
+          parameters = [str(out[0]), str(out[2])])
+
+        out.append(self.email_attr.create_attribute_value())
+
+        return out
+
+    def output(self):
+        'create synthetic output'
+        #removed all compound attribute
+        #single attr need create_attribute_values(), singular
+        #compound attr need create_attribute_values(), plural!
+        #must update compound context to USA
+        primary = [self.gname_attr, self.mname_attr, 
+                   self.sname_attr, self.name_suffix_attr]
+        
+        add_out = [self.name_prefix_attr, self.nickname_attr, self.postcode_attr, 
+          self.phone_num_attr,
+          self.phone_num_cell_attr, self.phone_num_work_attr, 
+          self.phone_num_home_attr, self.social_security_attr, 
+          self.credit_card_attr, self.age_uniform_attr, 
+          self.income_normal_attr, self.passport_attr, 
+          self.new_age_attr, self.DOB_attr]
+
+        #primary.extend(add_out)
+        
+        out = [attr.create_attribute_value() for attr in primary]
+        
+        labels = [attr.attribute_name for attr in primary]
+
+        self.race_hispanic = self.race_hispanic.random_pick().split('..')
+
+        self.race_attr = generator.GenerateFuncAttribute(attribute_name='race',
+          function = attrgenfunct.race,
+          parameters = [str(self.race_hispanic[0])])
+
+        out.append(self.race_attr.create_attribute_value())
+        
+        self.hispanic_attr = generator.GenerateFuncAttribute(attribute_name='hispanic',
+          function = attrgenfunct.hispanic,
+          parameters=[str(self.race_hispanic[1])])
+        
+        out.append(self.hispanic_attr.create_attribute_value())
+
+        self.email_attr = generator.GenerateFuncAttribute(attribute_name = 'email',
+          function = attrgenfunct.generate_email_address,
+          parameters = [str(out[0]), str(out[2])])
+
+        out.append(self.email_attr.create_attribute_value())
+
+        return out
+
+attr_name_list = ['given-name', 'middle-name', 'surname', 'name-suffix',
+                   'race', 'hispanic', 'email'] 
+
+attr_data_list = AttrSet().output()               
+
+labels = ['gender', 'name-prefix', 'given-name', 'middle-name', 'surname', 'name-suffix', 'postcode', 'city',
                   'previous-surname', 'nickname', 'cell-number', 'work-number', 'home-number',  
                   'social-security-number', 'credit-card-number', 
                   'income-normal', 'age-uniform', 'income', 
                   'age', 'sex', 'blood-pressure', 'passport-number',
                   'email', 'race-hispanic', 'age-new', 'DOB']
+'''
+attr_list = [age_uniform_attr,
+ credit_card_attr,
+ email_attr,
+ gname_attr,
+ income_normal_attr,
+ mname_attr,
+ name_prefix_attr,
+ name_suffix_attr,
+ new_age_attr,
+ nickname_attr,
+ output,
+ passport_attr,
+ phone_num_attr,
+ phone_num_cell_attr,
+ phone_num_home_attr,
+ phone_num_work_attr,
+ postcode_attr,
+ race_hispanic,
+ rating_normal_attr,
+ sname_attr,
+ sname_prev_attr,
+ social_security_attr]
+'''
 
-  self.unicode_encoding_used = 'ascii'
-  self.sname_attr = \
-  generator.GenerateFreqAttribute(attribute_name = 'surname',
-                          freq_file_name = 'lookup-files/surname-freq.csv',
-                          has_header_line = False,
-                          unicode_encoding = unicode_encoding_used)
-
-  self.gname_attr = \
-    generator.GenerateFreqAttribute(attribute_name = 'given-name',
-                          freq_file_name = 'lookup-files/givenname_f_freq.csv',
-                          has_header_line = False,
-                          unicode_encoding = unicode_encoding_used)
-
-
-  def generate_DOB(self, age=65):
-
-  """Randomly generate a month & date for DOB """
-  
-  import random
-  birth_month = random.randint(1,12)
-  if birth_month == "1" or "3" or "5" or "7" or "8" or "10" or "12":
-  	birth_day = random.randint(1,31)
-  if birth_month == "2":
-  	birth_day = random.randint(1,28)
-  else:
-  	birth_day = random.randint(1,30)
-  
-  """Can not use the age generator function here for some reason but this code
-  worked on generate_data_english.py.  For now, passing dummy age into the function
-  to make it work for the time being.  I did input reference to import generator in
-  the beginning of the program but got stuck on 'unicode_encoding' 
-  
-  age = generator.GenerateFreqAlt(attribute_name = 'agejy',
-                    freq_file_name = 'lookup-files/age_gender_ratio_female.csv',
-                    has_header_line = False,
-                    unicode_encoding = unicode_encoding_used) """
-
-  from time import gmtime, strftime
-  year_system = strftime ("%Y", gmtime())
-  year_from_age = int(year_system) - age
-  DOB = str(birth_month) +'/' + str(birth_day) + '/' + str(year_from_age)
-  return DOB
-
-  # -----------------------------------------------------------------------------
+# Nothing to change here - set-up the data set generation object.
 #
-def generate_phone_number_american(self):
-  """Randomly generate an American telephone number made of a three-digit area
-     code and an seven-digit number made of two blocks, 3 and 4 digits (with a
-     space between). For example: `202 234 5678'
-     http://en.wikipedia.org/wiki/List_of_North_American_Numbering_Plan_area_codes
-  """
-  #modify with look-up or full list
-  area_code = random.choice(['202', '212', '215', '412', '812'])
-  number1 = random.randint(1,999)
-  number2 = random.randint(1,9999)
-  
-  #.zfill will pad zeros to the left of digits, 1 become 001 w/ zfill(3)
-  us_phone_str = str(area_code)+' '+str(number1).zfill(3)+' '+ \
-                 str(number2).zfill(4)
-  assert len(us_phone_str) == 12
-  
+test_data_generator = generator.GenerateDataSet(output_file_name = \
+                                          out_file_name,
+                                          write_header_line = True,
+                                          rec_id_attr_name = rec_id_attr_name,
+                                          number_of_records = num_org_rec,
+                                          attribute_name_list = attr_name_list,
+                                          attribute_data_list = attr_data_list,
+                                          unicode_encoding = 'ascii')
 
-  return us_phone_str
-
-# -----------------------------------------------------------------------------
+# Define the probability distribution of how likely an attribute will be
+# selected for a modification.
+# Each of the given probability values must be between 0 and 1, and the sum of
+# them must be 1.0.
+# If a probability is set to 0 for a certain attribute, then no modification
+# will be applied on this attribute.
 #
-def generate_credit_card_number(self):
-  """Randomly generate a credit card made of four four-digit numbers (with a
-     space between each number group). For example: '1234 5678 9012 3456'
+attr_mod_prob_dictionary = {'given-name':0.2,'surname':0.2}
+                            #'gender':0.1,
+                            #'postcode':0.1,'city':0.1, 'cell-number':0.15,
+                            #'credit-card-number':0.1,'age':0.05
 
-     For details see: http://en.wikipedia.org/wiki/Bank_card_number
-  """
-
-  number1 = random.randint(1,9999)
-  assert number1 > 0
-
-  number2 = random.randint(1,9999)
-  assert number2 > 0
-
-  number3 = random.randint(1,9999)
-  assert number3 > 0
-
-  number4 = random.randint(1,9999)
-  assert number4 > 0
-
-  cc_str = str(number1).zfill(4)+' '+str(number2).zfill(4)+' '+ \
-           str(number3).zfill(4)+' '+str(number4).zfill(4)
-
-  assert len(cc_str) == 19
-
-  return cc_str
-
-# -----------------------------------------------------------------------------
+# Define the actual corruption (modification) methods that will be applied on
+# the different attributes.
+# For each attribute, the sum of probabilities given must sum to 1.0.
 #
-def generate_social_security_number(self):
-  """Randomly generate a social security number. 
-     For example: '234 78 9012'
-     
-     Update to reflect state, date of birth info
-     consider: http://www.pnas.org/content/106/27/10975.full.pdf
-  """
+attr_mod_data_dictionary = {'surname':[(0.1, surname_misspell_corruptor),
+                                       (0.1, ocr_corruptor),
+                                       (0.1, keyboard_corruptor),
+                                       (0.7, phonetic_corruptor)],
+                            'given-name':[(0.1, edit_corruptor2),
+                                          (0.1, ocr_corruptor),
+                                          (0.1, keyboard_corruptor),
+                                          (0.7, phonetic_corruptor)]}
+                            #'gender':[(1.0, missing_val_corruptor)],
+                            #'postcode':[(0.8, keyboard_corruptor),
+                            #            (0.2, postcode_missing_val_corruptor)],
+                            #'city':[(0.1, edit_corruptor),
+                            #        (0.1, missing_val_corruptor),
+                            #        (0.4, keyboard_corruptor),
+                            #        (0.4, phonetic_corruptor)],
+                            #'age':[(1.0, edit_corruptor2)],
+                            #'cell-number':[(1.0, missing_val_corruptor)],
+                            #'credit-card-number':[(1.0, edit_corruptor)]
 
-  number1 = random.randint(1,999)
-  assert number1 > 0
-
-  number2 = random.randint(1,99)
-  assert number2 > 0
-
-  number3 = random.randint(1,9999)
-  assert number3 > 0
-
-  ss_str = str(number1).zfill(3)+' '+str(number2).zfill(2)+' '+ \
-           str(number3).zfill(4)
-
-  assert len(ss_str) == 11
-
-  return ss_str
-
-# -----------------------------------------------------------------------------
+# Nothing to change here - set-up the data set corruption object
 #
-def generate_drivers_license_num(self):
-  # need revision
-  # Based on dc format only
+test_data_corruptor = corruptor.CorruptDataSet(number_of_org_records = \
+                                          num_org_rec,
+                                          number_of_mod_records = num_dup_rec,
+                                          attribute_name_list = attr_name_list,
+                                          max_num_dup_per_rec = \
+                                                 max_duplicate_per_record,
+                                          num_dup_dist = \
+                                                 num_duplicates_distribution,
+                                          max_num_mod_per_attr = \
+                                                 max_modification_per_attr,
+                                          num_mod_per_rec = \
+                                                 num_modification_per_record,
+                                          attr_mod_prob_dict = \
+                                                 attr_mod_prob_dictionary,
+                                          attr_mod_data_dict = \
+                                                 attr_mod_data_dictionary)
 
-  """Randomly generate a drivers license number. 7-digit or 9-digit
-     For example: '2512235' or '682019423'
-     
-     Update to reflect state infor
-     consider: http://http://adr-inc.com/PDFs/State_DLFormats.pdf
+# =============================================================================
+# No need to change anything below here
 
-     According to this paper, DOB info is encoded in drivers license
-     We should take this into consideration for further update
-     "http://www.highprogrammer.com/alan/numbers/index.html"
-
-  """
-
-  number1 = random.randint(1,9999999)
-  assert number1 > 0
-
-  number2 = random.randint(1,999999999)
-  assert number2 > 0
-
-  ss_str1 = str(number1).zfill(7)
-  assert len(ss_str1) == 7
-  
-  ss_str2 = str(number2).zfill(9)
-  assert len(ss_str1) == 9
-
-  return random.choice([ss_str1, ss_str2])
-
-# -----------------------------------------------------------------------------
+# Start the data generation process
 #
-def generate_passport_num(self):
-  """Randomly generate a us passport number(9-digit number). 
-     For example: '203941429'
-  """
+rec_dict = test_data_generator.generate()
 
-  number1 = random.randint(1,999999999)
-  assert number1 > 0
+assert len(rec_dict) == num_org_rec  # Check the number of generated records
 
-  passport_str = str(number1).zfill(9)
-
-  assert len(passport_str) == 9
-
-  return passport_str
-
-# -----------------------------------------------------------------------------
+# Corrupt (modify) the original records into duplicate records
 #
-def generate_email_address(self, fname="Bohan", lname="Zhang"):
-  """Randomly generate a email address
-     Update middle name and nickname
-     Update frequency table: http://www.ryansolutions.com/blog/2013/email-domains/
-  """
-  
+rec_dict = test_data_corruptor.corrupt_records(rec_dict)
 
-  lname = str(sname_attr.create_attribute_value())
-  fname = str(gname_attr.create_attribute_value())
+assert len(rec_dict) == num_org_rec+num_dup_rec # Check total number of records
 
-  basefunctions.check_is_string('fname', fname)
-  basefunctions.check_is_string('lname', lname)  
-
-  domain_name = random.choice(["@gmail.com","@hotmail.com","@yahoo.com","@aol.com",
-                               "@live.com","@msn.com", "@comcast.com"])
-  
-  add1 = fname[0] + "." + lname + domain_name
-  add2 = fname + "." + lname + domain_name
-  add3 = fname[0] + lname + domain_name
-  add4 = fname + lname[0] + domain_name
-  add5 = fname + domain_name
-  
-  add = random.choice([add1, add2, add3, add4, add5])
-  
-  return add
-
-
-# -----------------------------------------------------------------------------
+# Write generate data into a file
 #
-def generate_name_suffix(self):
+test_data_generator.write()
 
-  """Randomly generate a name suffix.  Assumes that 10% has a suffix'
-  """
-
-  #modify with look-up or full list
-  rand = random.random()
-  if rand <= 0.10:
-  	suffix = random.choice(['Jr.', 'Snr.', 'I', 'II', 'III'])
-  else:
-  	suffix = "" 
-
-  return suffix
-
-# -----------------------------------------------------------------------------
-#
-def generate_name_prefix_m(self, gender="M"):
-	"""Randomly generate a name prefix.  
-  """
-  	prefix = random.choice(['Mr', ""])
-
-  	return prefix
-
-# -----------------------------------------------------------------------------
-#
-def generate_name_prefix_f(self, gender="F"):
-	"""Randomly generate a name prefix.  
-  """
-  	prefix = random.choice(['Miss', 'Mrs', 'Ms', ""])
-
-  	return prefix
-
-
-# -----------------------------------------------------------------------------
-#
-def generate_prefix_from_gender(self, gender=None):
-	"""Generate prefix using gender
-	Jamie's Test code but not currently used in generate_data_english
-	as of 2_8"""
-	if gender == "Male":
-		prefix = random.choice(['Mr', ""])
-	if gender == "Female":
-		prefix = random.choice(['Miss', 'Mrs', 'Ms', ""])
-	return prefix
-#
-#-------------------------------------------------------------------------------
-  
-def generate_nickname(self, fname=None):
-
-  """Randomly generate a nickname.  Assumes that 5% has a nickname'
-  """
-  import random
-  
-  #modify with look-up or full list
-  rand = random.random()
-  if rand <= .05:
-  	nickname = random.choice(['A', 'B', 'C'])
-  else:
-  	nickname = "" 
-
-  return nickname
+# End.
+# =============================================================================
