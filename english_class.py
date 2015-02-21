@@ -10,6 +10,9 @@ import generator      # Main classes to generate records and the data set
 import corruptor      # Main classes to corrupt attribute values and records
 
 import random
+import csv
+import json
+
 random.seed(42)  # Set seed for random generator, so data generation can be
                  # repeated
 
@@ -279,6 +282,19 @@ class AttrSet(object):
         primary.append(self.email_attr)
 
         return primary
+
+def to_csv(genfunct, row_count, file_name='English_output.csv'):
+    'genfucnt is an AttrSet object,'
+    row_container = (genfunct.output() for x in xrange(row_count))
+    with open(file_name, 'w') as csvfile:
+        fieldnames = [key for key in genfunct.output()]
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        [writer.writerow(synthetic) for synthetic in row_container]
+
+def to_json(genfunct, row_count, file_name='English_output.json'):
+    'genfucnt is an AttrSet object,'
+    row_container = (genfunct.output() for x in xrange(row_count))
+    with open(file_name, 'w') as jsonfile:
 
 attr_name_list = ['given-name', 'middle-name', 'surname', 'name-suffix',
                    'race', 'hispanic', 'email'] 
