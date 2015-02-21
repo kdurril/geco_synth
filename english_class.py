@@ -62,10 +62,10 @@ basefunctions.check_unicode_encoding_exists(unicode_encoding_used)
 # -----------------------------------------------------------------------------
 class AttrSet(object):
     def __init__(self):
-        self.gname_attr = \
+        self.name_prefix_attr = \
     generator.GenerateFuncAttribute(attribute_name = 'name-prefix',
                        function = attrgenfunct.generate_name_prefix_f)
-        self.name_prefix_attr = \
+        self.gname_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'given-name',
                     freq_file_name = 'lookup-files/givenname_f_freq.csv',
                     has_header_line = False,
@@ -227,7 +227,7 @@ class AttrSet(object):
 
         return out
 
-    def output(self):
+    def object_out(self):
         'create synthetic output'
         #removed all compound attribute
         #single attr need create_attribute_values(), singular
@@ -246,36 +246,40 @@ class AttrSet(object):
 
         #primary.extend(add_out)
         
-        out = [attr.create_attribute_value() for attr in primary]
+        #out = [attr.create_attribute_value() for attr in primary]
         
         labels = [attr.attribute_name for attr in primary]
-
-        self.race_hispanic = self.race_hispanic.random_pick().split('..')
+        race_hispanic = self.race_hispanic.random_pick()
+        race_hispanic = race_hispanic.split('..')
 
         self.race_attr = generator.GenerateFuncAttribute(attribute_name='race',
           function = attrgenfunct.race,
-          parameters = [str(self.race_hispanic[0])])
+          parameters = [str(race_hispanic[0])])
 
-        out.append(self.race_attr.create_attribute_value())
+        primary.append(self.race_attr)
         
         self.hispanic_attr = generator.GenerateFuncAttribute(attribute_name='hispanic',
           function = attrgenfunct.hispanic,
-          parameters=[str(self.race_hispanic[1])])
+          parameters=[str(race_hispanic[1])]
+          )
         
-        out.append(self.hispanic_attr.create_attribute_value())
+        primary.append(self.hispanic_attr)
+        email_out_0 = primary[0].create_attribute_value()
+        email_out_2 = primary[2].create_attribute_value()
 
         self.email_attr = generator.GenerateFuncAttribute(attribute_name = 'email',
           function = attrgenfunct.generate_email_address,
-          parameters = [str(out[0]), str(out[2])])
+          parameters = [str(email_out_0), str(email_out_2)]
+          )
 
-        out.append(self.email_attr.create_attribute_value())
+        primary.append(self.email_attr)
 
-        return out
+        return primary
 
 attr_name_list = ['given-name', 'middle-name', 'surname', 'name-suffix',
                    'race', 'hispanic', 'email'] 
 
-attr_data_list = AttrSet().output()               
+attr_data_list = AttrSet().object_out()               
 
 labels = ['gender', 'name-prefix', 'given-name', 'middle-name', 'surname', 'name-suffix', 'postcode', 'city',
                   'previous-surname', 'nickname', 'cell-number', 'work-number', 'home-number',  
@@ -310,14 +314,14 @@ attr_list = [age_uniform_attr,
 
 # Nothing to change here - set-up the data set generation object.
 #
-test_data_generator = generator.GenerateDataSet(output_file_name = \
+'''test_data_generator = generator.GenerateDataSet(output_file_name = \
                                           out_file_name,
                                           write_header_line = True,
                                           rec_id_attr_name = rec_id_attr_name,
                                           number_of_records = num_org_rec,
                                           attribute_name_list = attr_name_list,
                                           attribute_data_list = attr_data_list,
-                                          unicode_encoding = 'ascii')
+                                          unicode_encoding = unicode_encoding_used)
 
 # Define the probability distribution of how likely an attribute will be
 # selected for a modification.
@@ -394,3 +398,4 @@ test_data_generator.write()
 
 # End.
 # =============================================================================
+'''
