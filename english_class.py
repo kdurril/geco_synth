@@ -283,6 +283,10 @@ class AttrSet(object):
 
         return primary
 
+def row_synth(genfucnt, row_count):
+    'genfunct is an AttrSet object'
+    return (genfunct.output() for x in xrange(row_count))
+
 def to_csv(genfunct, row_count, file_name='English_output.csv'):
     'genfucnt is an AttrSet object,'
     row_container = (genfunct.output() for x in xrange(row_count))
@@ -294,10 +298,12 @@ def to_csv(genfunct, row_count, file_name='English_output.csv'):
 def to_json(genfunct, row_count, file_name='English_output.json'):
     'genfucnt is an AttrSet object,'
     row_container = (genfunct.output() for x in xrange(row_count))
-    with open(file_name, 'w') as jsonfile:
+    with open(file_name, 'w') as jsonfile:      
+        fieldnames = [key for key in genfunct.output()]
+        jsonfile.write(str([json.dumps(synthetic) for synthetic in row_container]))
 
 attr_name_list = ['given-name', 'middle-name', 'surname', 'name-suffix',
-                   'race', 'hispanic', 'email'] 
+    'race', 'hispanic', 'email'] 
 
 attr_data_list = AttrSet().object_out()               
 
