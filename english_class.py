@@ -205,26 +205,29 @@ class AttrSet(object):
         
         labels = [attr.attribute_name for attr in primary]
 
-        self.race = self.race_hispanic.random_pick().split('..')[0]
-        self.hispanic = self.race_hispanic.random_pick().split('..')[1]
+        self.race = self.race_hispanic.random_pick().split('..')[1]
+        self.hispanic = self.race_hispanic.random_pick().split('..')[0]
 
         self.race_attr = generator.GenerateFuncAttribute(attribute_name='race',
           function = attrgenfunct.race,
           parameters = [str(self.race)])
 
         out.append(self.race_attr.create_attribute_value())
+        labels.append(self.race_attr.attribute_name)
         
         self.hispanic_attr = generator.GenerateFuncAttribute(attribute_name='hispanic',
           function = attrgenfunct.hispanic,
           parameters=[str(self.hispanic)])
         
         out.append(self.hispanic_attr.create_attribute_value())
+        labels.append(self.hispanic_attr.attribute_name)
 
         self.email_attr = generator.GenerateFuncAttribute(attribute_name = 'email',
           function = attrgenfunct.generate_email_address,
           parameters = [str(out[0]), str(out[2])])
 
         out.append(self.email_attr.create_attribute_value())
+        labels.append(self.email_attr.attribute_name)
 
         return out
 
