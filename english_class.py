@@ -283,24 +283,24 @@ class AttrSet(object):
 
         return primary
 
-def row_synth(genfucnt, row_count):
-    'genfunct is an AttrSet object'
+def row_synth(genfunct, row_count):
+    'genfunct is an AttrSet object, row_count is int'
     return (genfunct.output() for x in xrange(row_count))
 
-def to_csv(genfunct, row_count, file_name='English_output.csv'):
-    'genfucnt is an AttrSet object,'
-    row_container = (genfunct.output() for x in xrange(row_count))
-    with open(file_name, 'w') as csvfile:
-        fieldnames = [key for key in genfunct.output()]
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        [writer.writerow(synthetic) for synthetic in row_container]
+def row_keys(genfunct):
+    'get keys for output labels'
+    return [key for key in genfunct.output()]
 
-def to_json(genfunct, row_count, file_name='English_output.json'):
+def to_csv(genfunct_input, fieldnames,file_name='English_output.csv'):
     'genfucnt is an AttrSet object,'
-    row_container = (genfunct.output() for x in xrange(row_count))
-    with open(file_name, 'w') as jsonfile:      
-        fieldnames = [key for key in genfunct.output()]
-        jsonfile.write(str([json.dumps(synthetic) for synthetic in row_container]))
+    with open(file_name, 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        [writer.writerow(synthetic) for synthetic in genfunct_input]
+
+def to_json(genfunct_input, file_name='English_output.json'):
+    'genfucnt is an AttrSet object,'
+    with open(file_name, 'w') as jsonfile:
+        jsonfile.write(str([json.dumps(synthetic) for synthetic in genfunct_input]))
 
 attr_name_list = ['given-name', 'middle-name', 'surname', 'name-suffix',
     'race', 'hispanic', 'email'] 
