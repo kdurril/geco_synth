@@ -229,7 +229,7 @@ class AttrSet(object):
         out.append(self.email_attr.create_attribute_value())
         labels.append(self.email_attr.attribute_name)
 
-        return out
+        return dict(zip(labels, out))
 
     def object_out(self):
         'create synthetic output'
