@@ -292,15 +292,15 @@ def row_keys(genfunct):
     return [key for key in genfunct.output()]
 
 def to_csv(genfunct_input, fieldnames,file_name='English_output.csv'):
-    'genfucnt is an AttrSet object,'
+    'genfucnt_input is the output from row_synth'
     with open(file_name, 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         [writer.writerow(synthetic) for synthetic in genfunct_input]
 
 def to_json(genfunct_input, file_name='English_output.json'):
-    'genfucnt is an AttrSet object,'
+    'genfucnt_input is the output from row_synth'
     with open(file_name, 'w') as jsonfile:
-        jsonfile.write(str([json.dumps(synthetic) for synthetic in genfunct_input]))
+        jsonfile.write(json.dumps(str(list(genfunct_input))))
 
 attr_name_list = ['given-name', 'middle-name', 'surname', 'name-suffix',
     'race', 'hispanic', 'email'] 
