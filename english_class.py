@@ -9,9 +9,11 @@ import contdepfunct   # Functions to generate dependent continuous attribute
 import generator      # Main classes to generate records and the data set
 import corruptor      # Main classes to corrupt attribute values and records
 
+
 import random
 import csv
 import json
+import os
 
 random.seed(42)  # Set seed for random generator, so data generation can be
                  # repeated
@@ -70,17 +72,17 @@ class AttrSet(object):
                        function = attrgenfunct.generate_name_prefix_f)
         self.gname_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'given-name',
-                    freq_file_name = 'lookup-files/givenname_f_freq.csv',
+                    freq_file_name = os.path.abspath('lookup-files/givenname_f_freq.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
         self.mname_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'middle-name',
-                    freq_file_name = 'lookup-files/givenname_f_freq.csv',
+                    freq_file_name = os.path.abspath('lookup-files/givenname_f_freq.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
         self.sname_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'surname',
-                    freq_file_name = 'lookup-files/surname-freq.csv',
+                    freq_file_name = os.path.abspath('lookup-files/surname-freq.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
         self.name_suffix_attr = \
@@ -89,13 +91,13 @@ class AttrSet(object):
         
         self.race_hispanic = \
     generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
-                    freq_file_name = 'lookup-files/race_w_hispanic_ascii.csv',
+                    freq_file_name = os.path.abspath('lookup-files/race_w_hispanic_ascii.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
 
         self.sname_prev_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'previous-surname',
-                    freq_file_name = 'lookup-files/surname-freq.csv',
+                    freq_file_name = os.path.abspath('lookup-files/surname-freq.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
 
@@ -106,7 +108,7 @@ class AttrSet(object):
 
         self.postcode_attr = \
             generator.GenerateFreqAttribute(attribute_name = 'postcode',
-                      freq_file_name = 'lookup-files/postcode_act_freq.csv',
+                      freq_file_name = os.path.abspath('lookup-files/postcode_act_freq.csv'),
                       has_header_line = False,
                       unicode_encoding = unicode_encoding_used)
 
@@ -158,7 +160,7 @@ class AttrSet(object):
             
         self.race_hispanic = \
                 generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
-                                freq_file_name = 'lookup-files/race_w_hispanic_ascii.csv',
+                                freq_file_name = os.path.abspath('lookup-files/race_w_hispanic_ascii.csv'),
                                 has_header_line = False,
                                 unicode_encoding = unicode_encoding_used)
 
@@ -166,7 +168,7 @@ class AttrSet(object):
         # Male csv file also exists once we can get the age generated based on gender
         self.new_age_attr = \
               generator.GenerateFreqAlt(attribute_name = 'age-new',
-                                freq_file_name = 'lookup-files/age_gender_ratio_female.csv',
+                                freq_file_name = os.path.abspath('lookup-files/age_gender_ratio_female.csv'),
                                 has_header_line = False,
                                 unicode_encoding = unicode_encoding_used) 
 
@@ -207,9 +209,11 @@ class AttrSet(object):
         out = [attr.create_attribute_value() for attr in primary]
         
         labels = [attr.attribute_name for attr in primary]
+        
 
-        self.race = self.race_hispanic.random_pick().split('..')[1]
-        self.hispanic = self.race_hispanic.random_pick().split('..')[0]
+        r_h = self.race_hispanic.random_pick().split('..')
+        self.race = r_h[1]
+        self.hispanic = r_h[0]
 
         self.race_attr = generator.GenerateFuncAttribute(attribute_name='race',
           function = attrgenfunct.race,
@@ -232,56 +236,13 @@ class AttrSet(object):
         out.append(self.email_attr.create_attribute_value())
         labels.append(self.email_attr.attribute_name)
 
+        #add_out_values = [x.create_attribute_value() for x in add_out]
+        #out.extend(add_out_values)
+
+        #add_out_labels = [x.attribute_name for x in add_out]
+        #labels.extend(add_out_labels)
+
         return dict(zip(labels, out))
-
-    def object_out(self):
-        'create synthetic output'
-        #removed all compound attribute
-        #single attr need create_attribute_values(), singular
-        #compound attr need create_attribute_values(), plural!
-        #must update compound context to USA
-        primary = [self.gname_attr, self.mname_attr, 
-                   self.sname_attr, self.name_suffix_attr]
-        
-        add_out = [self.name_prefix_attr, self.nickname_attr, self.postcode_attr, 
-          self.phone_num_attr,
-          self.phone_num_cell_attr, self.phone_num_work_attr, 
-          self.phone_num_home_attr, self.social_security_attr, 
-          self.credit_card_attr, self.age_uniform_attr, 
-          self.income_normal_attr, self.passport_attr, 
-          self.new_age_attr, self.DOB_attr]
-
-        #primary.extend(add_out)
-        
-        #out = [attr.create_attribute_value() for attr in primary]
-        
-        labels = [attr.attribute_name for attr in primary]
-        race_hispanic = self.race_hispanic.random_pick()
-        race_hispanic = race_hispanic.split('..')
-
-        self.race_attr = generator.GenerateFuncAttribute(attribute_name='race',
-          function = attrgenfunct.race,
-          parameters = [str(race_hispanic[0])])
-
-        primary.append(self.race_attr)
-        
-        self.hispanic_attr = generator.GenerateFuncAttribute(attribute_name='hispanic',
-          function = attrgenfunct.hispanic,
-          parameters=[str(race_hispanic[1])]
-          )
-        
-        primary.append(self.hispanic_attr)
-        email_out_0 = primary[0].create_attribute_value()
-        email_out_2 = primary[2].create_attribute_value()
-
-        self.email_attr = generator.GenerateFuncAttribute(attribute_name = 'email',
-          function = attrgenfunct.generate_email_address,
-          parameters = [str(email_out_0), str(email_out_2)]
-          )
-
-        primary.append(self.email_attr)
-
-        return primary
 
 def row_synth(genfunct, row_count):
     'genfunct is an AttrSet object, row_count is int'
@@ -295,6 +256,7 @@ def to_csv(genfunct_input, fieldnames,file_name='English_output.csv'):
     'genfucnt_input is the output from row_synth'
     with open(file_name, 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
         [writer.writerow(synthetic) for synthetic in genfunct_input]
 
 def to_json(genfunct_input, file_name='English_output.json'):
@@ -305,7 +267,7 @@ def to_json(genfunct_input, file_name='English_output.json'):
 attr_name_list = ['given-name', 'middle-name', 'surname', 'name-suffix',
     'race', 'hispanic', 'email'] 
 
-attr_data_list = AttrSet().object_out()               
+attr_data_list = AttrSet().output().values()               
 
 labels = ['gender', 'name-prefix', 'given-name', 'middle-name', 'surname', 'name-suffix', 'postcode', 'city',
                   'previous-surname', 'nickname', 'cell-number', 'work-number', 'home-number',  
