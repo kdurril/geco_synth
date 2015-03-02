@@ -250,14 +250,30 @@ def row_synth(genfunct, row_count):
 
 def row_keys(genfunct):
     'get keys for output labels'
-    return [key for key in genfunct.output()]
+    return genfunct.output().keys()
+
+def to_corruptor(genfunct, row_count):
+    'create output structured on GenerateDataSet generate()'
+    return dict(('rec-'+str(y)+'-org', genfunct.output().values()) for y in range(row_count))
+
+def to_corruptor_csv(genfunct, row_count):
+   'this has no header, flattens and retains id from to_corruptor'
+    corrupt_out = to_corruptor(genfunct, row_count)
+    corrupt_out = test_data_corruptor.corrupt_records(corrupt_out)
+    return (([k]+v) for k,v in corrupt_out.iteritems())
+
+def to_corruptor_write(corruptor_csv, filename='English_corrupt_output.csv'):
+  'write corruptor data with id row'
+    with open(filename, 'w') as csvfile:
+        writer = csv.Writer(csvfile)
+        writer.writerows(corruptor_csv)
 
 def to_csv(genfunct_input, fieldnames,file_name='English_output.csv'):
     'genfucnt_input is the output from row_synth'
     with open(file_name, 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
-        [writer.writerow(synthetic) for synthetic in genfunct_input]
+        writer.writerows(genfunct_input)
 
 def to_json(genfunct_input, file_name='English_output.json'):
     'genfucnt_input is the output from row_synth'
@@ -310,7 +326,7 @@ attr_list = [age_uniform_attr,
                                           attribute_name_list = attr_name_list,
                                           attribute_data_list = attr_data_list,
                                           unicode_encoding = unicode_encoding_used)
-
+'''
 # Define the probability distribution of how likely an attribute will be
 # selected for a modification.
 # Each of the given probability values must be between 0 and 1, and the sum of
@@ -370,7 +386,9 @@ test_data_corruptor = corruptor.CorruptDataSet(number_of_org_records = \
 
 # Start the data generation process
 #
-rec_dict = test_data_generator.generate()
+#rec_dict = test_data_generator.generate()
+
+rec_dict = to_corruptor(b, num_org_rec)
 
 assert len(rec_dict) == num_org_rec  # Check the number of generated records
 
@@ -386,4 +404,3 @@ test_data_generator.write()
 
 # End.
 # =============================================================================
-'''
