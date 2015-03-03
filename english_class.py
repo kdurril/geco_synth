@@ -38,12 +38,12 @@ out_file_name = 'example-data-english.csv'
 # Set how many original and how many duplicate records are to be generated.
 #
 num_org_rec = 20
-num_dup_rec = 5
+num_dup_rec = 2
 
 # Set the maximum number of duplicate records can be generated per original
 # record.
 #
-max_duplicate_per_record = 3
+max_duplicate_per_record = 2
 
 # Set the probability distribution used to create the duplicate records for one
 # original record (possible values are: 'uniform', 'poisson', 'zipf').
@@ -57,7 +57,7 @@ max_modification_per_attr = 1
 
 # Set the number of modification that are to be applied to a record.
 #
-num_modification_per_record = 5
+num_modification_per_record = 2
 
 # Check if the given the unicode encoding selected is valid.
 #
@@ -244,6 +244,62 @@ class AttrSet(object):
 
         return dict(zip(labels, out))
 
+# -----------------------------------------------------------------------------
+# Define how the generated records are to be corrupted (using methods from
+# the corruptor.py module).
+
+# For a value edit corruptor, the sum or the four probabilities given must
+# be 1.0.
+#
+edit_corruptor = \
+    corruptor.CorruptValueEdit(\
+          position_function = corruptor.position_mod_normal,
+          char_set_funct = basefunctions.char_set_ascii,
+          insert_prob = 0.5,
+          delete_prob = 0.5,
+          substitute_prob = 0.0,
+          transpose_prob = 0.0)
+
+edit_corruptor2 = \
+    corruptor.CorruptValueEdit(\
+          position_function = corruptor.position_mod_uniform,
+          char_set_funct = basefunctions.char_set_ascii,
+          insert_prob = 0.25,
+          delete_prob = 0.25,
+          substitute_prob = 0.25,
+          transpose_prob = 0.25)
+
+surname_misspell_corruptor = \
+    corruptor.CorruptCategoricalValue(\
+          lookup_file_name = 'lookup-files/surname-misspell.csv',
+          has_header_line = False,
+          unicode_encoding = unicode_encoding_used)
+
+ocr_corruptor = corruptor.CorruptValueOCR(\
+          position_function = corruptor.position_mod_normal,
+          lookup_file_name = 'lookup-files/ocr-variations.csv',
+          has_header_line = False,
+          unicode_encoding = unicode_encoding_used)
+
+keyboard_corruptor = corruptor.CorruptValueKeyboard(\
+          position_function = corruptor.position_mod_normal,
+          row_prob = 0.5,
+          col_prob = 0.5)
+
+phonetic_corruptor = corruptor.CorruptValuePhonetic(\
+          lookup_file_name = 'lookup-files/phonetic-variations.csv',
+          has_header_line = False,
+          unicode_encoding = unicode_encoding_used)
+
+missing_val_corruptor = corruptor.CorruptMissingValue()
+
+postcode_missing_val_corruptor = corruptor.CorruptMissingValue(\
+       missing_val='missing')
+
+given_name_missing_val_corruptor = corruptor.CorruptMissingValue(\
+       missing_value='unknown')
+
+
 def row_synth(genfunct, row_count):
     'genfunct is an AttrSet object, row_count is int'
     return (genfunct.output() for x in xrange(row_count))
@@ -256,16 +312,29 @@ def to_corruptor(genfunct, row_count):
     'create output structured on GenerateDataSet generate()'
     return dict(('rec-'+str(y)+'-org', genfunct.output().values()) for y in range(row_count))
 
+def to_corruptor_gf(genfunct_input):
+    'input is already generated'
+    g_list = list(genfunct_input)
+    g_len = len(g_list)
+    counter = ['rec-'+str(y)+'-org' for y in range(g_len)]
+    value_list = [x.values() for x in g_list]
+    return dict(zip(counter,value_list))
+
 def to_corruptor_csv(genfunct, row_count):
-   'this has no header, flattens and retains id from to_corruptor'
+    'this has no header, flattens and retains id from to_corruptor'
     corrupt_out = to_corruptor(genfunct, row_count)
     corrupt_out = test_data_corruptor.corrupt_records(corrupt_out)
     return (([k]+v) for k,v in corrupt_out.iteritems())
 
+def from_tdc(tdc_in):
+    'use input from test_data_corruptor.corrupt_records()'
+    return (([k]+v) for k,v in tdc_in.iteritems())
+
 def to_corruptor_write(corruptor_csv, filename='English_corrupt_output.csv'):
-  'write corruptor data with id row'
+    'write corruptor data with id row'
     with open(filename, 'w') as csvfile:
-        writer = csv.Writer(csvfile)
+        writer = csv.writer(csvfile)
+        #writer.writerow()
         writer.writerows(corruptor_csv)
 
 def to_csv(genfunct_input, fieldnames,file_name='English_output.csv'):
@@ -279,6 +348,17 @@ def to_json(genfunct_input, file_name='English_output.json'):
     'genfucnt_input is the output from row_synth'
     with open(file_name, 'w') as jsonfile:
         jsonfile.write(json.dumps(str(list(genfunct_input))))
+
+b = AttrSet()
+
+base_output = list(row_synth(b, num_org_rec ))
+
+def original_output():
+    to_csv(base_output,b.output().keys())
+
+def corrupt_output():
+    to_corruptor_write(from_tdc(test_data_corruptor.corrupt_records(\
+                                to_corruptor_gf(base_output))))
 
 attr_name_list = ['given-name', 'middle-name', 'surname', 'name-suffix',
     'race', 'hispanic', 'email'] 
@@ -334,7 +414,7 @@ attr_list = [age_uniform_attr,
 # If a probability is set to 0 for a certain attribute, then no modification
 # will be applied on this attribute.
 #
-attr_mod_prob_dictionary = {'given-name':0.2,'surname':0.2}
+attr_mod_prob_dictionary = {'given-name':0.6,'surname':0.4}
                             #'gender':0.1,
                             #'postcode':0.1,'city':0.1, 'cell-number':0.15,
                             #'credit-card-number':0.1,'age':0.05
@@ -380,7 +460,7 @@ test_data_corruptor = corruptor.CorruptDataSet(number_of_org_records = \
                                                  attr_mod_prob_dictionary,
                                           attr_mod_data_dict = \
                                                  attr_mod_data_dictionary)
-
+'''
 # =============================================================================
 # No need to change anything below here
 
@@ -404,3 +484,7 @@ test_data_generator.write()
 
 # End.
 # =============================================================================
+'''
+if __name__ == '__main__':
+  original_output()
+  corrupt_output()
