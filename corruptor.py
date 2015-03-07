@@ -1600,8 +1600,18 @@ class CorruptDataSet:
         self.prob_dist_list.append((num_dup,
                                     zipf_num[i]+self.prob_dist_list[-1][1]))
 
-    print 'Probability distribution for number of duplicates per record:'
-    print self.prob_dist_list
+    #printing the probability distribution for number of duplicates per record
+    #to text file 'geco_log.txt'
+    
+    f = open("geco_log.txt", "w")
+    prob_description = "Probability distribution for number of duplicates per record:"
+    f.write("-----CORRUPTOR FILE LOG-----")
+    f.write("\n")
+    f.write(prob_description)
+    f.write("\n")
+    f.write(str(self.prob_dist_list))
+    f.write("\n")
+    f.close()
 
     # Check probability list for attributes and dictionary for attributes - - -
     # if they sum to 1.0
@@ -1720,14 +1730,18 @@ class CorruptDataSet:
     for (org_rec_id_to_mod, num_dups) in dup_rec_num_dict.iteritems():
       dup_count = dup_histo.get(num_dups, 0) + 1
       dup_histo[num_dups] = dup_count
-    print 'Distribution of number of original records with certain number ' + \
-          'of duplicates:'
+    # Printing to geco_log text file
+    f = open("geco_log.txt", "a")
+    f.write("Distribution of number of original records with certain number " + \
+          "of duplicates:")
     dup_histo_keys = dup_histo.keys()
     dup_histo_keys.sort()
     for num_dups in dup_histo_keys:
-      print ' Number of records with %d duplicates: %d' % \
-            (num_dups, dup_histo[num_dups])
-    print
+      # Printing the number of records with duplicates to geco_log text file
+      f.write("\n")
+      f.write('   Number of records with %d duplicates: %d' % \
+            (num_dups, dup_histo[num_dups]))
+      f.write("\n")
 
     num_dup_rec_created = 0  # Count how many duplicate records have been
                              # generated
@@ -1737,9 +1751,9 @@ class CorruptDataSet:
     for (org_rec_id_to_mod, num_dups) in dup_rec_num_dict.iteritems():
       assert (num_dups > 0) and (num_dups <= self.max_num_dup_per_rec)
 
-      print
-      print 'Generating %d modified (duplicate) records for record "%s"' % \
-            (num_dups, org_rec_id_to_mod)
+      # printing output to geco_log text file
+      f.write ('Generating %d modified (duplicate) records for record "%s"' % \
+      (num_dups, org_rec_id_to_mod))     
 
       rec_to_mod_list = rec_dict[org_rec_id_to_mod]
 
@@ -1757,8 +1771,11 @@ class CorruptDataSet:
 
         org_rec_num = org_rec_id_to_mod.split('-')[1]
         dup_rec_id = 'rec-%s-dup-%d' % (org_rec_num, d)
-        print '  Generate identifier for duplicate record based on "%s": %s' \
-              % (org_rec_id_to_mod, dup_rec_id)
+        # printing output to geco_log text file
+        f.write('\n')
+        f.write('\n')
+        f.write(' -Generate identifier for duplicate record based on "%s": %s' \
+              % (org_rec_id_to_mod, dup_rec_id))
 
         # Count the number of modifications in this record (counted as the
         # number of modified attributes)
@@ -1818,14 +1835,24 @@ class CorruptDataSet:
             # record
             #
             if (new_attr_val != org_attr_val):
-              print '  Selected attribute for modification:', mod_attr_name
-              print '    Selected corruptor:', corruptor_method.name
-
+              # printing output to geco_log text file
+              f.write('\n')
+              f.write('   Selected attribute for modification:')
+              f.write(mod_attr_name)
+              f.write('\n')
+              f.write('   Selected corruptor:')
+              f.write(corruptor_method.name)
+              
               # The following weird string printing construct is to overcome
               # problems with printing non-ASCII characters
-              #              
-              print '      Original attribute value:', str([org_attr_val])[1:-1]
-              print '      Modified attribute value:', str([new_attr_val])[1:-1]
+               
+              f.write('\n')
+              f.write('      Original attribute value:')
+              f.write(str([org_attr_val])[1:-1])
+              f.write('\n')    
+              f.write('      Modified attribute value:')
+              f.write(str([new_attr_val])[1:-1])       
+             
 
               dup_rec_list[mod_attr_name_index] = new_attr_val
 
@@ -1856,8 +1883,12 @@ class CorruptDataSet:
           for check_dup_rec in this_dup_rec_list:
             if (check_dup_rec == dup_rec_list):  # Same as a previous duplicate
               is_diff = False
-              print 'Same duplicate:', check_dup_rec
-              print '               ', dup_rec_list
+              # printing output to geco_log text file
+              f.write('\n')
+              f.write('Same duplicate:')
+              f.write(check_dup_rec)
+              f.write(dup_rec_list)
+             
 
         if (is_diff == True):  # Only keep duplicate records that are different
 
@@ -1868,19 +1899,28 @@ class CorruptDataSet:
           d += 1
           num_dup_rec_created += 1
 
-          print 'Original record:'
-          print ' ', rec_to_mod_list
-          print 'Record with %d modified attributes' % (num_mod_in_record),
+          # printing output to geco_log text file
+          f.write('\n')
+          f.write('      Original record: ')
+          f.write(str(rec_to_mod_list))
+          f.write('\n')
+          f.write('      Record with %d modified attributes' % (num_mod_in_record))
+          
           attr_mod_str = '('
           for a in self.attribute_name_list:
             if (attr_mod_count_dict.get(a,0) > 0):
               attr_mod_str += '%d in %s, ' % (attr_mod_count_dict[a],a)
           attr_mod_str = attr_mod_str[:-1]+'):'
-          print attr_mod_str
-          print ' ', dup_rec_list
-          print '%d of %d duplicate records generated so far' % \
-                (num_dup_rec_created, self.number_of_mod_records)
-          print
+          f.write('\n')
+          f.write('\t')
+          f.write(str(attr_mod_str))
+          f.write('\n')
+          f.write('\t')
+          f.write(str(dup_rec_list))
+          f.write('\n')
+          f.write(' %d of %d duplicate records generated so far' % \
+                (num_dup_rec_created, self.number_of_mod_records))
+          
 
     return rec_dict
 
