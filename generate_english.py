@@ -74,19 +74,19 @@ basefunctions.check_unicode_encoding_exists(unicode_encoding_used)
 #
 gname_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'given-name',
-                          freq_file_name = 'lookup-files/givenname_f_freq.csv',
+                          freq_file_name = 'lookup_files/givenname_f_freq.csv',
                           has_header_line = False,
                           unicode_encoding = unicode_encoding_used)
 
 sname_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'surname',
-                          freq_file_name = 'lookup-files/surname-freq.csv',
+                          freq_file_name = 'lookup_files/surname-freq.csv',
                           has_header_line = False,
                           unicode_encoding = unicode_encoding_used)
 
 postcode_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'postcode',
-                          freq_file_name = 'lookup-files/postcode_act_freq.csv',
+                          freq_file_name = 'lookup_files/postcode_act_freq.csv',
                           has_header_line = False,
                           unicode_encoding = unicode_encoding_used)
 
@@ -132,7 +132,7 @@ gender_city_comp_attr = \
     generator.GenerateCateCateCompoundAttribute(\
           categorical1_attribute_name = 'gender',
           categorical2_attribute_name = 'city',
-          lookup_file_name = 'lookup-files/gender-city.csv',
+          lookup_file_name = 'lookup_files/gender-city.csv',
           has_header_line = True,
           unicode_encoding = 'ascii')
 
@@ -141,7 +141,7 @@ sex_income_comp_attr = \
           categorical_attribute_name = 'sex',
           continuous_attribute_name = 'income',
           continuous_value_type = 'float1',
-          lookup_file_name = 'lookup-files/gender-income.csv',
+          lookup_file_name = 'lookup_files/gender-income.csv',
           has_header_line = False,
           unicode_encoding = 'ascii')
 
@@ -151,7 +151,7 @@ gender_town_salary_comp_attr = \
           categorical2_attribute_name = 'town',
           continuous_attribute_name = 'salary',
           continuous_value_type = 'float4',
-          lookup_file_name = 'lookup-files/gender-city-income.csv',
+          lookup_file_name = 'lookup_files/gender-city-income.csv',
           has_header_line = False,
           unicode_encoding = 'ascii')
 
@@ -225,13 +225,13 @@ edit_corruptor2 = \
 
 surname_misspell_corruptor = \
     corruptor.CorruptCategoricalValue(\
-          lookup_file_name = 'lookup-files/surname-misspell.csv',
+          lookup_file_name = 'lookup_files/surname-misspell.csv',
           has_header_line = False,
           unicode_encoding = unicode_encoding_used)
 
 ocr_corruptor = corruptor.CorruptValueOCR(\
           position_function = corruptor.position_mod_normal,
-          lookup_file_name = 'lookup-files/ocr-variations.csv',
+          lookup_file_name = 'lookup_files/ocr-variations.csv',
           has_header_line = False,
           unicode_encoding = unicode_encoding_used)
 
@@ -241,7 +241,7 @@ keyboard_corruptor = corruptor.CorruptValueKeyboard(\
           col_prob = 0.5)
 
 phonetic_corruptor = corruptor.CorruptValuePhonetic(\
-          lookup_file_name = 'lookup-files/phonetic-variations.csv',
+          lookup_file_name = 'lookup_files/phonetic-variations.csv',
           has_header_line = False,
           unicode_encoding = unicode_encoding_used)
 

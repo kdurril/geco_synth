@@ -72,17 +72,17 @@ class AttrSet(object):
                        function = attrgenfunct.generate_name_prefix_f)
         self.gname_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'given-name',
-                    freq_file_name = os.path.abspath('lookup-files/givenname_f_freq.csv'),
+                    freq_file_name = os.path.abspath('lookup_files/givenname_f_freq.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
         self.mname_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'middle-name',
-                    freq_file_name = os.path.abspath('lookup-files/givenname_f_freq.csv'),
+                    freq_file_name = os.path.abspath('lookup_files/givenname_f_freq.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
         self.sname_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'surname',
-                    freq_file_name = os.path.abspath('lookup-files/surname-freq.csv'),
+                    freq_file_name = os.path.abspath('lookup_files/surname-freq.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
         self.name_suffix_attr = \
@@ -91,13 +91,13 @@ class AttrSet(object):
         
         self.race_hispanic = \
     generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
-                    freq_file_name = os.path.abspath('lookup-files/race_w_hispanic_ascii.csv'),
+                    freq_file_name = os.path.abspath('lookup_files/race_w_hispanic_ascii.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
 
         self.sname_prev_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'previous-surname',
-                    freq_file_name = os.path.abspath('lookup-files/surname-freq.csv'),
+                    freq_file_name = os.path.abspath('lookup_files/surname-freq.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
 
@@ -108,7 +108,7 @@ class AttrSet(object):
 
         self.postcode_attr = \
             generator.GenerateFreqAttribute(attribute_name = 'postcode',
-                      freq_file_name = os.path.abspath('lookup-files/postcode_act_freq.csv'),
+                      freq_file_name = os.path.abspath('lookup_files/postcode_act_freq.csv'),
                       has_header_line = False,
                       unicode_encoding = unicode_encoding_used)
 
@@ -160,7 +160,7 @@ class AttrSet(object):
             
         self.race_hispanic = \
                 generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
-                                freq_file_name = os.path.abspath('lookup-files/race_w_hispanic_ascii.csv'),
+                                freq_file_name = os.path.abspath('lookup_files/race_w_hispanic_ascii.csv'),
                                 has_header_line = False,
                                 unicode_encoding = unicode_encoding_used)
 
@@ -168,7 +168,7 @@ class AttrSet(object):
         # Male csv file also exists once we can get the age generated based on gender
         self.new_age_attr = \
               generator.GenerateFreqAlt(attribute_name = 'age-new',
-                                freq_file_name = os.path.abspath('lookup-files/age_gender_ratio_female.csv'),
+                                freq_file_name = os.path.abspath('lookup_files/age_gender_ratio_female.csv'),
                                 has_header_line = False,
                                 unicode_encoding = unicode_encoding_used) 
 
@@ -271,13 +271,13 @@ edit_corruptor2 = \
 
 surname_misspell_corruptor = \
     corruptor.CorruptCategoricalValue(\
-          lookup_file_name = 'lookup-files/surname-misspell.csv',
+          lookup_file_name = 'lookup_files/surname-misspell.csv',
           has_header_line = False,
           unicode_encoding = unicode_encoding_used)
 
 ocr_corruptor = corruptor.CorruptValueOCR(\
           position_function = corruptor.position_mod_normal,
-          lookup_file_name = 'lookup-files/ocr-variations.csv',
+          lookup_file_name = 'lookup_files/ocr-variations.csv',
           has_header_line = False,
           unicode_encoding = unicode_encoding_used)
 
@@ -287,7 +287,7 @@ keyboard_corruptor = corruptor.CorruptValueKeyboard(\
           col_prob = 0.5)
 
 phonetic_corruptor = corruptor.CorruptValuePhonetic(\
-          lookup_file_name = 'lookup-files/phonetic-variations.csv',
+          lookup_file_name = 'lookup_files/phonetic-variations.csv',
           has_header_line = False,
           unicode_encoding = unicode_encoding_used)
 

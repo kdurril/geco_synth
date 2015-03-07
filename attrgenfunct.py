@@ -300,7 +300,7 @@ def generate_DOB(age=65):
   the beginning of the program but got stuck on 'unicode_encoding' 
   
   age = generator.GenerateFreqAlt(attribute_name = 'agejy',
-                    freq_file_name = 'lookup-files/age_gender_ratio_female.csv',
+                    freq_file_name = 'lookup_files/age_gender_ratio_female.csv',
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used) """
 
