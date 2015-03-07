@@ -38,7 +38,7 @@ out_file_name = 'example-data-english.csv'
 # Set how many original and how many duplicate records are to be generated.
 #
 num_org_rec = 20
-num_dup_rec = 2
+num_dup_rec = 05
 
 # Set the maximum number of duplicate records can be generated per original
 # record.
@@ -108,7 +108,7 @@ class AttrSet(object):
 
         self.postcode_attr = \
             generator.GenerateFreqAttribute(attribute_name = 'postcode',
-                      freq_file_name = os.path.abspath('lookup_files/postcode_act_freq.csv'),
+                      freq_file_name = os.path.abspath('lookup_files/postcode_ascii.csv'),
                       has_header_line = False,
                       unicode_encoding = unicode_encoding_used)
 
@@ -178,7 +178,9 @@ class AttrSet(object):
                                    function = attrgenfunct.generate_DOB)
         
         self.labels = ['given-name', 'middle-name', 'surname', 'name-suffix',
-                       'race_hispanic', 'email'] 
+                       'race_hispanic', 'email', 'postcode',
+                        'cell-number', 'work-number', 'home-number',
+                        'social-security-number', 'credit-card-number'] 
         self.labels2 = ['postcode', 'city', 'previous-surname', 'nickname', 
                         'cell-number', 'work-number', 'home-number',  
                       'social-security-number', 'credit-card-number', 
@@ -194,9 +196,12 @@ class AttrSet(object):
         #compound attr need create_attribute_values(), plural!
         #must update compound context to USA
         primary = [self.gname_attr, self.mname_attr, 
-                   self.sname_attr, self.name_suffix_attr]
+                   self.sname_attr, self.name_suffix_attr,
+                   self.postcode_attr, self.phone_num_cell_attr, 
+                   self.phone_num_work_attr, self.phone_num_home_attr,
+                   self.social_security_attr, self.credit_card_attr]
         
-        add_out = [self.name_prefix_attr, self.nickname_attr, self.postcode_attr, 
+        add_out = [self.name_prefix_attr, self.nickname_attr, #self.postcode_attr, 
           self.phone_num_attr,
           self.phone_num_cell_attr, self.phone_num_work_attr, 
           self.phone_num_home_attr, self.social_security_attr, 
@@ -364,7 +369,8 @@ def corrupt_output():
                                 to_corruptor_gf(base_output))))
 
 attr_name_list = ['given-name', 'middle-name', 'surname', 'name-suffix',
-    'race', 'hispanic', 'email'] 
+    'race', 'hispanic', 'email', 'postcode', 'cell-number', 'work-number', 'home-number',
+    'social-security-number', 'credit-card-number'] 
 
 attr_data_list = AttrSet().output().values()               
 
@@ -417,33 +423,58 @@ attr_list = [age_uniform_attr,
 # If a probability is set to 0 for a certain attribute, then no modification
 # will be applied on this attribute.
 #
-attr_mod_prob_dictionary = {'given-name':0.6,'surname':0.4}
+attr_mod_prob_dictionary = {'given-name':0.35,'surname':0.35,'postcode':0.05,
+							'cell-number':0.05, 'work-number':0.05,
+							'home-number':0.05, 'social-security-number':0.05, 
+							'credit-card-number':0.05}
                             #'gender':0.1,
                             #'postcode':0.1,'city':0.1, 'cell-number':0.15,
                             #'credit-card-number':0.1,'age':0.05
+                            
 
 # Define the actual corruption (modification) methods that will be applied on
 # the different attributes.
 # For each attribute, the sum of probabilities given must sum to 1.0.
 #
-attr_mod_data_dictionary = {'surname':[(0.1, surname_misspell_corruptor),
-                                       (0.1, ocr_corruptor),
-                                       (0.1, keyboard_corruptor),
-                                       (0.7, phonetic_corruptor)],
-                            'given-name':[(0.1, edit_corruptor2),
-                                          (0.1, ocr_corruptor),
-                                          (0.1, keyboard_corruptor),
-                                          (0.7, phonetic_corruptor)]}
+attr_mod_data_dictionary = {'surname':[(0.15, surname_misspell_corruptor),
+                                       (0.15, ocr_corruptor),
+                                       (0.15, keyboard_corruptor),
+                                       (0.15, phonetic_corruptor),
+                                       (0.15, edit_corruptor),
+                                       (0.15, edit_corruptor2),
+                                       (0.1, missing_val_corruptor)],
+                            'given-name':[(0.15, given_name_missing_val_corruptor), 
+                                         (0.15, ocr_corruptor),
+                            		     (0.15, keyboard_corruptor),
+                                         (0.15, phonetic_corruptor),
+                                         (0.15, edit_corruptor),
+                                         (0.15, edit_corruptor2),
+                                         (0.1, missing_val_corruptor)],
                             #'gender':[(1.0, missing_val_corruptor)],
-                            #'postcode':[(0.8, keyboard_corruptor),
-                            #            (0.2, postcode_missing_val_corruptor)],
+                            'postcode':[(0.3, keyboard_corruptor),
+                                       (0.2, postcode_missing_val_corruptor),
+                                       (0.5, missing_val_corruptor)],
+                            'cell-number':[(0.1, edit_corruptor),
+                            			  (0.1, edit_corruptor2),
+                            			  (0.8, missing_val_corruptor)],
+                            'work-number':[(0.1, edit_corruptor),
+                            			  (0.1, edit_corruptor2),
+                            			  (0.8, missing_val_corruptor)],
+                            'home-number':[(0.1, edit_corruptor),
+                            			  (0.1, edit_corruptor2),
+                            			  (0.8, missing_val_corruptor)],
+                            'social-security-number':[(0.2, edit_corruptor),
+                            			  (0.2, edit_corruptor2),
+                            			  (0.6, missing_val_corruptor)],
+                            'credit-card-number':[(0.5, edit_corruptor),
+                            			  (0.5, edit_corruptor2)]}
+                            			 		 
                             #'city':[(0.1, edit_corruptor),
                             #        (0.1, missing_val_corruptor),
                             #        (0.4, keyboard_corruptor),
                             #        (0.4, phonetic_corruptor)],
                             #'age':[(1.0, edit_corruptor2)],
-                            #'cell-number':[(1.0, missing_val_corruptor)],
-                            #'credit-card-number':[(1.0, edit_corruptor)]
+                          
 
 # Nothing to change here - set-up the data set corruption object
 #
