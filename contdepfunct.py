@@ -46,7 +46,7 @@ def blood_pressure_depending_on_age(age):
 
   if bp < 0.0:
     bp = 0.0
-    print 'Warning, blood pressure value of 0.0 returned!'
+    print( 'Warning, blood pressure value of 0.0 returned!')
 
   return bp
 

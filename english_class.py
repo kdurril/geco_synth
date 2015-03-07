@@ -38,7 +38,7 @@ out_file_name = 'example-data-english.csv'
 # Set how many original and how many duplicate records are to be generated.
 #
 num_org_rec = 20
-num_dup_rec = 05
+num_dup_rec = 5
 
 # Set the maximum number of duplicate records can be generated per original
 # record.

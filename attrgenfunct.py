@@ -214,42 +214,42 @@ def generate_name_suffix():
   #modify with look-up or full list
   rand = random.random()
   if rand <= 0.10:
-  	suffix = random.choice(['Jr.', 'Snr.', 'I', 'II', 'III'])
+    suffix = random.choice(['Jr.', 'Snr.', 'I', 'II', 'III'])
   else:
-  	suffix = "" 
+    suffix = "" 
 
   return suffix
 
 # -----------------------------------------------------------------------------
 #
 def generate_name_prefix_m():
-	"""Randomly generate a name prefix.  
-  """
-  	prefix = random.choice(['Mr', ""])
+  """Randomly generate a name prefix."""
 
-  	return prefix
+  prefix = random.choice(['Mr', ""])
+
+  return prefix
 
 # -----------------------------------------------------------------------------
 #
 def generate_name_prefix_f():
-	"""Randomly generate a name prefix.  
+  """Randomly generate a name prefix.  
   """
-  	prefix = random.choice(['Miss', 'Mrs', 'Ms', ""])
+  prefix = random.choice(['Miss', 'Mrs', 'Ms', ""])
 
-  	return prefix
+  return prefix
 
 
 # -----------------------------------------------------------------------------
 #
 def generate_prefix_from_gender(gender):
-	"""Generate prefix using gender
-	Jamie's Test code but not currently used in generate_data_english
-	as of 2_8"""
-	if gender == "Male":
-		prefix = random.choice(['Mr', ""])
-	if gender == "Female":
-		prefix = random.choice(['Miss', 'Mrs', 'Ms', ""])
-	return prefix
+  """Generate prefix using gender
+  Jamie's Test code but not currently used in generate_data_english
+  as of 2_8"""
+  if gender == "Male":
+    prefix = random.choice(['Mr', ""])
+  if gender == "Female":
+    prefix = random.choice(['Miss', 'Mrs', 'Ms', ""])
+  return prefix
 #
 #-------------------------------------------------------------------------------
   
@@ -262,9 +262,9 @@ def generate_nickname():
   #modify with look-up or full list
   rand = random.random()
   if rand <= .05:
-  	nickname = random.choice(['A', 'B', 'C'])
+    nickname = random.choice(['A', 'B', 'C'])
   else:
-  	nickname = "" 
+    nickname = "" 
 
   return nickname
 
@@ -276,7 +276,7 @@ def hispanic(h):
   'hispanic'
   return h
 
-  	
+    
 #-------------------------------------------------------------------------------
 #""" Generate Fake DOB - Need to pass age which isn't working.  See comments below.
 #For now I'm passing in a dummy age""" 
@@ -288,11 +288,11 @@ def generate_DOB(age=65):
   import random
   birth_month = random.randint(1,12)
   if birth_month == "1" or "3" or "5" or "7" or "8" or "10" or "12":
-  	birth_day = random.randint(1,31)
+    birth_day = random.randint(1,31)
   if birth_month == "2":
-  	birth_day = random.randint(1,28)
+    birth_day = random.randint(1,28)
   else:
-  	birth_day = random.randint(1,30)
+    birth_day = random.randint(1,30)
   
   """Can not use the age generator function here for some reason but this code
   worked on generate_data_english.py.  For now, passing dummy age into the function
@@ -447,7 +447,7 @@ def generate_normal_age(mu, sigma, min_val, max_val):
 if (__name__ == '__main__'):
 
   num_test = 20
-
+'''
   print 'Generate %d Australian telephone numbers:' % (num_test)
   for i in range(num_test):
     print ' ', generate_phone_number_australia()
@@ -535,3 +535,4 @@ if (__name__ == '__main__'):
   for i in range(num_test):
     print ' ', generate_normal_age(30, 10, 18, 65)
   print
+'''

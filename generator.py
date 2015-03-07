@@ -2020,10 +2020,10 @@ class GenerateDataSet:
 
     num_rec_num_digit = len(str(self.number_of_records))-1  # For digit padding
 
-    print
-    print 'Generate records with attributes:'
-    print ' ', attr_name_list
-    print
+    print('\n')
+    print( 'Generate records with attributes:')
+    print( ' ', attr_name_list)
+    print('\n')
 
     for rec_id in range(self.number_of_records):
       rec_id_str = 'rec-%s-org' % (str(rec_id).zfill(num_rec_num_digit))
@@ -2080,14 +2080,14 @@ class GenerateDataSet:
 
       rec_dict[rec_id_str] = this_rec_list
 
-      print 'Generated record with ID: %s' % (rec_id_str)
-      print '  %s' % (str(this_rec_list))
-      print
+      print( 'Generated record with ID: %s' % (rec_id_str))
+      print( '  %s' % (str(this_rec_list)))
+      print('\n')
 
-    print 'Generated %d records' % (self.number_of_records)
-    print
-    print '------------------------------------------------------------------'
-    print
+    print( 'Generated %d records' % (self.number_of_records))
+    print('\n')
+    print( '------------------------------------------------------------------')
+    print('\n)')
 
     return rec_dict
 
