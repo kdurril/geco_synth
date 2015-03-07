@@ -330,12 +330,13 @@ def from_tdc(tdc_in):
     'use input from test_data_corruptor.corrupt_records()'
     return (([k]+v) for k,v in tdc_in.iteritems())
 
-def to_corruptor_write(corruptor_csv, filename='English_corrupt_output.csv'):
+def to_corruptor_write(corruptor_csv, file_name='English_corrupt_output.csv'):
     'write corruptor data with id row'
-    with open(filename, 'w') as csvfile:
+    with open(file_name, 'w') as csvfile:
         writer = csv.writer(csvfile)
         #writer.writerow()
         writer.writerows(corruptor_csv)
+    return file_name
 
 def to_csv(genfunct_input, fieldnames,file_name='English_output.csv'):
     'genfucnt_input is the output from row_synth'
@@ -343,6 +344,8 @@ def to_csv(genfunct_input, fieldnames,file_name='English_output.csv'):
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(genfunct_input)
+
+    return file_name
 
 def to_json(genfunct_input, file_name='English_output.json'):
     'genfucnt_input is the output from row_synth'
