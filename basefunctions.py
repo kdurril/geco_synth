@@ -489,7 +489,7 @@ def read_csv_file(file_name, encoding, header_line):
   try:
     in_file = codecs.open(file_name, encoding=encoding)
   except:
-    raise IOError, 'Cannot read CSV file "%s"' % (file_name)
+    raise IOError( 'Cannot read CSV file "%s"' % (file_name))
 
   if (header_line == True):
     header_line = in_file.readline()
@@ -550,7 +550,7 @@ def write_csv_file(file_name, encoding, header_list, file_data):
   try:
     out_file = codecs.open(file_name, 'w', encoding=encoding)
   except:
-    raise IOError, 'Cannot write CSV file "%s"' % (file_name)
+    raise IOError( 'Cannot write CSV file "%s"' % (file_name))
 
   if (header_list != None):
     check_is_list('header_list',header_list)
