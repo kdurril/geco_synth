@@ -115,8 +115,8 @@ class CorruptValue:
         self.position_function = value
 
       else:
-        raise Exception, 'Illegal constructor argument keyword: "%s"' % \
-              (str(keyword))
+        raise Exception( 'Illegal constructor argument keyword: "%s"' % \
+              (str(keyword)))
 
     basefunctions.check_is_function_or_method('position_function',
                                               self.position_function)
@@ -125,9 +125,9 @@ class CorruptValue:
     #
     pos = self.position_function('test')
     if ((not isinstance(pos, int)) or (pos < 0) or (pos > 3)):
-      raise Exception, 'Position function returns an illegal value (either' + \
+      raise Exception( 'Position function returns an illegal value (either' + \
                        'not an integer or and integer out of range: %s' % \
-                       (str(pos))
+                       (str(pos)))
 
   # ---------------------------------------------------------------------------
 
@@ -137,7 +137,7 @@ class CorruptValue:
        See implementations in derived classes for details.
     """
 
-    raise Exception, 'Override abstract method in derived class'
+    raise Exception( 'Override abstract method in derived class')
 
 # =============================================================================
 
@@ -276,7 +276,7 @@ class CorruptValueEdit(CorruptValue):
 
     if (abs((self.insert_prob + self.delete_prob + self.substitute_prob + \
          self.transpose_prob) - 1.0) > 0.0000001):
-      raise Exception, 'The four edit probabilities do not sum to 1.0'
+      raise Exception( 'The four edit probabilities do not sum to 1.0')
 
     # Calculate the probability ranges for the four edit operations
     #
@@ -432,8 +432,8 @@ class CorruptValueKeyboard(CorruptValue):
     basefunctions.check_is_normalised('col_prob', self.col_prob)
 
     if (abs((self.row_prob + self.col_prob) - 1.0) > 0.0000001):
-      raise Exception, 'Sum of row and column probablities does not sum ' + \
-                       'to 1.0'
+      raise Exception(
+        '''Sum of row and column probablities does not sum to 1.0''')
 
     # Keyboard substitutions gives two dictionaries with the neigbouring keys
     # for all leters both for rows and columns (based on ideas implemented by
@@ -601,20 +601,20 @@ class CorruptValueOCR(CorruptValue):
     #
     for rec_list in lookup_file_data:
       if (len(rec_list) != 2):
-        raise Exception, 'Illegal format in OCR variations lookup file ' + \
-                         '%s: %s' % (self.lookup_file_name, str(rec_list))
+        raise Exception( 'Illegal format in OCR variations lookup file ' + \
+                         '%s: %s' % (self.lookup_file_name, str(rec_list)))
       org_val = rec_list[0].strip()
       var_val = rec_list[1].strip()
 
       if (org_val == ''):
-        raise Exception, 'Empty original OCR value in lookup file %s' % \
-                         (self.lookup_file_name)
+        raise Exception( 'Empty original OCR value in lookup file %s' % \
+                         (self.lookup_file_name))
       if (var_val == ''):
-        raise Exception, 'Empty OCR variation value in lookup file %s' % \
-                         (self.lookup_file_name)
+        raise Exception( 'Empty OCR variation value in lookup file %s' % \
+                         (self.lookup_file_name))
       if (org_val == var_val):
-        raise Exception, 'OCR variation is the same as original value in ' + \
-                         'lookup file %s' % (self.lookup_file_name)
+        raise Exception( 'OCR variation is the same as original value in ' + \
+                         'lookup file %s' % (self.lookup_file_name))
 
       # Now insert the OCR original value and variation twice (with original
       # and variation both as key and value), i.e. swapped
@@ -794,16 +794,16 @@ class CorruptValuePhonetic(CorruptValue):
     #
     for rec_list in lookup_file_data:
       if (len(rec_list) != 7):
-        raise Exception, 'Illegal format in phonetic lookup file %s: %s' \
-                         % (self.lookup_file_name, str(rec_list))
+        raise Exception( 'Illegal format in phonetic lookup file %s: %s' \
+                         % (self.lookup_file_name, str(rec_list)))
       val_tuple = ()
       for val in rec_list:
         if (val != ''):
           val = val.strip()
           val_tuple += val,
         else:
-          raise Exception, 'Empty value in phonetic lookup file %s" %s' % \
-                           (self.lookup_file_name, str(rec_list))
+          raise Exception( 'Empty value in phonetic lookup file %s" %s' % \
+                           (self.lookup_file_name, str(rec_list)))
       self.replace_table.append(val_tuple)
 
   # ---------------------------------------------------------------------------
@@ -1301,20 +1301,20 @@ class CorruptCategoricalValue(CorruptValue):
     #
     for rec_list in lookup_file_data:
       if (len(rec_list) != 2):
-        raise Exception, 'Illegal format in misspellings lookup file %s: %s' \
-                         % (self.lookup_file_name, str(rec_list))
+        raise Exception( 'Illegal format in misspellings lookup file %s: %s' \
+                         % (self.lookup_file_name, str(rec_list)))
 
       org_val =  rec_list[0].strip()
       if (org_val == ''):
-        raise Exception, 'Empty original attribute value in lookup file %s' % \
-                         (self.lookup_file_name)
+        raise Exception( 'Empty original attribute value in lookup file %s' % \
+                         (self.lookup_file_name))
       misspell_val = rec_list[1].strip()
       if (misspell_val == ''):
-        raise Exception, 'Empty misspelled attribute value in lookup ' + \
-                         'file %s' % (self.lookup_file_name)
+        raise Exception( 'Empty misspelled attribute value in lookup ' + \
+                         'file %s' % (self.lookup_file_name))
       if (org_val == misspell_val):
-        raise Exception, 'Misspelled value is the same as original value' + \
-                         ' in lookup file %s' % (self.lookup_file_name)
+        raise Exception( 'Misspelled value is the same as original value' + \
+                         ' in lookup file %s' % (self.lookup_file_name))
 
       this_org_val_list = self.misspell_dict.get(org_val, [])
       this_org_val_list.append(misspell_val)
@@ -1459,8 +1459,8 @@ class CorruptDataSet:
 
       elif (keyword.startswith('num_dup_')):
         if (value not in ['uniform', 'poisson', 'zipf']):
-          raise Exception, 'Illegal value given for "num_dup_dist": %s' % \
-                           (str(value))
+          raise Exception( 'Illegal value given for "num_dup_dist": %s' % \
+                           (str(value)))
         self.num_dup_dist = value
 
       elif (keyword.startswith('num_mod_per_r')):
@@ -1482,8 +1482,8 @@ class CorruptDataSet:
         self.attr_mod_data_dict = value
 
       else:
-        raise Exception, 'Illegal constructor argument keyword: "%s"' % \
-              (str(keyword))
+        raise Exception('Illegal constructor argument keyword: "%s"' % \
+              (str(keyword)))
 
     # Check if the necessary variables have been set
     #
@@ -1511,8 +1511,8 @@ class CorruptDataSet:
     basefunctions.check_is_positive('max_num_mod_per_attr',
                                    self.max_num_mod_per_attr)
     if (self.max_num_mod_per_attr > self.num_mod_per_rec):
-      raise Exception, 'Number of modifications per record must be larger' + \
-                       ' than maximum number of modifications per attribute'
+      raise Exception( 'Number of modifications per record must be larger' + \
+                       ' than maximum number of modifications per attribute')
     basefunctions.check_is_dictionary('attr_mod_prob_dict',
                                 self.attr_mod_prob_dict)
     basefunctions.check_is_dictionary('attr_mod_data_dict',
@@ -1524,15 +1524,15 @@ class CorruptDataSet:
     #
     if (self.number_of_mod_records > self.number_of_org_records * \
                                      self.max_num_dup_per_rec):
-      raise Exception, 'Desired number of duplicates cannot be generated ' + \
+      raise Exception( 'Desired number of duplicates cannot be generated ' + \
                        'with given number of original records and maximum' + \
-                       ' number of duplicates per original record'
+                       ' number of duplicates per original record')
 
     # Check if there are enough attributes given for modifications - - - - - -
     #
     if (len(self.attr_mod_prob_dict) < self.num_mod_per_rec):
-      raise Exception, 'Not enough attribute modifications given to obtain' + \
-                       ' the desired number of modifications per record'
+      raise Exception( 'Not enough attribute modifications given to obtain' + \
+                       ' the desired number of modifications per record')
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # Create a distribution for the number of duplicates for an original record
@@ -1608,21 +1608,21 @@ class CorruptDataSet:
     #
     attr_prob_sum = sum(self.attr_mod_prob_dict.values())
     if (abs(attr_prob_sum - 1.0) > 0.0000001):
-      raise Exception, 'Attribute modification probabilities do not sum ' + \
-                       'to 1.0: %f' % (attr_prob_sum)
+      raise Exception( 'Attribute modification probabilities do not sum ' + \
+                       'to 1.0: %f' % (attr_prob_sum))
     for attr_name in self.attr_mod_prob_dict:
       assert self.attr_mod_prob_dict[attr_name] >= 0.0, \
              'Negative probability given in "attr_mod_prob_dict"'
       if attr_name not in self.attribute_name_list:
-        raise Exception, 'Attribute name "%s" in "attr_mod_prob_dict" not ' % \
-                         (attr_name) + 'listed in "attribute_name_list"'
+        raise Exception( 'Attribute name "%s" in "attr_mod_prob_dict" not ' % \
+                         (attr_name) + 'listed in "attribute_name_list"')
 
     # Check details of attribute modification data dictionary
     #
     for (attr_name, attr_mod_data_list) in self.attr_mod_data_dict.items():
       if attr_name not in self.attribute_name_list:
-        raise Exception, 'Attribute name "%s" in "attr_mod_data_dict" not ' % \
-                         (attr_name) + 'listed in "attribute_name_list"'
+        raise Exception( 'Attribute name "%s" in "attr_mod_data_dict" not ' % \
+                         (attr_name) + 'listed in "attribute_name_list"')
       basefunctions.check_is_list('attr_mod_data_dict entry',
                                   attr_mod_data_list)
       prob_sum = 0.0
@@ -1635,8 +1635,8 @@ class CorruptDataSet:
                                           list_elem[0])
         prob_sum += list_elem[0]
       if (abs(prob_sum - 1.0) > 0.0000001):
-        raise Exception, 'Probability sum is no 1.0 for attribute "%s"' % \
-                         (attr_name)
+        raise Exception( 'Probability sum is no 1.0 for attribute "%s"' % \
+                         (attr_name))
 
     # Generate a list with attribute probabilities summed for easy selection
     #
