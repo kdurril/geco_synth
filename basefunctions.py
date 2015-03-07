@@ -27,7 +27,7 @@ def check_is_not_none(variable, value):
   check_is_non_empty_string('variable', variable)
 
   if (value == None):
-    raise Exception, 'Value of "%s" is None' % (variable)
+    raise Exception( 'Value of "%s" is None' % (variable))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -41,8 +41,8 @@ def check_is_string(variable, value):
   check_is_non_empty_string('variable', variable)
 
   if (not isinstance(value, str)):
-    raise Exception, 'Value of "%s" is not a string: %s (%s)' % \
-                     (variable, str(value), type(value))
+    raise Exception( 'Value of "%s" is not a string: %s (%s)' % \
+                     (variable, str(value), type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -56,8 +56,8 @@ def check_is_unicode_string(variable, value):
   check_is_non_empty_string('variable', variable)
 
   if (not isinstance(value, unicode)):
-    raise Exception, 'Value of "%s" is not a Unicode string: %s (%s)' % \
-                     (variable, str(value), type(value))
+    raise Exception( 'Value of "%s" is not a Unicode string: %s (%s)' % \
+                     (variable, str(value), type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -71,8 +71,8 @@ def check_is_string_or_unicode_string(variable, value):
   check_is_non_empty_string('variable', variable)
 
   if ((not isinstance(value, unicode)) and (not isinstance(value, str))):
-    raise Exception, 'Value of "%s" is neither a string nor a Unicode ' % \
-                     (variable) + 'string: %s (%s)' % (str(value), type(value))
+    raise Exception( 'Value of "%s" is neither a string nor a Unicode ' % \
+                    (variable) + 'string: %s (%s)' % (str(value), type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -84,12 +84,12 @@ def check_is_non_empty_string(variable, value):
   """
 
   if ((not isinstance(variable, str)) or (variable == '')):
-    raise Exception, 'Value of "variable" is not a non-empty string: %s (%s)' \
-                     % (str(variable), type(variable))
+    raise Exception( 'Value of "variable" is not a non-empty string: %s (%s)' \
+                     % (str(variable), type(variable)))
 
   if ((not isinstance(value, str)) or (value == '')):
-    raise Exception, 'Value of "%s" is not a non-empty string: %s (%s)' % \
-                     (variable, str(value), type(value))
+    raise Exception( 'Value of "%s" is not a non-empty string: %s (%s)' % \
+                     (variable, str(value), type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -103,8 +103,8 @@ def check_is_number(variable, value):
   check_is_non_empty_string('variable', variable)
 
   if ((not isinstance(value, int)) and (not isinstance(value, float))):
-    raise Exception, 'Value of "%s" is not a number: %s (%s)' % \
-                     (variable, str(value), type(value))
+    raise Exception( 'Value of "%s" is not a number: %s (%s)' % \
+                     (variable, str(value), type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -120,8 +120,8 @@ def check_is_positive(variable, value):
 
   if ((not isinstance(value, int)) and (not isinstance(value, float)) or \
       (value <= 0.0)):
-    raise Exception, 'Value of "%s" is not a positive number: ' % \
-                     (variable) + '%s (%s)' % (str(value), type(value))
+    raise Exception( 'Value of "%s" is not a positive number: ' % \
+                     (variable) + '%s (%s)' % (str(value), type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -137,9 +137,9 @@ def check_is_not_negative(variable, value):
 
   if ((not isinstance(value, int)) and (not isinstance(value, float)) or \
       (value < 0.0)):
-    raise Exception, 'Value of "%s" is not a number or it is a ' % \
+    raise Exception( 'Value of "%s" is not a number or it is a ' % \
                       (variable) + 'negative number: %s (%s)' % \
-                      (str(value), type(value))
+                      (str(value), type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -155,9 +155,9 @@ def check_is_normalised(variable, value):
 
   if ((not isinstance(value, int)) and (not isinstance(value, float)) or \
       (value < 0.0) or (value > 1.0)):
-    raise Exception, 'Value of "%s" is not a normalised number ' % \
+    raise Exception( 'Value of "%s" is not a normalised number ' % \
                      (variable) + '(between 0.0 and 1.0): %s (%s)' % \
-                     (str(value), type(value))
+                     (str(value), type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -173,9 +173,9 @@ def check_is_percentage(variable, value):
 
   if ((not isinstance(value, int)) and (not isinstance(value, float)) or \
       (value < 0.0) or (value > 100.0)):
-    raise Exception, 'Value of "%s" is not a percentage number ' % \
+    raise Exception( 'Value of "%s" is not a percentage number ' % \
                      (variable) + '(between 0.0 and 100.0): %s (%s)' % \
-                     (str(value), type(value))
+                     (str(value), type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -189,8 +189,8 @@ def check_is_integer(variable, value):
   check_is_non_empty_string('variable', variable)
 
   if (not isinstance(value, int)):
-    raise Exception, 'Value of "%s" is not an integer: %s (%s)' % \
-                     (variable, str(value), type(value))
+    raise Exception( 'Value of "%s" is not an integer: %s (%s)' % \
+                     (variable, str(value), type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -204,8 +204,8 @@ def check_is_float(variable, value):
   check_is_non_empty_string('variable', variable)
 
   if (not isinstance(value, float)):
-    raise Exception, 'Value of "%s" is not a floating point ' % (variable) + \
-                     'number: %s (%s)' % (str(value),type(value))
+    raise Exception( 'Value of "%s" is not a floating point ' % (variable) + \
+                     'number: %s (%s)' % (str(value),type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -219,8 +219,8 @@ def check_is_dictionary(variable, value):
   check_is_non_empty_string('variable', variable)
 
   if (not isinstance(value, dict)):
-    raise Exception, 'Value of "%s" is not a dictionary: %s' % \
-                     (variable, type(value))
+    raise Exception( 'Value of "%s" is not a dictionary: %s' % \
+                     (variable, type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -234,8 +234,8 @@ def check_is_list(variable, value):
   check_is_non_empty_string('variable', variable)
 
   if (not isinstance(value, list)):
-    raise Exception, 'Value of "%s" is not a list: %s' % \
-                     (variable, type(value))
+    raise Exception( 'Value of "%s" is not a list: %s' % \
+                     (variable, type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -249,8 +249,8 @@ def check_is_set(variable, value):
   check_is_non_empty_string('variable', variable)
 
   if (not isinstance(value, set)):
-    raise Exception, 'Value of "%s" is not a set: %s' % \
-                     (variable, type(value))
+    raise Exception( 'Value of "%s" is not a set: %s' % \
+                     (variable, type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -264,8 +264,8 @@ def check_is_tuple(variable, value):
   check_is_non_empty_string('variable', variable)
 
   if (not isinstance(value, tuple)):
-    raise Exception, 'Value of "%s" is not a tuple: %s' % \
-                     (variable, type(value))
+    raise Exception( 'Value of "%s" is not a tuple: %s' % \
+                     (variable, type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -279,8 +279,8 @@ def check_is_flag(variable, value):
   check_is_non_empty_string('variable', variable)
 
   if (value not in [True, False]):
-    raise Exception, 'Value of "%s" is not True or False: %s' % \
-                     (variable, str(value))
+    raise Exception( 'Value of "%s" is not True or False: %s' % \
+                     (variable, str(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -294,8 +294,8 @@ def check_is_function_or_method(variable, value):
   check_is_non_empty_string('variable', variable)
 
   if (type(value) not in [types.FunctionType, types.MethodType]):
-    raise Exception, '%s is not a function or method: %s' % \
-                     (str(variable), type(value))
+    raise Exception( '%s is not a function or method: %s' % \
+                     (str(variable), type(value)))
 
 # -----------------------------------------------------------------------------
 
@@ -312,8 +312,8 @@ def check_unicode_encoding_exists(unicode_encoding_str):
   try:
     codecs.lookup(unicode_encoding_str)
   except:
-    raise Exception, 'Unknown Unicode encoding string: "%s"' % \
-                     (unicode_encoding_str)
+    raise Exception( 'Unknown Unicode encoding string: "%s"' % \
+                     (unicode_encoding_str))
 
 # -----------------------------------------------------------------------------
 
@@ -379,8 +379,8 @@ def check_is_valid_format_str(variable, value):
 
   if (value not in ['int','float1','float2','float3','float4','float5', \
                     'float6','float7','float8', 'float9']):
-    raise Exception, '%s is not a validformat string: %s' % \
-                     (str(variable), type(value))
+    raise Exception( '%s is not a validformat string: %s' % \
+                     (str(variable), type(value)))
 
 # -----------------------------------------------------------------------------
 
@@ -419,7 +419,7 @@ def float_to_str(f, format_str):
   elif (format_str == 'float9'):
     f_str = '%.9f' % (f)
   else:
-    raise Exception, 'Illegal string format given: "%s"' % (format_str)
+    raise Exception( 'Illegal string format given: "%s"' % (format_str))
 
   return f_str
 
