@@ -65,8 +65,8 @@ class GenerateAttribute:
         self.attribute_name = value
 
       else:
-        raise Exception, 'Illegal constructor argument keyword: "%s"' % \
-              (str(keyword))
+        raise Exception( 'Illegal constructor argument keyword: "%s"' % \
+              (str(keyword)))
 
     basefunctions.check_is_non_empty_string('attribute_name',
                                             self.attribute_name)
@@ -78,8 +78,8 @@ class GenerateAttribute:
     if (("'" in self.attribute_name) or ('"' in self.attribute_name) or \
         ("`" in self.attribute_name) or (',' in self.attribute_name) or \
         (";" in self.attribute_name) or ('\t' in self.attribute_name)):
-      raise Exception, 'Illegal character (such as comma, semi-colon or' + \
-                       'quote in attribute name'
+      raise Exception( 'Illegal character (such as comma, semi-colon or' + \
+                       'quote in attribute name')
 
   # ---------------------------------------------------------------------------
 
@@ -88,7 +88,7 @@ class GenerateAttribute:
        See implementations in derived classes for details.
     """
 
-    raise Exception, 'Override abstract method in derived class'
+    raise Exception( 'Override abstract method in derived class')
 
 # =============================================================================
 
@@ -174,24 +174,24 @@ class GenerateFreqAttribute(GenerateAttribute):
     #
     for rec_list in freq_file_data:
       if (len(rec_list) != 2):
-        raise Exception, 'Illegal format in frequency file %s: %s' % \
-                         (self.freq_file_name, line)
+        raise Exception( 'Illegal format in frequency file %s: %s' % \
+                         (self.freq_file_name, line))
       line_val =  rec_list[0].strip()
       try:
         line_count = int(rec_list[1])
       except:
-        raise Exception, 'Value count given is not an integer number: %s' % \
-                         (rec_list[1])
+        raise Exception( 'Value count given is not an integer number: %s' % \
+                         (rec_list[1]))
 
       if (line_val == ''):
-        raise Exception, 'Empty attribute value in frequency file %s' % \
-                         (self.freq_file_name)
+        raise Exception( 'Empty attribute value in frequency file %s' % \
+                         (self.freq_file_name))
       basefunctions.check_is_positive('line_count', line_count)
 
       if (line_val in val_dict):
-        raise Exception, 'Attribute values "%s" occurs twice in ' % \
+        raise Exception( 'Attribute values "%s" occurs twice in ' % \
                          (line_val) + 'frequency file %s' % \
-                         (self.freq_file_name)
+                         (self.freq_file_name))
 
       val_dict[line_val] = line_count
 
@@ -313,24 +313,24 @@ class GenerateFreqAlt(GenerateAttribute):
     
     for rec_list in freq_file_data:
       if (len(rec_list) != 2):
-        raise Exception, 'Illegal format in frequency file %s: %s' % \
-                         (self.freq_file_name, line)
+        raise Exception( 'Illegal format in frequency file %s: %s' % \
+                         (self.freq_file_name, line))
       line_val =  rec_list[0].strip()
       try:
         line_count = int(rec_list[1])
       except:
-        raise Exception, 'Value count given is not an integer number: %s' % \
-                         (rec_list[1])
+        raise Exception( 'Value count given is not an integer number: %s' % \
+                         (rec_list[1]))
 
       if (line_val == ''):
-        raise Exception, 'Empty attribute value in frequency file %s' % \
-                         (self.freq_file_name)
+        raise Exception( 'Empty attribute value in frequency file %s' % \
+                         (self.freq_file_name))
       basefunctions.check_is_positive('line_count', line_count)
 
       if (line_val in val_dict):
-        raise Exception, 'Attribute values "%s" occurs twice in ' % \
+        raise Exception( 'Attribute values "%s" occurs twice in ' % \
                          (line_val) + 'frequency file %s' % \
-                         (self.freq_file_name)
+                         (self.freq_file_name))
 
       val_dict[line_val] = line_count
       self.total_items += line_count
@@ -431,7 +431,7 @@ class GenerateFuncAttribute(GenerateAttribute):
       elif (keyword.startswith('para')):
         basefunctions.check_is_list('parameters', value)
         if (len(value) > 5):
-          raise Exception, 'Maximum five parameters allowed for function call'
+          raise Exception( 'Maximum five parameters allowed for function call')
         self.parameters = value
 
       else:
@@ -464,8 +464,8 @@ class GenerateFuncAttribute(GenerateAttribute):
                                 self.parameters[4])
 
     if (not isinstance(funct_ret, str)):
-      raise Exception, ('Function provided does not return a string value:',
-                        self.function, type(funct_ret))
+      raise Exception( ('Function provided does not return a string value:',
+                        self.function, type(funct_ret)))
 
   # ---------------------------------------------------------------------------
 
@@ -513,7 +513,7 @@ class GenerateCompoundAttribute:
     """Constructor. See implementations in derived classes for details.
     """
 
-    raise Exception, 'Override abstract method in derived class'
+    raise Exception( 'Override abstract method in derived class')
 
   # ---------------------------------------------------------------------------
 
@@ -522,7 +522,7 @@ class GenerateCompoundAttribute:
        See implementations in derived classes for details.
     """
 
-    raise Exception, 'Override abstract method in derived class'
+    raise Exception( 'Override abstract method in derived class')
 
 # =============================================================================
 
@@ -643,8 +643,8 @@ class GenerateCateCateCompoundAttribute(GenerateCompoundAttribute):
         self.unicode_encoding = value
 
       else:
-        raise Exception, 'Illegal constructor argument keyword: "%s"' % \
-              (str(keyword))
+        raise Exception( 'Illegal constructor argument keyword: "%s"' % \
+              (str(keyword)))
 
     # Check if the necessary variables have been set
     #
@@ -659,7 +659,7 @@ class GenerateCateCateCompoundAttribute(GenerateCompoundAttribute):
                                             self.unicode_encoding)
 
     if (self.categorical1_attribute_name == self.categorical2_attribute_name):
-      raise Exception, 'Both attribute names are the same'
+      raise Exception( 'Both attribute names are the same')
 
     # Load the lookup file - - - - - - - - - - - - - - - - - - - - - - - - - -
     #
@@ -685,24 +685,24 @@ class GenerateCateCateCompoundAttribute(GenerateCompoundAttribute):
       # First line must contain categorical value of the first attribute
       #
       if (len(rec_list) < 2):  # Need at least two values in each line
-        raise Exception, 'Illegal format in lookup file %s: %s' % \
-                         (self.freq_file_name, str(rec_list))
+        raise Exception( 'Illegal format in lookup file %s: %s' % \
+                         (self.freq_file_name, str(rec_list)))
       cate_attr1_val =  rec_list[0].strip()
       try:
         cate_attr1_count = int(rec_list[1])
       except:
-        raise Exception, 'Value count given for attribute 1 is not an ' + \
-                         'integer number: %s' % (rec_list[1])
+        raise Exception( 'Value count given for attribute 1 is not an ' + \
+                         'integer number: %s' % (rec_list[1]))
 
       if (cate_attr1_val == ''):
-        raise Exception, 'Empty categorical attribute 1 value in lookup ' + \
-                         'file %s' % (self.lookup_file_name)
+        raise Exception( 'Empty categorical attribute 1 value in lookup ' + \
+                         'file %s' % (self.lookup_file_name))
       basefunctions.check_is_positive('cate_attr1_count', cate_attr1_count)
 
       if (cate_attr1_val in cate_val1_dict):
-        raise Exception, 'Attribute 1 value "%s" occurs twice in ' % \
+        raise Exception( 'Attribute 1 value "%s" occurs twice in ' % \
                          (cate_attr1_val) + 'lookup file %s' % \
-                         (self.lookup_file_name)
+                         (self.lookup_file_name))
 
       cate_val1_dict[cate_attr1_val] = cate_attr1_count
 
@@ -716,33 +716,33 @@ class GenerateCateCateCompoundAttribute(GenerateCompoundAttribute):
       while (cate_attr2_data != []):
         if (len(cate_attr2_data) == 1):
           if (cate_attr2_data[0] != '\\'):
-            raise Exception, 'Line in categorical look-up file has illegal' + \
-                             'format.'
+            raise Exception( 'Line in categorical look-up file has illegal' + \
+                             'format.')
           # Get the next record from file data with a continuation of the
           # categorical values from the second attribute
           #
           i += 1
           cate_attr2_data = lookup_file_data[i]
           if (len(cate_attr2_data) < 2):
-            raise Exception, 'Illegal format in lookup file %s: %s' % \
-                             (self.freq_file_name, str(cate_attr2_data))
+            raise Exception( 'Illegal format in lookup file %s: %s' % \
+                             (self.freq_file_name, str(cate_attr2_data)))
 
         cate_attr2_val =   cate_attr2_data[0]
         try:
           cate_attr2_count = int(cate_attr2_data[1])
         except:
-          raise Exception, 'Value count given for attribute 2 is not an ' + \
-                           'integer number: %s' % (cate_attr2_data[1])
+          raise Exception( 'Value count given for attribute 2 is not an ' + \
+                           'integer number: %s' % (cate_attr2_data[1]))
 
         if (cate_attr2_val == ''):
-          raise Exception, 'Empty categorical attribute 2 value in lookup' \
-                           + ' file %s' % (self.lookup_file_name)
+          raise Exception( 'Empty categorical attribute 2 value in lookup' \
+                           + ' file %s' % (self.lookup_file_name))
         basefunctions.check_is_positive('cate_attr2_count', cate_attr2_count)
 
         if (cate_attr2_val in cate_val2_dict):
-          raise Exception, 'Attribute 2 value "%s" occurs twice in ' % \
+          raise Exception( 'Attribute 2 value "%s" occurs twice in ' % \
                            (cate_attr2_val) + 'lookup file %s' % \
-                           (self.lookup_file_name)
+                           (self.lookup_file_name))
 
         this_cate_val2_dict[cate_attr2_val] = cate_attr2_count
 
@@ -923,8 +923,8 @@ class GenerateCateContCompoundAttribute(GenerateCompoundAttribute):
         self.unicode_encoding = value
 
       else:
-        raise Exception, 'Illegal constructor argument keyword: "%s"' % \
-              (str(keyword))
+        raise Exception( 'Illegal constructor argument keyword: "%s"' % \
+              (str(keyword)))
 
     # Check if the necessary variables have been set
     #
@@ -939,7 +939,7 @@ class GenerateCateContCompoundAttribute(GenerateCompoundAttribute):
                                             self.unicode_encoding)
 
     if (self.categorical_attribute_name == self.continuous_attribute_name):
-      raise Exception, 'Both attribute names are the same'
+      raise Exception( 'Both attribute names are the same')
 
     basefunctions.check_is_valid_format_str('continuous_value_type',
                                             self.continuous_value_type)
@@ -960,33 +960,33 @@ class GenerateCateContCompoundAttribute(GenerateCompoundAttribute):
     #
     for rec_list in lookup_file_data:
       if (len(rec_list) not in [5,7]):
-        raise Exception, 'Illegal format in lookup file %s: %s' % \
-                         (self.lookup_file_name, str(rec_list))
+        raise Exception( 'Illegal format in lookup file %s: %s' % \
+                         (self.lookup_file_name, str(rec_list)))
       cate_attr_val =  rec_list[0].strip()
       try:
         cate_attr_count = int(rec_list[1])
       except:
-        raise Exception, 'Value count given for categorical attribute is ' + \
-                         'not an integer number: %s' % (rec_list[1])
+        raise Exception( 'Value count given for categorical attribute is ' + \
+                         'not an integer number: %s' % (rec_list[1]))
       cont_attr_funct = rec_list[2].strip()
 
       if (cate_attr_val == ''):
-        raise Exception, 'Empty categorical attribute value in lookup file %s'\
-                         % (self.lookup_file_name)
+        raise Exception( 'Empty categorical attribute value in lookup file %s'\
+                         % (self.lookup_file_name))
       if (cate_attr_count <= 0):
-        raise Exception, 'Count given for categorical attribute is not ' + \
+        raise Exception( 'Count given for categorical attribute is not ' + \
                          'positive for value "%s" in lookup ' % \
-                         (cate_attr_val) + 'file %s' % (self.lookup_file_name)
+                         (cate_attr_val) + 'file %s' % (self.lookup_file_name))
 
       if (cate_attr_val in cate_val_dict):
-        raise Exception, 'Attribute values "%s" occurs twice in ' % \
+        raise Exception( 'Attribute values "%s" occurs twice in ' % \
                          (cate_attr_val) + 'lookup file %s' % \
-                         (self.lookup_file_name)
+                         (self.lookup_file_name))
 
       if (cont_attr_funct not in ['uniform','normal']):
-        raise Exception, 'Illegal continuous attribute function given: "%s"' % \
+        raise Exception( 'Illegal continuous attribute function given: "%s"' % \
                          (cont_attr_funct) + ' in lookup file %s' % \
-                         (self.lookup_file_name)
+                         (self.lookup_file_name))
 
       cate_val_dict[cate_attr_val] = cate_attr_count
 
@@ -1094,7 +1094,7 @@ class GenerateCateContCompoundAttribute(GenerateCompoundAttribute):
         assert cont_attr_val <= max_val
 
     else:
-      raise Exception, ('Illegal continuous function given:', funct_name)
+      raise Exception( ('Illegal continuous function given:', funct_name))
 
     cont_attr_val_str = basefunctions.float_to_str(cont_attr_val,
                                                    self.continuous_value_type)
@@ -1266,8 +1266,8 @@ class GenerateCateCateContCompoundAttribute(GenerateCompoundAttribute):
         self.unicode_encoding = value
 
       else:
-        raise Exception, 'Illegal constructor argument keyword: "%s"' % \
-              (str(keyword))
+        raise Exception( 'Illegal constructor argument keyword: "%s"' % \
+              (str(keyword)))
 
     # Check if the necessary variables have been set
     #
@@ -1288,7 +1288,7 @@ class GenerateCateCateContCompoundAttribute(GenerateCompoundAttribute):
        (self.categorical1_attribute_name == self.continuous_attribute_name) \
        or \
        (self.categorical2_attribute_name == self.continuous_attribute_name):
-      raise Exception, 'Not all attribute names are different.'
+      raise Exception( 'Not all attribute names are different.')
 
     basefunctions.check_is_valid_format_str('continuous_value_type',
                                             self.continuous_value_type)
@@ -1320,24 +1320,24 @@ class GenerateCateCateContCompoundAttribute(GenerateCompoundAttribute):
     while list_counter < num_file_rows:  # Process one row after another
 
       if (len(rec_list) < 2):  # Need at least one categorical value and count
-        raise Exception, 'Illegal format in lookup file %s: %s' % \
-                         (self.lookup_file_name, str(rec_list))
+        raise Exception( 'Illegal format in lookup file %s: %s' % \
+                         (self.lookup_file_name, str(rec_list)))
       cate_attr1_val =  rec_list[0].strip()
       try:
         cate_attr1_count = int(rec_list[1])
       except:
-        raise Exception, 'Value count given for attribute 1 is not an ' + \
-                         'integer number: %s' % (rec_list[1])
+        raise Exception( 'Value count given for attribute 1 is not an ' + \
+                         'integer number: %s' % (rec_list[1]))
 
       if (cate_attr1_val == ''):
-        raise Exception, 'Empty categorical attribute value 1 in lookup ' + \
-                         'file %s' % (self.lookup_file_name)
+        raise Exception( 'Empty categorical attribute value 1 in lookup ' + \
+                         'file %s' % (self.lookup_file_name))
       basefunctions.check_is_positive('cate_attr1_count', cate_attr1_count)
 
       if (cate_attr1_val in cate_val1_dict):
-        raise Exception, 'Attribute value "%s" occurs twice in ' % \
+        raise Exception( 'Attribute value "%s" occurs twice in ' % \
                          (cate_attr1_val) + 'lookup file %s' % \
-                         (self.lookup_file_name)
+                         (self.lookup_file_name))
 
       cate_val1_dict[cate_attr1_val] = cate_attr1_count
 
@@ -1357,24 +1357,24 @@ class GenerateCateCateContCompoundAttribute(GenerateCompoundAttribute):
         try:
           cate_attr2_count = int(rec_list[1])
         except:
-          raise Exception, 'Value count given for categorical attribute 2 ' + \
-                           'is not an integer number: %s' % (rec_list[1])
+          raise Exception( 'Value count given for categorical attribute 2 ' + \
+                           'is not an integer number: %s' % (rec_list[1]))
         cont_attr_funct = rec_list[2].strip()
 
         if (cate_attr2_val == ''):
-          raise Exception, 'Empty categorical attribute 2 value in lookup ' + \
-                           'file %s' % (self.lookup_file_name)
+          raise Exception( 'Empty categorical attribute 2 value in lookup ' + \
+                           'file %s' % (self.lookup_file_name))
         basefunctions.check_is_positive('cate_attr2_count', cate_attr2_count)
 
         if (cate_attr2_val in this_cate_val2_dict):
-          raise Exception, 'Attribute value "%s" occurs twice in ' % \
+          raise Exception( 'Attribute value "%s" occurs twice in ' % \
                            (cate_attr2_val) + 'lookup file %s' % \
-                           (self.lookup_file_name)
+                           (self.lookup_file_name))
 
         if (cont_attr_funct not in ['uniform','normal']):
-          raise Exception, 'Illegal continuous attribute function ' + \
+          raise Exception( 'Illegal continuous attribute function ' + \
                            'given: "%s"' % (cont_attr_funct) + \
-                           ' in lookup file %s' % (self.lookup_file_name)
+                           ' in lookup file %s' % (self.lookup_file_name))
 
         this_cate_val2_dict[cate_attr2_val] = cate_attr2_count
 
@@ -1511,7 +1511,7 @@ class GenerateCateCateContCompoundAttribute(GenerateCompoundAttribute):
         assert cont_attr_val <= max_val
 
     else:
-      raise Exception, ('Illegal continuous function given:', funct_name)
+      raise Exception( ('Illegal continuous function given:', funct_name))
 
     cont_attr_val_str = basefunctions.float_to_str(cont_attr_val,
                                                    self.continuous_value_type)
@@ -1628,8 +1628,8 @@ class GenerateContContCompoundAttribute(GenerateCompoundAttribute):
         self.continuous2_value_type = value
 
       else:
-        raise Exception, 'Illegal constructor argument keyword: "%s"' % \
-              (str(keyword))
+        raise Exception( 'Illegal constructor argument keyword: "%s"' % \
+              (str(keyword)))
 
     # Check if the necessary variables have been set
     #
@@ -1649,7 +1649,7 @@ class GenerateContContCompoundAttribute(GenerateCompoundAttribute):
                                             self.continuous2_value_type)
 
     if (self.continuous1_attribute_name == self.continuous2_attribute_name):
-      raise Exception, 'Both attribute names are the same'
+      raise Exception( 'Both attribute names are the same')
 
     basefunctions.check_is_valid_format_str('continuous1_value_type',
                                             self.continuous1_value_type)
@@ -1660,14 +1660,14 @@ class GenerateContContCompoundAttribute(GenerateCompoundAttribute):
     #
     funct_ret = self.continuous2_function(1.0)
     if (not isinstance(funct_ret, float)):
-      raise Exception, ('Function provided for attribute 2 does not return' + \
-                        ' a floating-point value:', type(funct_ret))
+      raise Exception( ('Function provided for attribute 2 does not return' + \
+                        ' a floating-point value:', type(funct_ret)))
 
     # Check type and number of parameters given for attribute 1 functions
     #
     if (self.continuous1_funct_name not in ['uniform','normal']):
-      raise Exception, 'Illegal continuous attribute 1 function given: "%s"' % \
-                         (self.continuous1_funct_name)
+      raise Exception( 'Illegal continuous attribute 1 function given: "%s"' % \
+                         (self.continuous1_funct_name))
 
     # Get function parameters from file data
     #
@@ -1759,7 +1759,7 @@ class GenerateContContCompoundAttribute(GenerateCompoundAttribute):
         assert cont_attr1_val <= max_val
 
     else:
-      raise Exception, ('Illegal continuous function given:', funct_name)
+      raise Exception( ('Illegal continuous function given:', funct_name))
 
     # Generate the second attribute value
     #
@@ -1870,7 +1870,7 @@ class GenerateDataSet:
       elif (keyword.startswith('attribute_name')):
         basefunctions.check_is_list('attribute_name_list', value)
         if not value:
-          raise Exception, 'attribute_name_list is empty: %s' % (type(value)) 
+          raise Exception( 'attribute_name_list is empty: %s' % (type(value))) 
         self.attribute_name_list = value
 
       elif (keyword.startswith('attribute_data')):
@@ -1882,8 +1882,8 @@ class GenerateDataSet:
         self.unicode_encoding = value
 
       else:
-        raise Exception, 'Illegal constructor argument keyword: "%s"' % \
-              (str(keyword))
+        raise Exception( 'Illegal constructor argument keyword: "%s"' % \
+              (str(keyword)))
 
     # Check if the necessary variables have been set
     #
@@ -1918,10 +1918,10 @@ class GenerateDataSet:
     attr_name_set = set()
     for attr_name in self.attribute_name_list:
       if (attr_name == self.rec_id_attr_name):
-        raise Exception, 'Attribute given has the same name as the record ' + \
-                         'identifier attribute'
+        raise Exception( 'Attribute given has the same name as the record ' + \
+                         'identifier attribute')
       if (attr_name in attr_name_set):
-        raise Exception, 'Attribute name "%s" is given twice' % (attr_name)
+        raise Exception( 'Attribute name "%s" is given twice' % (attr_name))
       attr_name_set.add(attr_name)
     assert len(attr_name_set) == len(self.attribute_name_list)
 
@@ -1961,11 +1961,11 @@ class GenerateDataSet:
       for attr_name in [attr1_name, attr2_name, attr3_name]:
         if (attr_name != ''):
           if (attr_name == self.rec_id_attr_name):
-            raise Exception, 'Attribute given has the same name as the ' + \
-                             'record identifier attribute'
+            raise Exception( 'Attribute given has the same name as the ' + \
+                             'record identifier attribute')
           if (attr_name in attr_name_set):
-            raise Exception, 'Attribute name "%s" is given twice' % \
-                             (attr_name) + ' in attribute data definitions'
+            raise Exception( 'Attribute name "%s" is given twice' % \
+                             (attr_name) + ' in attribute data definitions')
           attr_name_set.add(attr_name)
 
     # Check that there is an attribute definition provided for each attribute
@@ -2000,8 +2000,8 @@ class GenerateDataSet:
             found_attr_name = True
 
       if (found_attr_name == False):
-        raise Exception, 'No attribute data available for attribute "%s"' % \
-                         (attr_name)
+        raise Exception( 'No attribute data available for attribute "%s"' % \
+                         (attr_name))
 
   # ---------------------------------------------------------------------------
 
