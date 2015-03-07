@@ -33,10 +33,10 @@ def blood_pressure_depending_on_age(age):
   """
 
   if ((not isinstance(age, int)) and (not isinstance(age, float))):
-    raise Exception, 'Age value given is not a number: %s' % (str(age))
+    raise Exception( 'Age value given is not a number: %s' % (str(age)))
 
   if (age < 0) or (age > 130):
-    raise Exception, 'Age value below 0 or above 130 given'
+    raise Exception( 'Age value below 0 or above 130 given')
 
   avrg_bp = 75.0 + age/100.0
 
@@ -64,10 +64,10 @@ def salary_depending_on_age(age):
   """
 
   if ((not isinstance(age, int)) and (not isinstance(age, float))):
-    raise Exception, 'Age value given is not a number: %s' % (str(age))
+    raise Exception( 'Age value given is not a number: %s' % (str(age)))
 
   if (age < 0) or (age > 130):
-    raise Exception, 'Age value below 0 or above 130 given'
+    raise Exception( 'Age value below 0 or above 130 given')
 
   if (age < 18.0):
     sal = 0.0
