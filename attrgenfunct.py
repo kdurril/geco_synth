@@ -440,99 +440,102 @@ def generate_normal_age(mu, sigma, min_val, max_val):
 
   return age
 
+def attrgenfunct_log(num_test=10):
+  'log for attrgenfunct'
+
+  with open('attrgenfunct_log.txt', 'w') as output:
+
+    output.write( 'Generate %d Australian telephone numbers:' % (num_test))
+    for i in range(num_test):
+      output.write(' ' + generate_phone_number_australia()+',')
+    output.write('\n')
+
+    output.write( 'Generate %d credit card numbers:' % (num_test))
+    for i in range(num_test):
+      output.write(' '+generate_credit_card_number()+',')
+    output.write('\n')
+
+    output.write( 'Generate %d uniformly distributed integer numbers between -100' % \
+          (num_test) + ' and -5:')
+    for i in range(num_test):
+      output.write( ' ' + generate_uniform_value(-100, -5, 'int'),)
+    output.write('\n')
+
+    output.write( 'Generate %d uniformly distributed floating-point numbers with ' % \
+          (num_test) + '3 digits between -55 and 55:')
+    for i in range(num_test):
+      output.write( ' ' + generate_uniform_value(-55, 55, 'float3'))
+    output.write('\n')
+
+    output.write( 'Generate %d uniformly distributed floating-point numbers with ' % \
+          (num_test) + '7 digits between 147 and 9843:')
+    for i in range(num_test):
+      output.write( ' ' + generate_uniform_value(147, 9843, 'float7'))
+    output.write('\n')
+
+    output.write( 'Generate %d uniformly distributed age values between 0 and 120:' % \
+          (num_test))
+    for i in range(num_test):
+      output.write( ' ' + generate_uniform_age(0, 120))
+    output.write('\n')
+
+    output.write( 'Generate %d uniformly distributed age values between 18 and 65:' % \
+          (num_test))
+    for i in range(num_test):
+      output.write( ' ' + generate_uniform_age(18, 65))
+    output.write('\n')
+
+    output.write( 'Generate %d normally distributed integer numbers between -200' % \
+          (num_test) + ' and -3 with mean -50 and standard deviation 44:')
+    for i in range(num_test):
+      output.write( ' ' + generate_normal_value(-50, 44, -200, -3, 'int'))
+    output.write('\n')
+
+    output.write( 'Generate %d normally distributed floating-point numbers with ' % \
+          (num_test) + '5 digits between -100 and 100 and with mean 22 and ' + \
+          'standard deviation 74:')
+    for i in range(num_test):
+      output.write( ' ' + generate_normal_value(22, 74, -100, 100, 'float5'))
+    output.write('\n')
+
+    output.write( 'Generate %d normally distributed floating-point numbers with ' % \
+          (num_test) + '9 digits with mean 22 and standard deviation 74:')
+    for i in range(num_test):
+      output.write( ' ' + generate_normal_value(22, 74, min_val=None, max_val= None,
+                                       val_type='float9'))
+    output.write('\n')
+
+    output.write( 'Generate %d normally distributed floating-point numbers with ' % \
+          (num_test) + '2 digits with mean 22 and standard deviation 24 that' + \
+          ' are larger than 10:')
+    for i in range(num_test):
+      output.write( ' ' + generate_normal_value(22, 74, min_val=10, max_val=None,
+                                       val_type='float2'))
+    output.write('\n')
+
+    output.write( 'Generate %d normally distributed floating-point numbers with ' % \
+          (num_test) + '4 digits with mean 22 and standard deviation 24 that' + \
+          ' are smaller than 30:')
+    for i in range(num_test):
+      output.write( ' ' + generate_normal_value(22, 74, min_val=None, max_val=40,
+                                       val_type='float4'))
+    output.write('\n')
+
+    output.write( 'Generate %d normally distributed age values between 0 and 120' % \
+          (num_test) + ' with mean 45 and standard deviation 22:')
+    for i in range(num_test):
+      output.write( ' ' + generate_normal_age(45, 22, 0, 120))
+    output.write('\n')
+
+    output.write( 'Generate %d normally distributed age values between 18 and 65' % \
+          (num_test) + ' with mean 30 and standard deviation 10:')
+    for i in range(num_test):
+      output.write( ' ' + generate_normal_age(30, 10, 18, 65))
+    
+
 # =============================================================================
 
 # If called from command line perform some examples: Generate values
 #
 if (__name__ == '__main__'):
-
-  num_test = 20
-'''
-  print 'Generate %d Australian telephone numbers:' % (num_test)
-  for i in range(num_test):
-    print ' ', generate_phone_number_australia()
-  print
-
-  print 'Generate %d credit card numbers:' % (num_test)
-  for i in range(num_test):
-    print ' ', generate_credit_card_number()
-  print
-
-  print 'Generate %d uniformly distributed integer numbers between -100' % \
-        (num_test) + ' and -5:'
-  for i in range(num_test):
-    print ' ', generate_uniform_value(-100, -5, 'int'),
-  print
-
-  print 'Generate %d uniformly distributed floating-point numbers with ' % \
-        (num_test) + '3 digits between -55 and 55:'
-  for i in range(num_test):
-    print ' ', generate_uniform_value(-55, 55, 'float3')
-  print
-
-  print 'Generate %d uniformly distributed floating-point numbers with ' % \
-        (num_test) + '7 digits between 147 and 9843:'
-  for i in range(num_test):
-    print ' ', generate_uniform_value(147, 9843, 'float7')
-  print
-
-  print 'Generate %d uniformly distributed age values between 0 and 120:' % \
-        (num_test)
-  for i in range(num_test):
-    print ' ', generate_uniform_age(0, 120)
-  print
-
-  print 'Generate %d uniformly distributed age values between 18 and 65:' % \
-        (num_test)
-  for i in range(num_test):
-    print ' ', generate_uniform_age(18, 65)
-  print
-
-  print 'Generate %d normally distributed integer numbers between -200' % \
-        (num_test) + ' and -3 with mean -50 and standard deviation 44:'
-  for i in range(num_test):
-    print ' ', generate_normal_value(-50, 44, -200, -3, 'int')
-  print
-
-  print 'Generate %d normally distributed floating-point numbers with ' % \
-        (num_test) + '5 digits between -100 and 100 and with mean 22 and ' + \
-        'standard deviation 74:'
-  for i in range(num_test):
-    print ' ', generate_normal_value(22, 74, -100, 100, 'float5')
-  print
-
-  print 'Generate %d normally distributed floating-point numbers with ' % \
-        (num_test) + '9 digits with mean 22 and standard deviation 74:'
-  for i in range(num_test):
-    print ' ', generate_normal_value(22, 74, min_val=None, max_val= None,
-                                     val_type='float9')
-  print
-
-  print 'Generate %d normally distributed floating-point numbers with ' % \
-        (num_test) + '2 digits with mean 22 and standard deviation 24 that' + \
-        ' are larger than 10:'
-  for i in range(num_test):
-    print ' ', generate_normal_value(22, 74, min_val=10, max_val=None,
-                                     val_type='float2')
-  print
-
-  print 'Generate %d normally distributed floating-point numbers with ' % \
-        (num_test) + '4 digits with mean 22 and standard deviation 24 that' + \
-        ' are smaller than 30:'
-  for i in range(num_test):
-    print ' ', generate_normal_value(22, 74, min_val=None, max_val=40,
-                                     val_type='float4')
-  print
-
-  print 'Generate %d normally distributed age values between 0 and 120' % \
-        (num_test) + ' with mean 45 and standard deviation 22:'
-  for i in range(num_test):
-    print ' ', generate_normal_age(45, 22, 0, 120)
-  print
-
-  print 'Generate %d normally distributed age values between 18 and 65' % \
-        (num_test) + ' with mean 30 and standard deviation 10:'
-  for i in range(num_test):
-    print ' ', generate_normal_age(30, 10, 18, 65)
-  print
-'''
+    attrgenfunct_log()
