@@ -12,6 +12,7 @@
 
 import codecs  # Used to read and write Unicode files
 import os
+from sys import version
 import types
 
 # -----------------------------------------------------------------------------
@@ -54,10 +55,19 @@ def check_is_unicode_string(variable, value):
   """
 
   check_is_non_empty_string('variable', variable)
+  
+  if int(version[0]) < 3:
+    if (not isinstance(value, unicode)):
+      raise Exception( 'Value of "%s" is not a Unicode string: %s (%s)' % \
+                       (variable, str(value), type(value)))
+  elif int(version[0]) >= 3:
+    if (not isinstance(value, str)):
+      raise Exception( 'Value of "%s" is not a Unicode string: %s (%s)' % \
+                       (variable, str(value), type(value)))
+  else:
+    raise Exception( 'Value of "%s" is not a string: %s (%s)' % \
+                   (variable, str(value), type(value)))
 
-  if (not isinstance(value, unicode)):
-    raise Exception( 'Value of "%s" is not a Unicode string: %s (%s)' % \
-                     (variable, str(value), type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -70,9 +80,17 @@ def check_is_string_or_unicode_string(variable, value):
 
   check_is_non_empty_string('variable', variable)
 
-  if ((not isinstance(value, unicode)) and (not isinstance(value, str))):
-    raise Exception( 'Value of "%s" is neither a string nor a Unicode ' % \
+  if int(version[0]) < 3:
+    if ((not isinstance(value, unicode)) and (not isinstance(value, str))):
+      raise Exception( 'Value of "%s" is neither a string nor a Unicode ' % \
                     (variable) + 'string: %s (%s)' % (str(value), type(value)))
+  elif int(version[0]) >= 3:
+    if (not isinstance(value, str)):
+      raise Exception( 'Value of "%s" is not a Unicode string: %s (%s)' % \
+                       (variable, str(value), type(value)))
+  else:
+    raise Exception( 'Value of "%s" is not a string: %s (%s)' % \
+                     (variable, str(value), type(value)))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
