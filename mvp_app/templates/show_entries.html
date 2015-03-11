@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
+      <dl>
+        <dt>First Name:
+        <dd><input type="text" size="30" name="name_first">
+        <dt>Last Name:
+        <dd><input type="text" size="30" name="name_last">
+        <dt>Gender:
+        <dd><input type="text" size="30" name="gender">
+        <dd><input type="submit" value="Send">
+      </dl>
+    </form>
+  {% endif %}
+  <ul class="entries">
+  {% for entry in entries %}
+    <li><a href="/{{entry.id}}">{{ entry.id }}</a>{{ entry.name_last }}, {{ entry.name_first }}, {{ entry.gender }}</p>
+  {% else %}
+    <li><em>Add data</em>
+  {% endfor %}
+  </ul>
+{% endblock %}

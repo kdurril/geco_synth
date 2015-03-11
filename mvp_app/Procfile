@@ -1,0 +1,1 @@
+web: gunicorn mvp_app:app --log-file=-

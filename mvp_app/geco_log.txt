@@ -1,0 +1,3 @@
+-----CORRUPTOR FILE LOG-----
+Probability distribution for number of duplicates per record:
+[(1, 0.0), (2, 0.585786437626905)]

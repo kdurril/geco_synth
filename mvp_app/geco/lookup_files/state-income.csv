@@ -1,0 +1,11 @@
+# Look-up file for generating a compound attribute: state / income. For details
+# see module generator.py, class GenerateCateContCompoundAttribute
+#
+act,7,uniform,20000,200000
+nsw,25,uniform,25000,500000
+vic,21,normal,45000,10000,15000,None
+qld,14,uniform,20000,100000
+nt,3,uniform,20000,100000
+tas,8,normal,25000,20000,10000,None
+sa,12,uniform,25000,250000
+wa,10,normal,65000,60000,20000,None

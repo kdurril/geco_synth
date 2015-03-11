@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+  
+  {% endif %}
+  <ul class="entries">
+  {% for entry in entries %}
+    <li><p><a href="/{{entry_id}}">{{ entry.id }}</a>{{ entry.name_last }}, {{ entry.name_first }}, {{ entry.gender }}</p>
+    <li><form action="{{ url_for('corrupt_add') }}" method="post">
+      <input type="hidden" name="entry_id" value="{{ entry_id }}">
+        <input TYPE="submit" VALUE="corrupt it">
+        </form></li>
+  {% else %}
+    <li><em>Add data</em>
+  {% endfor %}
+  {% for entry in corrupt %}
+    <li><p><a href="/{{entry_id}}">{{ entry.id }}</a>{{ entry.name_last }}, {{ entry.name_first }}, {{ entry.gender }}</p>
+  {% endfor %}
+
+  </ul>
+  <br />
+  <br />
+    <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
+      <dl>
+        <dt>First Name:
+        <dd><input type="text" size="30" name="name_first">
+        <dt>Last Name:
+        <dd><input type="text" size="30" name="name_last">
+        <dt>Gender:
+        <dd><input type="text" size="30" name="gender">
+        <dd><input type="submit" value="Add Data">
+      </dl>
+    </form>
+{% endblock %}
