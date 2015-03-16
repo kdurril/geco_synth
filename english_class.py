@@ -3,7 +3,7 @@
 # Import the necessary other modules of the data generator
 #
 import basefunctions  # Helper functions
-import attrgenfunct   # Functions to generate independent attribute values
+import attrgenfunct2   # Functions to generate independent attribute values
 import contdepfunct   # Functions to generate dependent continuous attribute
                       # values
 import generator      # Main classes to generate records and the data set
@@ -14,6 +14,7 @@ import random
 import csv
 import json
 import os
+import StringIO
 
 random.seed(42)  # Set seed for random generator, so data generation can be
                  # repeated
@@ -37,8 +38,8 @@ out_file_name = 'example-data-english.csv'
 
 # Set how many original and how many duplicate records are to be generated.
 #
-num_org_rec = 20
-num_dup_rec = 5
+num_org_rec = 3
+num_dup_rec = 1
 
 # Set the maximum number of duplicate records can be generated per original
 # record.
@@ -65,56 +66,19 @@ basefunctions.check_unicode_encoding_exists(unicode_encoding_used)
 
 
 # -----------------------------------------------------------------------------
-class AttrSet(object):
+class AttrSet_Super(object):
     def __init__(self):
-        self.name_prefix_attr = \
-    generator.GenerateFuncAttribute(attribute_name = 'name-prefix',
-                       function = attrgenfunct.generate_name_prefix_f)
-        self.gname_attr = \
-    generator.GenerateFreqAttribute(attribute_name = 'given-name',
-                    freq_file_name = os.path.abspath('lookup_files/firstname_female.csv'),
-                    has_header_line = False,
-                    unicode_encoding = unicode_encoding_used)
-        self.mname_attr = \
-    generator.GenerateFreqAttribute(attribute_name = 'middle-name',
-                    freq_file_name = os.path.abspath('lookup_files/firstname_female.csv'),
-                    has_header_line = False,
-                    unicode_encoding = unicode_encoding_used)
-        self.sname_attr = \
-    generator.GenerateFreqAttribute(attribute_name = 'surname',
-                    freq_file_name = os.path.abspath('lookup_files/lastname.csv'),
-                    has_header_line = False,
-                    unicode_encoding = unicode_encoding_used)
-        self.name_suffix_attr = \
-    generator.GenerateFuncAttribute(attribute_name = 'name-suffix',
-                   function = attrgenfunct.generate_name_suffix)
-        
         self.race_hispanic = \
-    generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
+            generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
                     freq_file_name = os.path.abspath('lookup_files/race_w_hispanic_ascii.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
-
-        self.sname_prev_attr = \
-    generator.GenerateFreqAttribute(attribute_name = 'previous-surname',
-                    freq_file_name = os.path.abspath('lookup_files/surname-freq.csv'),
-                    has_header_line = False,
-                    unicode_encoding = unicode_encoding_used)
-
-        self.nickname_attr = \
-            generator.GenerateFuncAttribute(attribute_name = 'nickname',
-                    function = attrgenfunct.generate_nickname)
-
 
         self.postcode_attr = \
             generator.GenerateFreqAttribute(attribute_name = 'postcode',
                       freq_file_name = os.path.abspath('lookup_files/postcode_ascii.csv'),
                       has_header_line = False,
                       unicode_encoding = unicode_encoding_used)
-
-        self.phone_num_attr = \
-            generator.GenerateFuncAttribute(attribute_name = 'telephone-number',
-                       function = attrgenfunct.generate_phone_number_australia)
 
         #Cell
         self.phone_num_cell_attr = \
@@ -137,56 +101,27 @@ class AttrSet(object):
                 generator.GenerateFuncAttribute(attribute_name = 'social-security-number',
                           function = attrgenfunct.generate_social_security_number)
 
-        self.age_uniform_attr = \
-                generator.GenerateFuncAttribute(attribute_name = 'age-uniform',
-                           function = attrgenfunct.generate_uniform_age,
-                           parameters = [0,120])
-
-        self.income_normal_attr = \
-                generator.GenerateFuncAttribute(attribute_name = 'income-normal',
-                           function = attrgenfunct.generate_normal_value,
-                           parameters = [50000,20000, 0, 1000000, 'float2'])
-
-        self.rating_normal_attr = \
-                generator.GenerateFuncAttribute(attribute_name = 'rating-normal',
-                           function = attrgenfunct.generate_normal_value,
-                           parameters = [0.0,1.0, None, None, 'float9'])
-
         #passport
         self.passport_attr = \
                 generator.GenerateFuncAttribute(attribute_name = 'passport-number',
                 function = attrgenfunct.generate_passport_num)
 
             
-        self.race_hispanic = \
-                generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
-                                freq_file_name = os.path.abspath('lookup_files/race_w_hispanic_ascii.csv'),
-                                has_header_line = False,
-                                unicode_encoding = unicode_encoding_used)
+        #self.race_hispanic = \
+         #       generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
+          #                      freq_file_name = os.path.abspath('lookup_files/race_w_hispanic_ascii.csv'),
+           #                     has_header_line = False,
+            #                    unicode_encoding = unicode_encoding_used)
 
-        # Calculating age off of frequency distribution of age.  Currently referencing female file
-        # Male csv file also exists once we can get the age generated based on gender
-        self.new_age_attr = \
-              generator.GenerateFreqAlt(attribute_name = 'age-new',
-                                freq_file_name = os.path.abspath('lookup_files/age_gender_ratio_female.csv'),
-                                has_header_line = False,
-                                unicode_encoding = unicode_encoding_used) 
-
-        # Calculating the DOB.  Requires the age to be passed
-        self.DOB_attr = \
-                generator.GenerateFuncAttribute(attribute_name = 'DOB',
-                                   function = attrgenfunct.generate_DOB)
         
-        self.labels = ['given-name', 'middle-name', 'surname', 'name-suffix',
-                       'race_hispanic', 'email', 'postcode',
+        self.labels = ['postcode',
                         'cell-number', 'work-number', 'home-number',
-                        'social-security-number', 'credit-card-number'] 
-        self.labels2 = ['postcode', 'city', 'previous-surname', 'nickname', 
-                        'cell-number', 'work-number', 'home-number',  
-                      'social-security-number', 'credit-card-number', 
-                      'income-normal', 'age-uniform', 'income', 
-                      'age', 'sex', 'blood-pressure', 'passport-number',
-                      'email', 'race-hispanic', 'age-new', 'DOB']
+                        'social-security-number', 'credit-card-number', 'passport-number',
+                        'race-hispanic'] 
+        #self.labels2 = ['city', 'previous-surname', 'nickname', 
+        #              'income-normal', 'age-uniform', 'income', 
+        #              'age', 'sex', 'blood-pressure',
+        #              'email', 'race_hispanic', 'age-new', 'DOB']
 
 
     def output(self):
@@ -195,14 +130,11 @@ class AttrSet(object):
         #single attr need create_attribute_values(), singular
         #compound attr need create_attribute_values(), plural!
         #must update compound context to USA
-        primary = [self.gname_attr, self.mname_attr, 
-                   self.sname_attr, self.name_suffix_attr,
-                   self.postcode_attr, self.phone_num_cell_attr, 
+        primary = [self.postcode_attr, self.phone_num_cell_attr, 
                    self.phone_num_work_attr, self.phone_num_home_attr,
-                   self.social_security_attr, self.credit_card_attr]
+                   self.social_security_attr, self.credit_card_attr, self.passport_attr]
         
-        add_out = [self.name_prefix_attr, self.nickname_attr, #self.postcode_attr, 
-          self.phone_num_attr,
+        add_out = [self.name_prefix_attr, self.nickname_attr,
           self.phone_num_cell_attr, self.phone_num_work_attr, 
           self.phone_num_home_attr, self.social_security_attr, 
           self.credit_card_attr, self.age_uniform_attr, 
@@ -234,6 +166,120 @@ class AttrSet(object):
         out.append(self.hispanic_attr.create_attribute_value())
         labels.append(self.hispanic_attr.attribute_name)
 
+        self.outputwork = dict(zip(labels, out))
+
+        return self.outputwork
+        return out
+
+
+class AttrSet(AttrSet_Super):
+    def __init__(self):
+       
+        self.gender_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'gender',
+                function = attrgenfunct.generate_gender)
+
+        self.name_prefix_attr = \
+    generator.GenerateFuncAttribute(attribute_name = 'name-prefix',
+                       function = attrgenfunct.generate_name_prefix_f)
+        self.gname_attr = \
+    generator.GenerateFreqAttribute(attribute_name = 'given-name',
+                    freq_file_name = os.path.abspath('lookup_files/firstname_female.csv'),
+                    has_header_line = False,
+                    unicode_encoding = unicode_encoding_used)
+        self.mname_attr = \
+    generator.GenerateFreqAttribute(attribute_name = 'middle-name',
+                    freq_file_name = os.path.abspath('lookup_files/firstname_female.csv'),
+                    has_header_line = False,
+                    unicode_encoding = unicode_encoding_used)
+        self.sname_attr = \
+    generator.GenerateFreqAttribute(attribute_name = 'surname',
+                    freq_file_name = os.path.abspath('lookup_files/lastname.csv'),
+                    has_header_line = False,
+                    unicode_encoding = unicode_encoding_used)
+        self.name_suffix_attr = \
+    generator.GenerateFuncAttribute(attribute_name = 'name-suffix',
+                   function = attrgenfunct.generate_name_suffix)
+
+        self.sname_prev_attr = \
+    generator.GenerateFreqAttribute(attribute_name = 'previous-surname',
+                    freq_file_name = os.path.abspath('lookup_files/surname-freq.csv'),
+                    has_header_line = False,
+                    unicode_encoding = unicode_encoding_used)
+
+        self.nickname_attr = \
+            generator.GenerateFuncAttribute(attribute_name = 'nickname',
+                    function = attrgenfunct.generate_nickname)
+
+        self.age_uniform_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'age-uniform',
+                           function = attrgenfunct.generate_uniform_age,
+                           parameters = [0,120])
+
+        self.income_normal_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'income-normal',
+                           function = attrgenfunct.generate_normal_value,
+                           parameters = [50000,20000, 0, 1000000, 'float2'])
+
+        self.rating_normal_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'rating-normal',
+                           function = attrgenfunct.generate_normal_value,
+                           parameters = [0.0,1.0, None, None, 'float9'])
+
+
+        # Calculating age off of frequency distribution of age.  Currently referencing female file
+        # Male csv file also exists once we can get the age generated based on gender
+        self.new_age_attr = \
+              generator.GenerateFreqAlt(attribute_name = 'age-new',
+                                freq_file_name = os.path.abspath('lookup_files/age_gender_ratio_female.csv'),
+                                has_header_line = False,
+                                unicode_encoding = unicode_encoding_used) 
+
+        # Calculating the DOB.  Requires the age to be passed
+        self.DOB_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'DOB',
+                                   function = attrgenfunct.generate_DOB)
+        
+        self.labels = ['gender', 'given-name', 'middle-name', 'surname', 'name-suffix',
+                       'name-prefix', 'previous-surname', 'nickname',
+                       'age-uniform', 'income-normal', 'rating-normal', 'age-new',
+                       'DOB'] 
+        self.labels2 = ['postcode', 'city', 'previous-surname', 'nickname', 
+                        'cell-number', 'work-number', 'home-number',  
+                      'social-security-number', 'credit-card-number', 
+                      'income-normal', 'age-uniform', 'income', 
+                      'age', 'sex', 'blood-pressure', 'passport-number',
+                      'email', 'race-hispanic', 'age-new']
+
+
+    def output(self):
+        'create synthetic output'
+        #removed all compound attribute
+        #single attr need create_attribute_values(), singular
+        #compound attr need create_attribute_values(), plural!
+        #must update compound context to USA
+        primary = [self.gname_attr, self.mname_attr, 
+                   self.sname_attr, self.name_suffix_attr,
+                   self.name_prefix_attr, 
+                   self.sname_prev_attr, self.nickname_attr,
+                   self.age_uniform_attr, self.income_normal_attr,
+                   self.rating_normal_attr, self.new_age_attr, self.gender_attr]
+        
+        add_out = [self.name_prefix_attr, self.nickname_attr,
+          #self.phone_num_cell_attr, self.phone_num_work_attr, 
+          #self.phone_num_home_attr, self.social_security_attr, 
+          #self.credit_card_attr, 
+          self.age_uniform_attr, 
+          self.income_normal_attr, 
+          #self.passport_attr, 
+          self.new_age_attr, self.DOB_attr]
+
+        #primary.extend(add_out)
+        
+        out = [attr.create_attribute_value() for attr in primary]
+        
+        labels = [attr.attribute_name for attr in primary]
+        
         self.email_attr = generator.GenerateFuncAttribute(attribute_name = 'email',
           function = attrgenfunct.generate_email_address,
           parameters = [str(out[0]), str(out[2])])
@@ -241,13 +287,29 @@ class AttrSet(object):
         out.append(self.email_attr.create_attribute_value())
         labels.append(self.email_attr.attribute_name)
 
+     
+        self.DOB_attr = generator.GenerateFuncAttribute(attribute_name = 'DOB',
+           function = attrgenfunct.generate_DOB,
+           parameters = [int(out[10])])
+
+        out.append(self.DOB_attr.create_attribute_value())
+        labels.append(self.DOB_attr.attribute_name)
+
+        self.gname_attr = generator.GenerateFreqAttribute(attribute_name = 'given-name',
+          function = attrgenfunct.generate_firstname,
+          parameters = [str(out[11])])
+
+        out.append(self.gname2_attr.create_attribute_value())
+        labels.append(self.gname2_attr.attribute_name)      
+
         #add_out_values = [x.create_attribute_value() for x in add_out]
         #out.extend(add_out_values)
 
         #add_out_labels = [x.attribute_name for x in add_out]
         #labels.extend(add_out_labels)
 
-        return dict(zip(labels, out))
+        outputwork2 = dict(zip(labels,out))
+        return outputwork2
 
 # -----------------------------------------------------------------------------
 # Define how the generated records are to be corrupted (using methods from
@@ -349,8 +411,25 @@ def to_csv(genfunct_input, fieldnames,file_name='English_output.csv'):
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(genfunct_input)
-
     return file_name
+
+# Code to output to IO string vs CSV
+def to_string(genfunct_input, fieldnames):
+	'writing to an io string'
+	output = StringIO.StringIO()
+	output.write(genfunct_input)
+	contents = output.getvalue()
+	#print output.getvalue()
+	return contents
+
+# Code to output to IO string vs CSV
+def to_corruptor_write_io_string(corruptor_csv):
+    'write corruptor to an io string'
+    output = StringIO.StringIO()
+    output.write(corruptor_csv)
+    corrupt_contents = output.getvalue()
+    #print corrupt_contents
+    return corrupt_contents
 
 def to_json(genfunct_input, file_name='English_output.json'):
     'genfucnt_input is the output from row_synth'
@@ -363,10 +442,18 @@ base_output = list(row_synth(b, num_org_rec ))
 
 def original_output():
     to_csv(base_output,b.output().keys())
-
+    
 def corrupt_output():
     to_corruptor_write(from_tdc(test_data_corruptor.corrupt_records(\
                                 to_corruptor_gf(base_output))))
+
+# Code to output to IO string vs CSV (next two functions)
+def original_output2():
+    to_string(base_output,b.output().keys())
+
+def corrupt_output2():
+	to_corruptor_write(from_tdc(test_data_corruptor.corrupt_records(\
+                                to_corruptor_gf(base_output))))	
 
 attr_name_list = ['given-name', 'middle-name', 'surname', 'name-suffix',
     'race', 'hispanic', 'email', 'postcode', 'cell-number', 'work-number', 'home-number',
@@ -521,4 +608,9 @@ test_data_generator.write()
 '''
 if __name__ == '__main__':
   original_output()
+  corrupt_output()
+
+# Code to output to IO string vs CSV  
+if __name__ == '__main__':
+  original_output2()
   corrupt_output()
