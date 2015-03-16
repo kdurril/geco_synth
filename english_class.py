@@ -3,7 +3,7 @@
 # Import the necessary other modules of the data generator
 #
 import basefunctions  # Helper functions
-import attrgenfunct2   # Functions to generate independent attribute values
+import attrgenfunct   # Functions to generate independent attribute values
 import contdepfunct   # Functions to generate dependent continuous attribute
                       # values
 import generator      # Main classes to generate records and the data set
@@ -15,6 +15,7 @@ import csv
 import json
 import os
 import StringIO
+from collections import OrderedDict
 
 random.seed(42)  # Set seed for random generator, so data generation can be
                  # repeated
@@ -38,13 +39,13 @@ out_file_name = 'example-data-english.csv'
 
 # Set how many original and how many duplicate records are to be generated.
 #
-num_org_rec = 3
-num_dup_rec = 1
+num_org_rec = 10
+num_dup_rec = 2
 
 # Set the maximum number of duplicate records can be generated per original
 # record.
 #
-max_duplicate_per_record = 2
+max_duplicate_per_record = 1
 
 # Set the probability distribution used to create the duplicate records for one
 # original record (possible values are: 'uniform', 'poisson', 'zipf').
@@ -166,7 +167,7 @@ class AttrSet_Super(object):
         out.append(self.hispanic_attr.create_attribute_value())
         labels.append(self.hispanic_attr.attribute_name)
 
-        self.outputwork = dict(zip(labels, out))
+        self.outputwork = OrderedDict(zip(labels, out))
 
         return self.outputwork
         return out
@@ -187,7 +188,7 @@ class AttrSet(AttrSet_Super):
                     freq_file_name = os.path.abspath('lookup_files/firstname_female.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
-        self.mname_attr = \
+        self.mname_attr =\
     generator.GenerateFreqAttribute(attribute_name = 'middle-name',
                     freq_file_name = os.path.abspath('lookup_files/firstname_female.csv'),
                     has_header_line = False,
@@ -203,7 +204,7 @@ class AttrSet(AttrSet_Super):
 
         self.sname_prev_attr = \
     generator.GenerateFreqAttribute(attribute_name = 'previous-surname',
-                    freq_file_name = os.path.abspath('lookup_files/surname-freq.csv'),
+                    freq_file_name = os.path.abspath('lookup_files/lastname.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
 
@@ -211,20 +212,20 @@ class AttrSet(AttrSet_Super):
             generator.GenerateFuncAttribute(attribute_name = 'nickname',
                     function = attrgenfunct.generate_nickname)
 
-        self.age_uniform_attr = \
-                generator.GenerateFuncAttribute(attribute_name = 'age-uniform',
-                           function = attrgenfunct.generate_uniform_age,
-                           parameters = [0,120])
+        #self.age_uniform_attr = \
+        #        generator.GenerateFuncAttribute(attribute_name = 'age-uniform',
+        #                   function = attrgenfunct.generate_uniform_age,
+        #                   parameters = [0,120])
 
-        self.income_normal_attr = \
-                generator.GenerateFuncAttribute(attribute_name = 'income-normal',
-                           function = attrgenfunct.generate_normal_value,
-                           parameters = [50000,20000, 0, 1000000, 'float2'])
+        #self.income_normal_attr = \
+        #        generator.GenerateFuncAttribute(attribute_name = 'income-normal',
+        #                   function = attrgenfunct.generate_normal_value,
+        #                   parameters = [50000,20000, 0, 1000000, 'float2'])
 
-        self.rating_normal_attr = \
-                generator.GenerateFuncAttribute(attribute_name = 'rating-normal',
-                           function = attrgenfunct.generate_normal_value,
-                           parameters = [0.0,1.0, None, None, 'float9'])
+        #self.rating_normal_attr = \
+        #        generator.GenerateFuncAttribute(attribute_name = 'rating-normal',
+        #                   function = attrgenfunct.generate_normal_value,
+        #                   parameters = [0.0,1.0, None, None, 'float9'])
 
 
         # Calculating age off of frequency distribution of age.  Currently referencing female file
@@ -236,20 +237,21 @@ class AttrSet(AttrSet_Super):
                                 unicode_encoding = unicode_encoding_used) 
 
         # Calculating the DOB.  Requires the age to be passed
-        self.DOB_attr = \
-                generator.GenerateFuncAttribute(attribute_name = 'DOB',
-                                   function = attrgenfunct.generate_DOB)
+        #self.DOB_attr = \
+        #        generator.GenerateFuncAttribute(attribute_name = 'DOB',
+        #                           function = attrgenfunct.generate_DOB)
         
-        self.labels = ['gender', 'given-name', 'middle-name', 'surname', 'name-suffix',
-                       'name-prefix', 'previous-surname', 'nickname',
-                       'age-uniform', 'income-normal', 'rating-normal', 'age-new',
-                       'DOB'] 
-        self.labels2 = ['postcode', 'city', 'previous-surname', 'nickname', 
-                        'cell-number', 'work-number', 'home-number',  
-                      'social-security-number', 'credit-card-number', 
-                      'income-normal', 'age-uniform', 'income', 
-                      'age', 'sex', 'blood-pressure', 'passport-number',
-                      'email', 'race-hispanic', 'age-new']
+        #self.labels = ['gender', 'given-name', 'middle-name', 'surname', 'name-suffix',
+        #               'name-prefix', 'previous-surname', 'nickname',
+        #               'age-uniform', 'income-normal', 'rating-normal', 'age-new',
+        #               'DOB']
+
+        #self.labels2 = ['postcode', 'city', 'previous-surname', 'nickname', 
+        #                'cell-number', 'work-number', 'home-number',  
+        #              'social-security-number', 'credit-card-number', 
+        #              'income-normal', 'age-uniform', 'income', 
+        #              'age', 'sex', 'blood-pressure', 'passport-number',
+        #              'email', 'race-hispanic', 'age-new']
 
 
     def output(self):
@@ -259,20 +261,17 @@ class AttrSet(AttrSet_Super):
         #compound attr need create_attribute_values(), plural!
         #must update compound context to USA
         primary = [self.gname_attr, self.mname_attr, 
-                   self.sname_attr, self.name_suffix_attr,
-                   self.name_prefix_attr, 
-                   self.sname_prev_attr, self.nickname_attr,
-                   self.age_uniform_attr, self.income_normal_attr,
-                   self.rating_normal_attr, self.new_age_attr, self.gender_attr]
+                  self.sname_attr, self.name_suffix_attr,
+                  self.name_prefix_attr, 
+                  self.sname_prev_attr, self.nickname_attr,
+                  self.new_age_attr, self.gender_attr]
         
-        add_out = [self.name_prefix_attr, self.nickname_attr,
-          #self.phone_num_cell_attr, self.phone_num_work_attr, 
-          #self.phone_num_home_attr, self.social_security_attr, 
-          #self.credit_card_attr, 
-          self.age_uniform_attr, 
-          self.income_normal_attr, 
-          #self.passport_attr, 
-          self.new_age_attr, self.DOB_attr]
+        #add_out = [self.name_prefix_attr, self.nickname_attr,
+        #  self.phone_num_cell_attr, self.phone_num_work_attr, 
+        #  self.phone_num_home_attr, self.social_security_attr, 
+        #  self.credit_card_attr,
+        #  self.passport_attr, 
+        #  self.new_age_attr]
 
         #primary.extend(add_out)
         
@@ -282,7 +281,8 @@ class AttrSet(AttrSet_Super):
         
         self.email_attr = generator.GenerateFuncAttribute(attribute_name = 'email',
           function = attrgenfunct.generate_email_address,
-          parameters = [str(out[0]), str(out[2])])
+          parameters = [str(out[0]), str(out[2])]
+          )
 
         out.append(self.email_attr.create_attribute_value())
         labels.append(self.email_attr.attribute_name)
@@ -290,17 +290,19 @@ class AttrSet(AttrSet_Super):
      
         self.DOB_attr = generator.GenerateFuncAttribute(attribute_name = 'DOB',
            function = attrgenfunct.generate_DOB,
-           parameters = [int(out[10])])
+           parameters = [int(out[7])]
+           )
 
         out.append(self.DOB_attr.create_attribute_value())
         labels.append(self.DOB_attr.attribute_name)
 
-        self.gname_attr = generator.GenerateFreqAttribute(attribute_name = 'given-name',
-          function = attrgenfunct.generate_firstname,
-          parameters = [str(out[11])])
+        #self.gname_attr = generator.GenerateFreqAttribute(attribute_name = 'given-name',
+        #  function = attrgenfunct.generate_firstname,
+        #  parameters = [str(out[10])]
+        #  )
 
-        out.append(self.gname2_attr.create_attribute_value())
-        labels.append(self.gname2_attr.attribute_name)      
+        #out.append(self.gname2_attr.create_attribute_value())
+        #labels.append(self.gname2_attr.attribute_name)      
 
         #add_out_values = [x.create_attribute_value() for x in add_out]
         #out.extend(add_out_values)
@@ -308,7 +310,8 @@ class AttrSet(AttrSet_Super):
         #add_out_labels = [x.attribute_name for x in add_out]
         #labels.extend(add_out_labels)
 
-        outputwork2 = dict(zip(labels,out))
+        outputwork2 = OrderedDict(zip(labels,out))
+        
         return outputwork2
 
 # -----------------------------------------------------------------------------
@@ -461,13 +464,14 @@ attr_name_list = ['given-name', 'middle-name', 'surname', 'name-suffix',
 
 attr_data_list = AttrSet().output().values()               
 
+'''
 labels = ['gender', 'name-prefix', 'given-name', 'middle-name', 'surname', 'name-suffix', 'postcode', 'city',
                   'previous-surname', 'nickname', 'cell-number', 'work-number', 'home-number',  
                   'social-security-number', 'credit-card-number', 
                   'income-normal', 'age-uniform', 'income', 
                   'age', 'sex', 'blood-pressure', 'passport-number',
                   'email', 'race-hispanic', 'age-new', 'DOB']
-'''
+
 attr_list = [age_uniform_attr,
  credit_card_attr,
  email_attr,
@@ -514,9 +518,6 @@ attr_mod_prob_dictionary = {'given-name':0.35,'surname':0.35,'postcode':0.05,
 							'cell-number':0.05, 'work-number':0.05,
 							'home-number':0.05, 'social-security-number':0.05, 
 							'credit-card-number':0.05}
-                            #'gender':0.1,
-                            #'postcode':0.1,'city':0.1, 'cell-number':0.15,
-                            #'credit-card-number':0.1,'age':0.05
                             
 
 # Define the actual corruption (modification) methods that will be applied on
