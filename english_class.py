@@ -67,115 +67,15 @@ basefunctions.check_unicode_encoding_exists(unicode_encoding_used)
 
 
 # -----------------------------------------------------------------------------
-class AttrSet_Super(object):
+
+class AttrSet():
     def __init__(self):
+       
         self.race_hispanic = \
             generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
                     freq_file_name = os.path.abspath('lookup_files/race_w_hispanic_ascii.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
-
-        self.postcode_attr = \
-            generator.GenerateFreqAttribute(attribute_name = 'postcode',
-                      freq_file_name = os.path.abspath('lookup_files/postcode_ascii.csv'),
-                      has_header_line = False,
-                      unicode_encoding = unicode_encoding_used)
-
-        #Cell
-        self.phone_num_cell_attr = \
-                generator.GenerateFuncAttribute(attribute_name = 'cell-number',
-                           function = attrgenfunct.generate_phone_number_american)
-        #Work
-        self.phone_num_work_attr = \
-                generator.GenerateFuncAttribute(attribute_name = 'work-number',
-                           function = attrgenfunct.generate_phone_number_american)
-        #Home
-        self.phone_num_home_attr = \
-                generator.GenerateFuncAttribute(attribute_name = 'home-number',
-                           function = attrgenfunct.generate_phone_number_american)
-
-        self.credit_card_attr =  \
-                generator.GenerateFuncAttribute(attribute_name = 'credit-card-number',
-                           function = attrgenfunct.generate_credit_card_number)
-
-        self.social_security_attr = \
-                generator.GenerateFuncAttribute(attribute_name = 'social-security-number',
-                          function = attrgenfunct.generate_social_security_number)
-
-        #passport
-        self.passport_attr = \
-                generator.GenerateFuncAttribute(attribute_name = 'passport-number',
-                function = attrgenfunct.generate_passport_num)
-
-            
-        #self.race_hispanic = \
-         #       generator.GenerateFreqAlt(attribute_name = 'race-hispanic',
-          #                      freq_file_name = os.path.abspath('lookup_files/race_w_hispanic_ascii.csv'),
-           #                     has_header_line = False,
-            #                    unicode_encoding = unicode_encoding_used)
-
-        
-        self.labels = ['postcode',
-                        'cell-number', 'work-number', 'home-number',
-                        'social-security-number', 'credit-card-number', 'passport-number',
-                        'race-hispanic'] 
-        #self.labels2 = ['city', 'previous-surname', 'nickname', 
-        #              'income-normal', 'age-uniform', 'income', 
-        #              'age', 'sex', 'blood-pressure',
-        #              'email', 'race_hispanic', 'age-new', 'DOB']
-
-
-    def output(self):
-        'create synthetic output'
-        #removed all compound attribute
-        #single attr need create_attribute_values(), singular
-        #compound attr need create_attribute_values(), plural!
-        #must update compound context to USA
-        primary = [self.postcode_attr, self.phone_num_cell_attr, 
-                   self.phone_num_work_attr, self.phone_num_home_attr,
-                   self.social_security_attr, self.credit_card_attr, self.passport_attr]
-        
-        add_out = [self.name_prefix_attr, self.nickname_attr,
-          self.phone_num_cell_attr, self.phone_num_work_attr, 
-          self.phone_num_home_attr, self.social_security_attr, 
-          self.credit_card_attr, self.age_uniform_attr, 
-          self.income_normal_attr, self.passport_attr, 
-          self.new_age_attr, self.DOB_attr]
-
-        #primary.extend(add_out)
-        
-        out = [attr.create_attribute_value() for attr in primary]
-        
-        labels = [attr.attribute_name for attr in primary]
-        
-
-        r_h = self.race_hispanic.random_pick().split('..')
-        self.race = r_h[1]
-        self.hispanic = r_h[0]
-
-        self.race_attr = generator.GenerateFuncAttribute(attribute_name='race',
-          function = attrgenfunct.race,
-          parameters = [str(self.race)])
-
-        out.append(self.race_attr.create_attribute_value())
-        labels.append(self.race_attr.attribute_name)
-        
-        self.hispanic_attr = generator.GenerateFuncAttribute(attribute_name='hispanic',
-          function = attrgenfunct.hispanic,
-          parameters=[str(self.hispanic)])
-        
-        out.append(self.hispanic_attr.create_attribute_value())
-        labels.append(self.hispanic_attr.attribute_name)
-
-        self.outputwork = OrderedDict(zip(labels, out))
-
-        return self.outputwork
-        return out
-
-
-class AttrSet(AttrSet_Super):
-    def __init__(self):
-       
         self.gender_attr = \
                 generator.GenerateFuncAttribute(attribute_name = 'gender',
                 function = attrgenfunct.generate_gender)
@@ -211,6 +111,38 @@ class AttrSet(AttrSet_Super):
         self.nickname_attr = \
             generator.GenerateFuncAttribute(attribute_name = 'nickname',
                     function = attrgenfunct.generate_nickname)
+
+        self.postcode_attr = \
+            generator.GenerateFreqAttribute(attribute_name = 'postcode',
+                      freq_file_name = os.path.abspath('lookup_files/postcode_ascii.csv'),
+                      has_header_line = False,
+                      unicode_encoding = unicode_encoding_used)
+
+        #Cell
+        self.phone_num_cell_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'cell-number',
+                           function = attrgenfunct.generate_phone_number_american)
+        #Work
+        self.phone_num_work_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'work-number',
+                           function = attrgenfunct.generate_phone_number_american)
+        #Home
+        self.phone_num_home_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'home-number',
+                           function = attrgenfunct.generate_phone_number_american)
+
+        self.credit_card_attr =  \
+                generator.GenerateFuncAttribute(attribute_name = 'credit-card-number',
+                           function = attrgenfunct.generate_credit_card_number)
+
+        self.social_security_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'social-security-number',
+                          function = attrgenfunct.generate_social_security_number)
+
+        #passport
+        self.passport_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'passport-number',
+                function = attrgenfunct.generate_passport_num)
 
         #self.age_uniform_attr = \
         #        generator.GenerateFuncAttribute(attribute_name = 'age-uniform',
@@ -264,7 +196,11 @@ class AttrSet(AttrSet_Super):
                   self.sname_attr, self.name_suffix_attr,
                   self.name_prefix_attr, 
                   self.sname_prev_attr, self.nickname_attr,
-                  self.new_age_attr, self.gender_attr]
+                  self.new_age_attr, self.gender_attr,
+                  self.postcode_attr, self.phone_num_cell_attr,
+                  self.phone_num_work_attr, self.phone_num_home_attr,
+                  self.credit_card_attr, self.social_security_attr,
+                  self.passport_attr, self.race_hispanic]
         
         #add_out = [self.name_prefix_attr, self.nickname_attr,
         #  self.phone_num_cell_attr, self.phone_num_work_attr, 
@@ -296,9 +232,30 @@ class AttrSet(AttrSet_Super):
         out.append(self.DOB_attr.create_attribute_value())
         labels.append(self.DOB_attr.attribute_name)
 
-        #self.gname_attr = generator.GenerateFreqAttribute(attribute_name = 'given-name',
+        r_h = self.race_hispanic.random_pick().split('..')
+        self.race = r_h[1]
+        self.hispanic = r_h[0]
+
+        self.race_attr = generator.GenerateFuncAttribute(attribute_name='race',
+          function = attrgenfunct.race,
+          parameters = [str(self.race)])
+
+        out.append(self.race_attr.create_attribute_value())
+        labels.append(self.race_attr.attribute_name)
+        
+        self.hispanic_attr = generator.GenerateFuncAttribute(attribute_name='hispanic',
+          function = attrgenfunct.hispanic,
+          parameters=[str(self.hispanic)])
+        
+        out.append(self.hispanic_attr.create_attribute_value())
+        labels.append(self.hispanic_attr.attribute_name)
+
+        
+        print str(out[8])
+
+        #self.gname2_attr = generator.GenerateFreqAttribute(attribute_name = 'given-name2',
         #  function = attrgenfunct.generate_firstname,
-        #  parameters = [str(out[10])]
+        #  parameters = [str(out[8])]
         #  )
 
         #out.append(self.gname2_attr.create_attribute_value())
@@ -614,4 +571,4 @@ if __name__ == '__main__':
 # Code to output to IO string vs CSV  
 if __name__ == '__main__':
   original_output2()
-  corrupt_output()
+  corrupt_output2()

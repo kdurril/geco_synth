@@ -241,7 +241,7 @@ def generate_firstname(gender = 'Female'):
                     unicode_encoding = unicode_encoding_used)
   if gender == 'Male':
     gname= generator.GenerateFreqAttribute(attribute_name = 'given-name',
-                    freq_file_name = os.path.abspath('lookup_files/firstname_female.csv'),
+                    freq_file_name = os.path.abspath('lookup_files/firstname_male.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
 
