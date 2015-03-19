@@ -229,6 +229,10 @@ def generate_gender():
 
   return gender
 
+def gender(g):
+  'gender'
+  return g
+
 # -----------------------------------------------------------------------------
 
 
