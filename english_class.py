@@ -39,7 +39,7 @@ out_file_name = 'example-data-english.csv'
 
 # Set how many original and how many duplicate records are to be generated.
 #
-num_org_rec = 10
+num_org_rec = 20
 num_dup_rec = 2
 
 # Set the maximum number of duplicate records can be generated per original
@@ -129,7 +129,10 @@ class AttrMeta(type):
                 function = attrgenfunct.generate_passport_num)
 
 class AttrSet(object):
+    "the female gender class"
+    
     __metaclass__ = AttrMeta
+
     def __init__(self, *args):
 
         self.gender_attr = generator.GenerateFuncAttribute(attribute_name='gender',
@@ -257,7 +260,7 @@ class AttrSet(object):
         return outputwork2
 
 class AttrSetM(AttrSet):
-    #__metaclass__ = AttrSet
+    "the male gender class"
     def __init__(self):
 
         self.gender_attr = generator.GenerateFuncAttribute(attribute_name='gender',
@@ -457,31 +460,21 @@ def from_tdc(tdc_in):
 
 def to_corruptor_write(corruptor_csv, file_name='English_corrupt_output.csv'):
     'write corruptor data with id row'
-    if os.path.exists('English_output.csv'):
-        with open(file_name, 'a') as csvfile:
-            writer = csv.writer(csvfile)
-            #writer.writerow()
-            writer.writerows(corruptor_csv)
-    else:
-        with open(file_name, 'w') as csvfile:
-            writer = csv.writer(csvfile)
-            #writer.writerow()
-            writer.writerows(corruptor_csv)
+    
+    with open(file_name, 'a') as csvfile:
+        writer = csv.writer(csvfile)
+        #writer.writerow()
+        writer.writerows(corruptor_csv)
 
     return file_name
 
 def to_csv(genfunct_input, fieldnames,file_name='English_output.csv'):
     'genfucnt_input is the output from row_synth'
-    if os.path.exists('English_output.csv'):
-        with open(file_name, 'a') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerows(genfunct_input)
-    else:
-        with open(file_name, 'w') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerows(genfunct_input)
+    
+    with open(file_name, 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(genfunct_input)
     return file_name
 
 # Code to output to IO string vs CSV
@@ -586,13 +579,18 @@ test_data_generator.write()
 if __name__ == '__main__':
     b = AttrSet()
     c = AttrSetM()
-    base_output = list(row_synth(b, num_org_rec ))
-    base_output_c = list(row_synth(c, num_org_rec ))
+    base_output_b = list(row_synth(b, num_org_rec/2 ))
+    base_output_c = list(row_synth(c, num_org_rec/2 ))
+    
+    #Extend female engender list
+    base_output_b.extend(base_output_c)
 
-    original_output(base_output_c, c)
-    corrupt_output(base_output_c)
+    #Shuffle the list
+    random.shuffle(base_output_b)
 
-# Code to output to IO string vs CSV  
+    original_output(base_output_b, b)
+    corrupt_output(base_output_b)
 
-    original_output2(base_output_c, c)
-    corrupt_output2(base_output_c)
+    # Code to output to IO string vs CSV  
+    original_output2(base_output_b, b)
+    corrupt_output2(base_output_b)
