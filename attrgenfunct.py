@@ -311,7 +311,139 @@ def hispanic(h):
 
 #-------------------------------------------------------------------------------
 
-# Jamie to add new marital status from Census Bureau distribution
+# Jamie to add new marital status from Census Bureau distribution:
+# http://www.census.gov/compendia/statab/cats/population.html
+
+def marriage(age):
+  "Probabilities taken from US Cencus Bureau"
+  import random
+  numb = random.random()
+  items = ["Single", "Married", "Separated", "Widowed", "Divorced", ""]
+  age_bracket = [18, 19, 24, 29, 34, 39, 44, 54, 66, 74, 120]
+  j = 0
+  if age < int(age_bracket[0]):
+    mstatus = random.choice(['Single', ""])
+  elif age < int(age_bracket[1]):
+    cum = [0.953, 0.983,  0.994,  0.996]
+    if numb < cum[0]:
+      mstatus = items[0]
+    elif numb < cum[1]:
+      mstatus = items[1]
+    elif numb < cum[2]:
+      mstatus = items[2]
+    elif numb < cum[3]:
+      mstatus = items[3]
+    else:
+      mstatus = items[4]
+  elif age < int(age_bracket[2]):
+    cum = [0.793, 0.967,  0.985,  0.986]
+    if numb < cum[0]:
+      mstatus = items[0]
+    elif numb < cum[1]:
+      mstatus = items[1]
+    elif numb < cum[2]:
+      mstatus = items[2]
+    elif numb < cum[3]:
+      mstatus = items[3]
+    else:
+      mstatus = items[4]
+  elif age < int(age_bracket[3]):
+    cum = [0.478, 0.919,  0.954,  0.958]
+    if numb < cum[0]:
+      mstatus = items[0]
+    elif numb < cum[1]:
+      mstatus = items[1]
+    elif numb < cum[2]:
+      mstatus = items[2]
+    elif numb < cum[3]:
+      mstatus = items[3]
+    else:
+      mstatus = items[4]
+  elif age < int(age_bracket[4]):
+    cum = [0.271, 0.87, 0.909,  0.914]
+    if numb < cum[0]:
+      mstatus = items[0]
+    elif numb < cum[1]:
+      mstatus = items[1]
+    elif numb < cum[2]:
+      mstatus = items[2]
+    elif numb < cum[3]:
+      mstatus = items[3]
+    else:
+      mstatus = items[4]
+  elif age < int(age_bracket[5]):
+    cum = [0.177, 0.832,  0.871,  0.88]
+    if numb < cum[0]:
+      mstatus = items[0]
+    elif numb < cum[1]:
+      mstatus = items[1]
+    elif numb < cum[2]:
+      mstatus = items[2]
+    elif numb < cum[3]:
+      mstatus = items[3]
+    else:
+      mstatus = items[4]
+  elif age < int(age_bracket[6]):
+    cum = [0.138, 0.804,  0.839,  0.855]
+    if numb < cum[0]:
+      mstatus = items[0]
+    elif numb < cum[1]:
+      mstatus = items[1]
+    elif numb < cum[2]:
+      mstatus = items[2]
+    elif numb < cum[3]:
+      mstatus = items[3]
+    else:
+      mstatus = items[4]
+  elif age < int(age_bracket[6]):
+    cum = [0.11, 0.759,  0.793,  0.828]
+    if numb < cum[0]:
+      mstatus = items[0]
+    elif numb < cum[1]:
+      mstatus = items[1]
+    elif numb < cum[2]:
+      mstatus = items[2]
+    elif numb < cum[3]:
+      mstatus = items[3]
+    else:
+      mstatus = items[4]
+  elif age < age_bracket[7]:
+    cum = [0.071,  0.717,  0.74, 0.822]
+    if numb < cum[0]:
+      mstatus = items[0]
+    elif numb < cum[1]:
+      mstatus = items[1]
+    elif numb < cum[2]:
+      mstatus = items[2]
+    elif numb < cum[3]:
+      mstatus = items[3]
+    else:
+      mstatus = items[4]
+  elif age < age_bracket[8]:
+    cum = [0.051, 0.597,  0.611,  0.85]
+    if numb < cum[0]:
+      mstatus = items[0]
+    elif numb < cum[1]:
+      mstatus = items[1]
+    elif numb < cum[2]:
+      mstatus = items[2]
+    elif numb < cum[3]:
+      mstatus = items[3]
+    else:
+      mstatus = items[4]
+  else:
+    cum = [0.039, 0.355,  0.362,  0.93]
+    if numb < cum[0]:
+      mstatus = items[0]
+    elif numb < cum[1]:
+      mstatus = items[1]
+    elif numb < cum[2]:
+      mstatus = items[2]
+    elif numb < cum[3]:
+      mstatus = items[3]
+    else:
+      mstatus = items[4]
+  return mstatus
 
     
 #-------------------------------------------------------------------------------

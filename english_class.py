@@ -128,6 +128,7 @@ class AttrMeta(type):
                 generator.GenerateFuncAttribute(attribute_name = 'passport-number',
                 function = attrgenfunct.generate_passport_num)
 
+
 class AttrSet(object):
     "the female gender class"
     
@@ -245,6 +246,13 @@ class AttrSet(object):
         
         out.append(self.hispanic_attr.create_attribute_value())
         labels.append(self.hispanic_attr.attribute_name)
+
+        self.marriage_attr = generator.GenerateFuncAttribute(attribute_name='marital-status',
+          function = attrgenfunct.marriage,
+          parameters=[int(out[7])])
+        
+        out.append(self.marriage_attr.create_attribute_value())
+        labels.append(self.marriage_attr.attribute_name)
 
         #out.append(self.gname2_attr.create_attribute_value())
         #labels.append(self.gname2_attr.attribute_name)      
