@@ -128,6 +128,13 @@ class AttrMeta(type):
                 generator.GenerateFuncAttribute(attribute_name = 'passport-number',
                 function = attrgenfunct.generate_passport_num)
 
+        # Mother maiden name
+        self.mother = \
+    generator.GenerateFreqAttribute(attribute_name = 'mother-maiden-name',
+                    freq_file_name = os.path.abspath('lookup_files/lastname.csv'),
+                    has_header_line = False,
+                    unicode_encoding = unicode_encoding_used)
+
 
 class AttrSet(object):
     "the female gender class"
@@ -198,7 +205,7 @@ class AttrSet(object):
                   self.postcode_attr, self.phone_num_cell_attr,
                   self.phone_num_work_attr, self.phone_num_home_attr,
                   self.credit_card_attr, self.social_security_attr,
-                  self.passport_attr]
+                  self.passport_attr, self.mother]
         
         #add_out = [self.name_prefix_attr, self.nickname_attr,
         #  self.phone_num_cell_attr, self.phone_num_work_attr, 
