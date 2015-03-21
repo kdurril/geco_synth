@@ -254,6 +254,8 @@ class AttrSet(object):
         out.append(self.marriage_attr.create_attribute_value())
         labels.append(self.marriage_attr.attribute_name)
 
+
+
         #out.append(self.gname2_attr.create_attribute_value())
         #labels.append(self.gname2_attr.attribute_name)      
 
@@ -291,10 +293,8 @@ class AttrSetM(AttrSet):
                    function = attrgenfunct.generate_name_suffix)
 
         self.sname_prev_attr = \
-    generator.GenerateFreqAttribute(attribute_name = 'previous-surname',
-                    freq_file_name = os.path.abspath('lookup_files/lastname.csv'),
-                    has_header_line = False,
-                    unicode_encoding = unicode_encoding_used)
+    generator.GenerateFuncAttribute(attribute_name = 'previous-surname',
+                   function = attrgenfunct.generate_surname_m)
 
         self.name_prefix_attr = \
     generator.GenerateFuncAttribute(attribute_name = 'name-prefix',
