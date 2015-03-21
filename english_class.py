@@ -134,6 +134,18 @@ class AttrMeta(type):
                     freq_file_name = os.path.abspath('lookup_files/lastname.csv'),
                     has_header_line = False,
                     unicode_encoding = unicode_encoding_used)
+        self.address_attr = \
+    generator.GenerateFuncAttribute(attribute_name = 'street-address',
+                function = attrgenfunct.generate_address)
+        
+        self.city_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'city',
+                function = attrgenfunct.generate_city)
+
+        self.state_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'state',
+                function = attrgenfunct.generate_state)
+
 
 
 class AttrSet(object):
@@ -201,7 +213,8 @@ class AttrSet(object):
                   self.sname_attr, self.name_suffix_attr,
                   self.name_prefix_attr, 
                   self.sname_prev_attr, self.nickname_attr,
-                  self.new_age_attr, self.gender_attr,
+                  self.new_age_attr, self.gender_attr, self.address_attr,
+                  self.city_attr, self.state_attr,
                   self.postcode_attr, self.phone_num_cell_attr,
                   self.phone_num_work_attr, self.phone_num_home_attr,
                   self.credit_card_attr, self.social_security_attr,

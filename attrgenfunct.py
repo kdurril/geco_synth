@@ -32,6 +32,8 @@ import random
 
 import basefunctions, generator
 
+import csv
+
 # -----------------------------------------------------------------------------
 #
 def generate_phone_number_australia():
@@ -257,9 +259,29 @@ def generate_surname_m():
   surname = ""
   return surname
 
+# -----------------------------------------------------------------------------
+
+def generate_city():
+  city = "Washington"
+  return city
 
 # -----------------------------------------------------------------------------
+
+def generate_state():
+  state = "DC"
+  return state
+# -----------------------------------------------------------------------------
 #
+
+def generate_address():
+  choice = random.randint(1,244118)
+  f = open('lookup_files/addresses.csv')
+  csv_f = csv.reader(f)
+  csv_f = list(csv_f)
+  address = csv_f[choice][0]
+  return address
+
+
 def generate_name_prefix_m():
   """Randomly generate a name prefix."""
 
