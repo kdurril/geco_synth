@@ -281,13 +281,23 @@ def generate_address():
   address = csv_f[choice][0]
   return address
 
-
+# -----------------------------------------------------------------------------
+#
 def generate_name_prefix_m():
   """Randomly generate a name prefix."""
 
   prefix = random.choice(['Mr', ""])
 
   return prefix
+
+# -----------------------------------------------------------------------------
+#
+def generate_primary():
+  """Randomly generate a field for a primary key"""
+  
+  primary = "1"
+
+  return primary
 
 # -----------------------------------------------------------------------------
 #
