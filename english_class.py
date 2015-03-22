@@ -39,7 +39,7 @@ out_file_name = 'example-data-english.csv'
 
 # Set how many original and how many duplicate records are to be generated.
 #
-num_org_rec = 20
+num_org_rec = 4
 num_dup_rec = 2
 
 # Set the maximum number of duplicate records can be generated per original
@@ -146,6 +146,10 @@ class AttrMeta(type):
                 generator.GenerateFuncAttribute(attribute_name = 'state',
                 function = attrgenfunct.generate_state)
 
+        self.primary_ID_attr = \
+                generator.GenerateFuncAttribute(attribute_name = 'primary_key',
+                function = attrgenfunct.generate_primary)
+
 
 
 class AttrSet(object):
@@ -185,6 +189,7 @@ class AttrSet(object):
                                 has_header_line = False,
                                 unicode_encoding = unicode_encoding_used) 
 
+
         # Calculating the DOB.  Requires the age to be passed
         #self.DOB_attr = \
         #        generator.GenerateFuncAttribute(attribute_name = 'DOB',
@@ -218,7 +223,7 @@ class AttrSet(object):
                   self.postcode_attr, self.phone_num_cell_attr,
                   self.phone_num_work_attr, self.phone_num_home_attr,
                   self.credit_card_attr, self.social_security_attr,
-                  self.passport_attr, self.mother]
+                  self.passport_attr, self.mother, self.primary_ID_attr]
         
         #add_out = [self.name_prefix_attr, self.nickname_attr,
         #  self.phone_num_cell_attr, self.phone_num_work_attr, 
@@ -284,6 +289,8 @@ class AttrSet(object):
 
         #add_out_labels = [x.attribute_name for x in add_out]
         #labels.extend(add_out_labels)
+
+
 
         outputwork2 = OrderedDict(zip(labels,out))
         
@@ -489,7 +496,7 @@ def from_tdc(tdc_in):
 def to_corruptor_write(corruptor_csv, file_name='English_corrupt_output.csv'):
     'write corruptor data with id row'
     
-    with open(file_name, 'a') as csvfile:
+    with open(file_name, 'w') as csvfile:
         writer = csv.writer(csvfile)
         #writer.writerow()
         writer.writerows(corruptor_csv)
@@ -607,14 +614,29 @@ test_data_generator.write()
 if __name__ == '__main__':
     b = AttrSet()
     c = AttrSetM()
+
+
+
     base_output_b = list(row_synth(b, num_org_rec/2 ))
     base_output_c = list(row_synth(c, num_org_rec/2 ))
     
     #Extend female engender list
     base_output_b.extend(base_output_c)
 
+    
     #Shuffle the list
     random.shuffle(base_output_b)
+
+    #Creating the list to replace the primary key list
+
+    i = 0
+    y = 1
+    while i < len(base_output_b):
+      for x in base_output_b:
+        x['primary_key'] = (i+1)
+        i = i+1
+        
+      
 
     original_output(base_output_b, b)
     corrupt_output(base_output_b)
