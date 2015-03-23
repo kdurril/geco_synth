@@ -286,10 +286,10 @@ class AttrSet(object):
     def output_alt(self, *args):
 
           primary = list(args)
-          out = OrderedDict(attr.attribute_name, attr.create_attribute_value()) for attr in primary)
+          out = OrderedDict((attr.attribute_name, attr.create_attribute_value()) for attr in primary)
           
           def attr_out_set(container, attr):
-              container.append(tuple(attr.attribute_name, attr.create_attribute_value()))
+              container[attr.attribute_name] = attr.create_attribute_value() 
 
           self.email_attr = generator.GenerateFuncAttribute(attribute_name = 'email',
               function = attrgenfunct.generate_email_address,
@@ -302,8 +302,8 @@ class AttrSet(object):
            )
 
           r_h = self.race_hispanic.random_pick().split('..')
-              self.race = r_h[1]
-              self.hispanic = r_h[0]
+          self.race = r_h[1]
+          self.hispanic = r_h[0]
 
           self.race_attr = generator.GenerateFuncAttribute(attribute_name='race',
               function = attrgenfunct.race,
