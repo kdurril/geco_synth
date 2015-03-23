@@ -552,11 +552,7 @@ def corrupt_output2(base_output):
   to_corruptor_write(from_tdc(test_data_corruptor.corrupt_records(\
                                 to_corruptor_gf(base_output)))) 
 
-attr_name_list = ['primary_key', 'given-name', 'middle-name', 'surname', 'name-suffix',
-    'race', 'hispanic', 'email', 'postcode', 'cell-number', 'work-number', 'home-number',
-    'social-security-number', 'credit-card-number']
-
-
+attr_name_list = row_keys(AttrSet())
 
 #attr_data_list = AttrSet().output().values()
 
