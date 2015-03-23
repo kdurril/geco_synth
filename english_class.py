@@ -214,7 +214,7 @@ class AttrSet(object):
         #single attr need create_attribute_values(), singular
         #compound attr need create_attribute_values(), plural!
         #must update compound context to USA
-        primary = [self.gname_attr, self.mname_attr, 
+        primary = [self.primary_ID_attr, self.gname_attr, self.mname_attr, 
                   self.sname_attr, self.name_suffix_attr,
                   self.name_prefix_attr, 
                   self.sname_prev_attr, self.nickname_attr,
@@ -223,7 +223,7 @@ class AttrSet(object):
                   self.postcode_attr, self.phone_num_cell_attr,
                   self.phone_num_work_attr, self.phone_num_home_attr,
                   self.credit_card_attr, self.social_security_attr,
-                  self.passport_attr, self.mother, self.primary_ID_attr]
+                  self.passport_attr, self.mother]
         
         #add_out = [self.name_prefix_attr, self.nickname_attr,
         #  self.phone_num_cell_attr, self.phone_num_work_attr, 
@@ -240,7 +240,7 @@ class AttrSet(object):
         
         self.email_attr = generator.GenerateFuncAttribute(attribute_name = 'email',
           function = attrgenfunct.generate_email_address,
-          parameters = [str(out[0]), str(out[2])]
+          parameters = [str(out[1]), str(out[3])]
           )
 
         out.append(self.email_attr.create_attribute_value())
@@ -248,7 +248,7 @@ class AttrSet(object):
 
         self.DOB_attr = generator.GenerateFuncAttribute(attribute_name = 'DOB',
            function = attrgenfunct.generate_DOB,
-           parameters = [int(out[7])]
+           parameters = [int(out[8])]
            )
 
         out.append(self.DOB_attr.create_attribute_value())
@@ -274,7 +274,7 @@ class AttrSet(object):
 
         self.marriage_attr = generator.GenerateFuncAttribute(attribute_name='marital-status',
           function = attrgenfunct.marriage,
-          parameters=[int(out[7])])
+          parameters=[int(out[8])])
         
         out.append(self.marriage_attr.create_attribute_value())
         labels.append(self.marriage_attr.attribute_name)
@@ -544,10 +544,6 @@ def corrupt_output(a_output):
     to_corruptor_write(from_tdc(test_data_corruptor.corrupt_records(\
                                 to_corruptor_gf(a_output))))
 
-
-
-
-
 # Code to output to IO string vs CSV (next two functions)
 def original_output2(base_output, a):
     to_string(base_output,a.output().keys())
@@ -556,9 +552,11 @@ def corrupt_output2(base_output):
   to_corruptor_write(from_tdc(test_data_corruptor.corrupt_records(\
                                 to_corruptor_gf(base_output)))) 
 
-attr_name_list = ['given-name', 'middle-name', 'surname', 'name-suffix',
+attr_name_list = ['primary_key', 'given-name', 'middle-name', 'surname', 'name-suffix',
     'race', 'hispanic', 'email', 'postcode', 'cell-number', 'work-number', 'home-number',
-    'social-security-number', 'credit-card-number'] 
+    'social-security-number', 'credit-card-number']
+
+
 
 #attr_data_list = AttrSet().output().values()
 
@@ -580,11 +578,6 @@ test_data_corruptor = corruptor.CorruptDataSet(number_of_org_records = \
                                                  attr_mod_prob_dictionary,
                                           attr_mod_data_dict = \
                                                  attr_mod_data_dictionary)
-
-#new_corrupt = base_output.append(base_output_c)
-
-#corrupt_output(base_output_c)
-
 
 '''
 # =============================================================================
@@ -615,17 +608,14 @@ if __name__ == '__main__':
     b = AttrSet()
     c = AttrSetM()
 
-
-
     base_output_b = list(row_synth(b, num_org_rec/2 ))
     base_output_c = list(row_synth(c, num_org_rec/2 ))
     
     #Extend female engender list
     base_output_b.extend(base_output_c)
-
-    
+   
     #Shuffle the list
-    random.shuffle(base_output_b)
+    #random.shuffle(base_output_b)
 
     #Creating the list to replace the primary key list
 
@@ -635,9 +625,7 @@ if __name__ == '__main__':
       for x in base_output_b:
         x['primary_key'] = (i+1)
         i = i+1
-        
-      
-
+    
     original_output(base_output_b, b)
     corrupt_output(base_output_b)
 
