@@ -344,7 +344,7 @@ class GenerateFreqAlt(GenerateAttribute):
     self.attr_probability_list = freq_list
 
     
-    val_list = [attr_val for (attr_val, val_count) in val_dict.iteritems()]  # The list of attribute values, with values repeated
+    val_list = tuple(attr_val for (attr_val, val_count) in val_dict.iteritems())  # The list of attribute values, with values repeated
                    # according to their frequencies
 
     #Generate a list of values according to their counts

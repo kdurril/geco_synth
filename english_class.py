@@ -279,22 +279,53 @@ class AttrSet(object):
         out.append(self.marriage_attr.create_attribute_value())
         labels.append(self.marriage_attr.attribute_name)
 
-
-
-        #out.append(self.gname2_attr.create_attribute_value())
-        #labels.append(self.gname2_attr.attribute_name)      
-
-        #add_out_values = [x.create_attribute_value() for x in add_out]
-        #out.extend(add_out_values)
-
-        #add_out_labels = [x.attribute_name for x in add_out]
-        #labels.extend(add_out_labels)
-
-
-
         outputwork2 = OrderedDict(zip(labels,out))
         
         return outputwork2
+
+    def output_alt(self, *args):
+
+          primary = list(args)
+          out = OrderedDict(attr.attribute_name, attr.create_attribute_value()) for attr in primary)
+          
+          def attr_out_set(container, attr):
+              container.append(tuple(attr.attribute_name, attr.create_attribute_value()))
+
+          self.email_attr = generator.GenerateFuncAttribute(attribute_name = 'email',
+              function = attrgenfunct.generate_email_address,
+              parameters = [str(out['given-name']), str(out['surname'])]
+              )
+
+          self.DOB_attr = generator.GenerateFuncAttribute(attribute_name = 'DOB',
+           function = attrgenfunct.generate_DOB,
+           parameters = [int(out['age-new'])]
+           )
+
+          r_h = self.race_hispanic.random_pick().split('..')
+              self.race = r_h[1]
+              self.hispanic = r_h[0]
+
+          self.race_attr = generator.GenerateFuncAttribute(attribute_name='race',
+              function = attrgenfunct.race,
+              parameters = [str(self.race)])
+
+          self.hispanic_attr = generator.GenerateFuncAttribute(attribute_name='hispanic',
+          function = attrgenfunct.hispanic,
+          parameters=[str(self.hispanic)])
+
+          self.marriage_attr = generator.GenerateFuncAttribute(attribute_name='marital-status',
+          function = attrgenfunct.marriage,
+          parameters=[int(out['age-new'])])
+
+          depend = [self.email_attr, self.DOB_attr, self.race_attr,\
+                    self.hispanic_attr, self.marriage_attr]
+
+          for value in depend:
+              attr_out_set(out, value)
+
+          return out
+
+
 
 class AttrSetM(AttrSet):
     "the male gender class"
