@@ -622,7 +622,9 @@ def to_csv(genfunct_input, fieldnames,file_name='English_output.csv'):
 def to_string(genfunct_input, fieldnames):
   'writing to an io string'
   output = StringIO.StringIO()
-  output.write(genfunct_input)
+  writer = csv.DictWriter(output, fieldnames=fieldnames)
+  writer.writeheader()
+  writer.writerows(genfunct_input)
   contents = output.getvalue()
   #print output.getvalue()
   return contents
@@ -631,7 +633,8 @@ def to_string(genfunct_input, fieldnames):
 def to_corruptor_write_io_string(corruptor_csv):
     'write corruptor to an io string'
     output = StringIO.StringIO()
-    output.write(corruptor_csv)
+    writer = csv.Writer(output)
+    writer.writerows(corruptor_csv)
     corrupt_contents = output.getvalue()
     #print corrupt_contents
     return corrupt_contents
