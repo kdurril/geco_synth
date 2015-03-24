@@ -85,6 +85,15 @@ phone_num_cell_attr = \
 
 #Update attr_name_list & attr_data_list
 #add attribute_name
+#Generating attr_name_list by calling attribribute name on the object
+# is prefered to manually creating the attr_name_list 
+#after creating attr_data_list
+# create attr_name_list = [attr.attribute_name for attr in attr_data_list]
+# or 
+# use a dict comprehension with 
+# attr_dict = dict((attr.attribute_name, attr.create_attribute_value()) for attr in attr_data_list)
+# or 
+# use a OrderedDict to preserve order for human readability
 attr_name_list = ['gender', 'given-name', 'surname', 'postcode', 'city',
                   'cell-number', 'work-number', 'home-number', 
                   'social-security', 'credit-card-number', 
