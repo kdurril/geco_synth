@@ -14,14 +14,13 @@
     </form>
 
     <form action="/add" method="post" class="add-entry">
-      <input type="checkbox" name="given name" value="gname"/>First Name<br/>
+      <p>Check the attributes to be generated. Required fields are marked with asterisk.</p>
+      <input type="checkbox" name="DOB" value="DOB"/>DOB*<br/>
       <input type="checkbox" name="middle name" value="mname"/>Middle Name<br/>
-      <input type="checkbox" name="surname" value="sname"/>Family Name<br/>
-      <input type="checkbox" name="nameprefix" value="name_prefix"/>Prefix<br/>
-      <input type="checkbox" name="previous name" value="previous-surname"/>Previous Family Name<br/>
-      <input type="checkbox" name="nickname" value="nickname"/>Nickname<br/>
+      <input type="checkbox" name="name-prefix" value="name_prefix"/>Prefix<br/>
+      <input type="checkbox" name="name-suffix" value="name_suffix"/>Suffix<br/>
+      <input type="checkbox" name="previous name" value="previous-surname"/>Previous Surname<br/>
       <input type="checkbox" name="age" value="new_age"/>Age<br/>
-      <input type="checkbox" name="gender" value="gender"/>Gender<br/>
       <input type="checkbox" name="address" value="street-address"/>Street Address<br/>
       <input type="checkbox" name="city" value="city"/>City<br/>
       <input type="checkbox" name="state" value="state"/>State<br/>
@@ -34,11 +33,13 @@
       <input type="checkbox" name="passport-number" value="passport"/>Passport Number<br/>
       <input type="checkbox" name="mother-maiden-name" value="mother"/>Mother's Madien Name<br/>
       <input type="checkbox" name="email" value="email"/>Email<br/>
-      <input type="checkbox" name="DOB" value="DOB"/>DOB<br/>
       <input type="checkbox" name="race_hispanic" value="race_hispanic"/>Race/Hispanic<br/>
       <input type="checkbox" name="marital-status" value="marriage"/>Marital Status<br/>
+      Number of Records to Generate: <input type="text" name="NumGen" value="1000"><br>
+      Number of Records to Duplicates: <input type="text" name="NumDup" value="100"><br>
       <input type="submit" value="send"> 
     </form>
+
     <form action="/original_out" method="get" class="add-entry">
       <input type="submit" value="synthesize"/>
     </form>
