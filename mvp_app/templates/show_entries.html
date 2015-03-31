@@ -12,6 +12,37 @@
         <dd><input type="submit" value="Send">
       </dl>
     </form>
+
+    <form action="/add" method="post" class="add-entry">
+      <input type="checkbox" name="given name" value="gname"/>First Name<br/>
+      <input type="checkbox" name="middle name" value="mname"/>Middle Name<br/>
+      <input type="checkbox" name="surname" value="sname"/>Family Name<br/>
+      <input type="checkbox" name="nameprefix" value="name_prefix"/>Prefix<br/>
+      <input type="checkbox" name="previous name" value="previous-surname"/>Previous Family Name<br/>
+      <input type="checkbox" name="nickname" value="nickname"/>Nickname<br/>
+      <input type="checkbox" name="age" value="new_age"/>Age<br/>
+      <input type="checkbox" name="gender" value="gender"/>Gender<br/>
+      <input type="checkbox" name="address" value="street-address"/>Street Address<br/>
+      <input type="checkbox" name="city" value="city"/>City<br/>
+      <input type="checkbox" name="state" value="state"/>State<br/>
+      <input type="checkbox" name="postcode" value="postcode"/>Postcode<br/>
+      <input type="checkbox" name="cell_number" value="phone_num_cell"/>Cell Number<br/>
+      <input type="checkbox" name="work-number" value="phone_num_work"/>Work Number<br/>
+      <input type="checkbox" name="phome-number" value="phone_num_home"/>Home Number<br/>
+      <input type="checkbox" name="credit-card-number" value="credit_card"/>Credit Card Number<br/>
+      <input type="checkbox" name="social-security-number" value="social_security"/>Social Security Number<br/>
+      <input type="checkbox" name="passport-number" value="passport"/>Passport Number<br/>
+      <input type="checkbox" name="mother-maiden-name" value="mother"/>Mother's Madien Name<br/>
+      <input type="checkbox" name="email" value="email"/>Email<br/>
+      <input type="checkbox" name="DOB" value="DOB"/>DOB<br/>
+      <input type="checkbox" name="race_hispanic" value="race_hispanic"/>Race/Hispanic<br/>
+      <input type="checkbox" name="marital-status" value="marriage"/>Marital Status<br/>
+      <input type="submit" value="send"> 
+    </form>
+    <form action="/original_out" method="get" class="add-entry">
+      <input type="submit" value="synthesize"/>
+    </form>
+    
   {% endif %}
   <ul class="entries">
   {% for entry in entries %}
