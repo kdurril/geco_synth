@@ -1604,15 +1604,13 @@ class CorruptDataSet:
     #to text file 'geco_log.txt'
     
     f = open("geco_log.txt", "w")
-    prob_description = "Probability distribution for number of duplicates per record:"
-    f.write("-----CORRUPTOR FILE LOG-----")
-    f.write("\n")
-    f.write(prob_description)
-    f.write("\n")
-    f.write(str(self.prob_dist_list))
-    f.write("\n")
-    f.close()
-
+    with open("geco_log.txt", "w") as f:
+      prob_description = "Probability distribution for number of duplicates per record:"
+      corrupt_log = '-----CORRUPTOR FILE LOG-----\n{0}\n{1}\n'.format(\
+                                               prob_description,\
+                                               str(self.prob_dist_list))
+      f.write(corrupt_log)
+      self.corrupt_log = corrupt_log
     # Check probability list for attributes and dictionary for attributes - - -
     # if they sum to 1.0
     #
