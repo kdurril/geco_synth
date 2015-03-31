@@ -1,20 +1,13 @@
 {% extends "layout.html" %}
 {% block body %}
   {% if session.logged_in %}
-    <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
-      <dl>
-        <dt>First Name:
-        <dd><input type="text" size="30" name="name_first">
-        <dt>Last Name:
-        <dd><input type="text" size="30" name="name_last">
-        <dt>Gender:
-        <dd><input type="text" size="30" name="gender">
-        <dd><input type="submit" value="Send">
-      </dl>
-    </form>
 
     <form action="/add" method="post" class="add-entry">
+      <p><u>Attributes Selection</u></p>
       <p>Check the attributes to be generated. Required fields are marked with asterisk.</p>
+      <input type="checkbox" name="given-name" value="gname"/>Given Name*<br/>
+      <input type="checkbox" name="surname" value="sname"/>Surname*<br/>
+      <input type="checkbox" name="gender" value="gender"/>Gender*<br/>
       <input type="checkbox" name="DOB" value="DOB"/>DOB*<br/>
       <input type="checkbox" name="middle name" value="mname"/>Middle Name<br/>
       <input type="checkbox" name="name-prefix" value="name_prefix"/>Prefix<br/>
@@ -35,8 +28,13 @@
       <input type="checkbox" name="email" value="email"/>Email<br/>
       <input type="checkbox" name="race_hispanic" value="race_hispanic"/>Race/Hispanic<br/>
       <input type="checkbox" name="marital-status" value="marriage"/>Marital Status<br/>
-      Number of Records to Generate: <input type="text" name="NumGen" value="1000"><br>
-      Number of Records to Duplicates: <input type="text" name="NumDup" value="100"><br>
+      <p><u>Generation Requirements</u></p>
+      Number of Records to Generate: <input type="text" name="NumGen" value="1000" size="1"><br>
+      <p><u>Corruption Requirements</u></p>
+      Number of Records to Duplicates: <input type="text" name="NumDup" value="100" size="1"><br>
+      Maximum number of duplicates per record: <input type="text" name="MaxDup" value="2" size="1"><br>
+      Maximum modifications per attribute: <input type="text" name="MaxMod_Attr" value="2" size="1"><br>
+      Maximum modifications per record: <input type="text" name="MaxMod_Rec" value="2" size="1"><br>
       <input type="submit" value="send"> 
     </form>
 
