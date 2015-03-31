@@ -20,6 +20,7 @@
 
 import math
 import random
+from StringIO import StringIO
 
 import basefunctions
 
@@ -1603,16 +1604,14 @@ class CorruptDataSet:
     #printing the probability distribution for number of duplicates per record
     #to text file 'geco_log.txt'
     
-    f = open("geco_log.txt", "w")
+    
+    f = StringIO()
     prob_description = "Probability distribution for number of duplicates per record:"
-    f.write("-----CORRUPTOR FILE LOG-----")
-    f.write("\n")
-    f.write(prob_description)
-    f.write("\n")
-    f.write(str(self.prob_dist_list))
-    f.write("\n")
-    f.close()
-
+    corrupt_log = '-----CORRUPTOR FILE LOG-----\n{0}\n{1}\n'.format(\
+                                               prob_description,\
+                                               str(self.prob_dist_list))
+    f.write(corrupt_log)
+    
     # Check probability list for attributes and dictionary for attributes - - -
     # if they sum to 1.0
     #
@@ -1731,7 +1730,7 @@ class CorruptDataSet:
       dup_count = dup_histo.get(num_dups, 0) + 1
       dup_histo[num_dups] = dup_count
     # Printing to geco_log text file
-    f = open("geco_log.txt", "a")
+    
     f.write("Distribution of number of original records with certain number " + \
           "of duplicates:")
     dup_histo_keys = dup_histo.keys()
@@ -1920,6 +1919,7 @@ class CorruptDataSet:
           f.write('\n')
           f.write(' %d of %d duplicate records generated so far' % \
                 (num_dup_rec_created, self.number_of_mod_records))
+          self.corrupt_log = f
           
 
     return rec_dict
