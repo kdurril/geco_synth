@@ -1603,7 +1603,7 @@ class CorruptDataSet:
     #printing the probability distribution for number of duplicates per record
     #to text file 'geco_log.txt'
     
-    f = open("geco_log.txt", "w")
+    
     with open("geco_log.txt", "w") as f:
       prob_description = "Probability distribution for number of duplicates per record:"
       corrupt_log = '-----CORRUPTOR FILE LOG-----\n{0}\n{1}\n'.format(\
