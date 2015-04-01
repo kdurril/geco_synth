@@ -189,7 +189,7 @@ class AttrSet(object):
                                 has_header_line = False,
                                 unicode_encoding = unicode_encoding_used)
     
-    AttrCheck = namedtuple('AttrCheck',['gname', 'mname','sname','name_suffix',\
+    AttrCheck = namedtuple('AttrCheck',['primary_ID','gname', 'mname','sname','name_suffix',\
                                   'name_prefix','sname_prev','nickname','new_age',\
                                   'gender','address','city','state','postcode',\
                                   'phone_num_cell','phone_num_work','phone_num_home',\
@@ -281,7 +281,7 @@ class AttrSet(object):
                   self.city_attr, self.state_attr,
                   self.postcode_attr]
           
-          select_tup = self.AttrCheck(self.gname_attr, 
+          select_tup = self.AttrCheck(1,self.gname_attr, 
           self.mname_attr, 
           self.sname_attr, 
           self.name_suffix_attr,
