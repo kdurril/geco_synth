@@ -15,7 +15,7 @@ import csv
 import json
 import os
 import StringIO
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 
 random.seed(42)  # Set seed for random generator, so data generation can be
                  # repeated
@@ -188,6 +188,12 @@ class AttrSet(object):
                                 freq_file_name = os.path.abspath('lookup_files/age_gender_ratio_female.csv'),
                                 has_header_line = False,
                                 unicode_encoding = unicode_encoding_used)
+    
+    AttrCheck = namedtuple('AttrCheck',['gname', 'mname','sname','name_suffix',\
+                                  'name_prefix','sname_prev','nickname','new_age',\
+                                  'gender','address','city','state','postcode',\
+                                  'phone_num_cell','phone_num_work','phone_num_home',\
+                                  'credit_card','social_security','passport','mother'])
 
     def output(self):
         'create synthetic output'
@@ -264,7 +270,7 @@ class AttrSet(object):
         
         return outputwork2
 
-    def output_alt(self, *args):
+    def output_alt(self, *args, **kwargs):
           'selective attribute output'
 
           required = [self.primary_ID_attr, self.gname_attr, self.mname_attr, 
@@ -274,11 +280,37 @@ class AttrSet(object):
                   self.new_age_attr, self.gender_attr, self.address_attr,
                   self.city_attr, self.state_attr,
                   self.postcode_attr]
-
-          primary = list(args)
-
-          out = OrderedDict((attr.attribute_name, attr.create_attribute_value()) for attr in primary)
           
+          select_tup = self.AttrCheck(self.gname_attr, 
+          self.mname_attr, 
+          self.sname_attr, 
+          self.name_suffix_attr,
+          self.name_prefix_attr, 
+          self.sname_prev_attr, 
+          self.nickname_attr,
+          self.new_age_attr, 
+          self.gender_attr, 
+          self.address_attr,
+          self.city_attr, 
+          self.state_attr,
+          self.postcode_attr, 
+          self.phone_num_cell_attr,
+          self.phone_num_work_attr, 
+          self.phone_num_home_attr,
+          self.credit_card_attr, 
+          self.social_security_attr,
+          self.passport_attr, 
+          self.mother)
+
+          #tick will be the true or false tuple
+          #j will be the select_tup
+          tick = self.AttrCheck(*args)
+          select=(getattr(select_tup,x) for x in select_tup._fields if getattr(tick,x)==True)
+
+          #out = OrderedDict((attr.attribute_name, attr.create_attribute_value()) for attr in primary)
+          out = OrderedDict((attr.attribute_name, attr.create_attribute_value()) for attr in select)
+
+
           def attr_out_set(container, attr):
               container[attr.attribute_name] = attr.create_attribute_value() 
 
@@ -563,6 +595,10 @@ attr_mod_data_dictionary = {'surname':[(0.15, surname_misspell_corruptor),
 def row_synth(genfunct, row_count):
     'genfunct is an AttrSet object, row_count is int'
     return (genfunct.output() for x in xrange(row_count))
+
+def row_synth_alt(genfunct, row_count):
+    'genfunct is an AttrSet object, row_count is int'
+    return (genfunct.output_alt() for x in xrange(row_count))
 
 def row_keys(genfunct):
     'get keys for output labels'
