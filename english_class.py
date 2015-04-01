@@ -265,7 +265,7 @@ class AttrSet(object):
         return outputwork2
 
     def output_alt(self, *args):
-        'selective attribute output'
+          'selective attribute output'
 
           required = [self.primary_ID_attr, self.gname_attr, self.mname_attr, 
                   self.sname_attr, self.name_suffix_attr,
