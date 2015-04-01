@@ -281,7 +281,8 @@ class AttrSet(object):
                   self.city_attr, self.state_attr,
                   self.postcode_attr]
           
-          select_tup = self.AttrCheck(1,self.gname_attr, 
+          select_tup = self.AttrCheck(self.primary_ID_attr,
+          self.gname_attr, 
           self.mname_attr, 
           self.sname_attr, 
           self.name_suffix_attr,
