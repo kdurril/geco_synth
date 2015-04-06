@@ -39,13 +39,13 @@ out_file_name = 'example-data-english.csv'
 
 # Set how many original and how many duplicate records are to be generated.
 #
-num_org_rec = 4
-num_dup_rec = 2
+num_org_rec = 100
+num_dup_rec = 10
 
 # Set the maximum number of duplicate records can be generated per original
 # record.
 #
-max_duplicate_per_record = 1
+max_duplicate_per_record = 2
 
 # Set the probability distribution used to create the duplicate records for one
 # original record (possible values are: 'uniform', 'poisson', 'zipf').
@@ -55,7 +55,7 @@ num_duplicates_distribution = 'zipf'
 # Set the maximum number of modification that can be applied to a single
 # attribute (field).
 #
-max_modification_per_attr = 1
+max_modification_per_attr = 2
 
 # Set the number of modification that are to be applied to a record.
 #
@@ -213,15 +213,6 @@ class AttrSet(object):
                   self.credit_card_attr, self.social_security_attr,
                   self.passport_attr, self.mother]
         
-        #add_out = [self.name_prefix_attr, self.nickname_attr,
-        #  self.phone_num_cell_attr, self.phone_num_work_attr, 
-        #  self.phone_num_home_attr, self.social_security_attr, 
-        #  self.credit_card_attr,
-        #  self.passport_attr, 
-        #  self.new_age_attr]
-
-        #primary.extend(add_out)
-        
         out = [attr.create_attribute_value() for attr in primary]
         
         labels = [attr.attribute_name for attr in primary]
@@ -310,7 +301,7 @@ class AttrSet(object):
           #tick = self.AttrCheck(*args)
           #select=(getattr(select_tup,x) for x in select_tup._fields if getattr(tick,x)==True)
           
-          select = [select_tup._asdict()[y] for y in args]
+          select = (getattr(select_tup,y) for y in args)
           
           out = OrderedDict((attr.attribute_name, attr.create_attribute_value()) for attr in select)
 
